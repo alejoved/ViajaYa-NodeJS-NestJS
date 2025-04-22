@@ -30,25 +30,6 @@ Sistema backend para la gestión de citas médicas entre pacientes y doctores. D
 
 ---
 
-## 🧠 Lógica de validación de conflicto
-
-```ts
-// Evita citas solapadas para el doctor
-const conflict = await appointmentRepo.findOne({
-  where: {
-    doctor: { id: doctorId },
-    startTime: LessThan(endTime),
-    endTime: MoreThan(startTime),
-  },
-});
-
-if (conflict) {
-  throw new ConflictException('El doctor ya tiene una cita en ese horario.');
-}
-```
-
----
-
 ## 🧪 Tecnologías utilizadas
 
 - **NestJS** - Framework backend (Node.js)
@@ -77,12 +58,12 @@ test/
 
 | Área                    | Habilidad |
 |-------------------------|-----------|
-| Relaciones entre entidades | Manejo de `ManyToOne`, `OneToMany` |
-| Validaciones de negocio | Manejo de solapamientos y rangos horarios |
-| Arquitectura limpia     | Separación por módulos, uso de DTOs, servicios, controladores |
-| Testing                 | Unit tests para la lógica de validación |
-| Seguridad (opcional)   | Autenticación con JWT y control de roles |
-| DevOps (opcional)      | Docker, Docker Compose, scripts de CI/CD |
+| Relaciones entre entidades  | Manejo de `ManyToOne`, `OneToMany` |
+| Validaciones de negocio     | Manejo de solapamientos y rangos horarios |
+| Arquitectura limpia         | Separación por módulos, uso de DTOs, servicios, controladores |
+| Testing                     | Unit tests para la lógica de validación |
+| Seguridad                   | Autenticación con JWT y control de roles |
+| DevOps                      | Docker, Docker Compose, scripts de CI/CD |
 
 ---
 
@@ -109,12 +90,4 @@ GET /api (una vez corriendo el servidor)
 ```bash
 docker-compose up --build
 ```
-
 ---
-
-## ✨ Bonus (opcional)
-
-- 📩 Simulación de envío de notificación al reservar
-- 📄 Exportar historial de citas como CSV o PDF
-- ⏰ Soporte para zonas horarias
-- 🔐 Control de roles: admin / doctor / paciente
