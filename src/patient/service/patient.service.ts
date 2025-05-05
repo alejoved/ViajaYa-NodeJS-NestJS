@@ -28,8 +28,10 @@ export class PatientService implements PatientInterface {
         return patientResponseDTO;
     }
     async create(patientDTO: PatientDTO): Promise<PatientResponseDTO> {
-        const physician = await this.patientRepository.create(patientDTO);
-        const patientResponseDTO = plainToInstance(PatientResponseDTO, physician, { excludeExtraneousValues: true })
+        this.patientRepository.create(patientDTO);
+        const patient = await this.patientRepository.save(patientDTO);
+        const patientResponseDTO = plainToInstance(PatientResponseDTO, patient, { excludeExtraneousValues: true })
+        console.log(patientResponseDTO);
         return patientResponseDTO;
     }
     async update(patientDTO: PatientDTO, id: string): Promise<PatientResponseDTO> {

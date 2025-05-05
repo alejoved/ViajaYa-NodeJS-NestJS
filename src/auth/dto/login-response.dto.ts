@@ -1,6 +1,9 @@
-import { Rol } from "src/utils/rol";
+import { Expose } from "class-transformer";
+import { Role } from "src/utils/role";
 
 export class LoginResponseDTO{
+    @Expose()
     token: string;
-    rol: Rol;
+    @Expose()
+    role: Role;
 }

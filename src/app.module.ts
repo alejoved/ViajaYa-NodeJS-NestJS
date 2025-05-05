@@ -6,9 +6,13 @@ import { Patient } from './patient/entity/patient.entity';
 import { AuthModule } from './auth/auth.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { PatientModule } from './patient/patient.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',

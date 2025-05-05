@@ -1,5 +1,5 @@
-import { Rol } from "src/utils/rol";
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "src/utils/role";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
 export class Auth {
@@ -8,5 +8,5 @@ export class Auth {
   @Column()
   password: string;
   @Column()
-  rol: Rol;
+  role: Role;
 }

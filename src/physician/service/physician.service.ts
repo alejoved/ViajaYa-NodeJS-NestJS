@@ -30,7 +30,8 @@ export class PhysicianService implements PhysicianInterface {
     }
 
     async create(physicianDTO: PhysicianDTO): Promise<PhysicianResponseDTO> {
-        const physician = await this.physicianRepository.create(physicianDTO);
+        this.physicianRepository.create(physicianDTO);
+        const physician = await this.physicianRepository.save(physicianDTO);
         const physicianResponseDTO = plainToInstance(PhysicianResponseDTO, physician, { excludeExtraneousValues: true })
         return physicianResponseDTO;
     }
