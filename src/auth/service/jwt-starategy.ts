@@ -20,8 +20,8 @@ export class JwtStrategy extends PassportStrategy (Strategy) {
         });
     }
 
-    async validate(identification: string): Promise<Auth>{
-        const auth = await this.authRepository.findOneBy({identification: identification});
+    async validate(payload: any): Promise<Auth>{
+        const auth = await this.authRepository.findOneBy({identification: payload.identification});
         if (!auth){
             throw new UnauthorizedException("TOKEN NOT VALID");
         }

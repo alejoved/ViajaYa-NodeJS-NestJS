@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppointmentController } from './appointment/controller/appointment.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PhysicianModule } from './physician/physician.module';
-import { Patient } from './patient/entity/patient.entity';
 import { AuthModule } from './auth/auth.module';
 import { AppointmentModule } from './appointment/appointment.module';
 import { PatientModule } from './patient/patient.module';
