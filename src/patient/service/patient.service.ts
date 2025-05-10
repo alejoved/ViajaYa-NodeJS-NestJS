@@ -54,14 +54,14 @@ export class PatientService implements PatientInterface {
         const patient = plainToInstance(Patient, patientDTO, { excludeExtraneousValues: true })
         patient.id = id;
         await this.patientRepository.save(patientDTO);
-        const physicianResponseDTO = plainToInstance(PatientResponseDTO, patient, { excludeExtraneousValues: true })
-        return physicianResponseDTO;
+        const patientResponseDTO = plainToInstance(PatientResponseDTO, patient, { excludeExtraneousValues: true })
+        return patientResponseDTO;
     }
     async delete(id: string): Promise<void> {
-        const physicianExists = await this.patientRepository.findOneBy({id: id});
-        if (!physicianExists){
+        const patientExists = await this.patientRepository.findOneBy({id: id});
+        if (!patientExists){
             throw new NotFoundException(Constants.patientNotFound);
         }
-        await this.patientRepository.delete(physicianExists);
+        await this.patientRepository.delete(patientExists);
     }
 }
