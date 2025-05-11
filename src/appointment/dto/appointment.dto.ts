@@ -5,9 +5,6 @@ export class AppointmentDTO{
     @IsDate()
     startDate: Date;
     @IsNotEmpty()
-    @IsDate()
-    endDate: Date
-    @IsNotEmpty()
     @IsNumber()
     duration: number;
     @IsNotEmpty()

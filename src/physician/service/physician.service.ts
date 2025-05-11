@@ -6,9 +6,9 @@ import { Physician } from "../entity/physician.entity";
 import { PhysicianResponseDTO } from "../dto/physician-response.dto";
 import { PhysicianDTO } from "../dto/physician.dto";
 import { plainToInstance } from "class-transformer";
-import { Constants } from "src/utils/constants";
+import { Constants } from "src/common/constants";
 import { Auth } from "src/auth/entity/auth.entity";
-import { Role } from "src/utils/role";
+import { Role } from "src/common/role";
 
 @Injectable()
 export class PhysicianService implements PhysicianInterface {
@@ -23,13 +23,13 @@ export class PhysicianService implements PhysicianInterface {
       ) {}
 
     async getAll(): Promise<PhysicianResponseDTO[]> {
-        const physicians = await this.physicianRepository.find();
+        const physicians = await this.physicianRepository.find({relations: ['auth']});
         const physicianResponseDTO = plainToInstance(PhysicianResponseDTO, physicians, { excludeExtraneousValues: true })
         return physicianResponseDTO;
     }
 
     async getById(id: string): Promise<PhysicianResponseDTO> {
-        const physician = await this.physicianRepository.findOneBy({id: id});
+        const physician = await this.physicianRepository.findOne({where: { id }, relations: ['auth']});
         if (!physician){
             throw new NotFoundException(Constants.physicianNotFound);
         }

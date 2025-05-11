@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { Auth } from 'src/auth/service/auth.decorator';
 import { AppointmentService } from '../service/appointment.service';
-import { Role } from 'src/utils/role';
+import { Role } from 'src/common/role';
 import { AppointmentDTO } from '../dto/appointment.dto';
 
 @Controller('appointment')

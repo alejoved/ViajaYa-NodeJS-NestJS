@@ -6,8 +6,8 @@ import { Patient } from "../entity/patient.entity";
 import { PatientDTO } from "../dto/patient.dto";
 import { PatientResponseDTO } from "../dto/patient-response.dto";
 import { plainToInstance } from "class-transformer";
-import { Constants } from "src/utils/constants";
-import { Role } from "src/utils/role";
+import { Constants } from "src/common/constants";
+import { Role } from "src/common/role";
 import { Auth } from "src/auth/entity/auth.entity";
 
 @Injectable()
@@ -23,12 +23,12 @@ export class PatientService implements PatientInterface {
       ) {}
 
     async getAll(): Promise<PatientResponseDTO[]> {
-        const patients = await this.patientRepository.find();
+        const patients = await this.patientRepository.find({relations: ['auth']});
         const patientResponseDTO = plainToInstance(PatientResponseDTO, patients, { excludeExtraneousValues: true })
         return patientResponseDTO;
     }
     async getById(id: string): Promise<PatientResponseDTO> {
-        const patient = await this.patientRepository.findOneBy({id: id});
+        const patient = await this.patientRepository.findOne({where: { id: id }, relations: ['auth']});
         if(!patient){
             throw new NotFoundException(Constants.patientNotFound)
         }

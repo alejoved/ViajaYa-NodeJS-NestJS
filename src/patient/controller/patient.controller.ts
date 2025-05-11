@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe } from '
 import { PatientService } from '../service/patient.service';
 import { PatientDTO } from '../dto/patient.dto';
 import { Auth } from 'src/auth/service/auth.decorator';
-import { Role } from 'src/utils/role';
+import { Role } from 'src/common/role';
 
 @Controller('patient')
 export class PatientController {

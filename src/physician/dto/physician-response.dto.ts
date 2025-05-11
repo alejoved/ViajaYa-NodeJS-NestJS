@@ -1,4 +1,5 @@
-import { Expose } from "class-transformer";
+import { Expose, Type } from "class-transformer";
+import { AuthResponseDTO } from "src/auth/dto/auth-response.dto";
 
 export class PhysicianResponseDTO{
     @Expose()
@@ -7,4 +8,7 @@ export class PhysicianResponseDTO{
     code: string;
     @Expose()
     speciality: string;
+    @Expose()
+    @Type(() => AuthResponseDTO)
+    auth: AuthResponseDTO;
 }

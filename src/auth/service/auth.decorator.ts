@@ -1,7 +1,7 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from './roles-guard';
-import { Role } from 'src/utils/role';
+import { Role } from 'src/common/role';
 
 export function Auth(...roles: Role[]) {
   return applyDecorators(

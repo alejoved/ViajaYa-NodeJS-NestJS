@@ -1,4 +1,4 @@
-import { ICRUD } from "src/utils/ICRUD";
+import { ICRUD } from "src/common/ICRUD";
 import { AppointmentResponseDTO } from "../dto/appointment-response.dto";
 import { AppointmentDTO } from "../dto/appointment.dto";
 

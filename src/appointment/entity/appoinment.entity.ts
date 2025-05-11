@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import { Patient } from "src/patient/entity/patient.entity";
 import { Physician } from "src/physician/entity/physician.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -6,10 +7,13 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 export class Appointment {
     @PrimaryGeneratedColumn("uuid")
     id: string;
+    @Expose()
     @Column()
     reason: string;
+    @Expose()
     @Column({ type: 'timestamp', nullable: false })
     startDate: Date;
+    @Expose()
     @Column({ type: 'timestamp', nullable: false })
     endDate: Date;
 

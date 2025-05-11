@@ -1,4 +1,4 @@
-import { ICRUD } from "src/utils/ICRUD";
+import { ICRUD } from "src/common/ICRUD";
 import { PatientResponseDTO } from "../dto/patient-response.dto";
 import { PatientDTO } from "../dto/patient.dto";
 

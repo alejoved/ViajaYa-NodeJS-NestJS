@@ -1,15 +1,15 @@
-import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { LessThan, MoreThan, Repository } from "typeorm";
 import { AppointmentInterface } from "./appointment.interface";
 import { Appointment } from "src/appointment/entity/appoinment.entity";
-import { Auth } from "src/auth/entity/auth.entity";
 import { AppointmentResponseDTO } from "../dto/appointment-response.dto";
 import { plainToInstance } from "class-transformer";
-import { Constants } from "src/utils/constants";
+import { Constants } from "src/common/constants";
 import { AppointmentDTO } from "../dto/appointment.dto";
 import { Patient } from "src/patient/entity/patient.entity";
 import { Physician } from "src/physician/entity/physician.entity";
+import { addMinutes, format, parse } from "date-fns";
 
 @Injectable()
 export class AppointmentService implements AppointmentInterface {
@@ -19,8 +19,6 @@ export class AppointmentService implements AppointmentInterface {
     constructor(
         @InjectRepository(Appointment)
         private readonly appointmentRepository: Repository<Appointment>,
-        @InjectRepository(Auth)
-        private readonly authRepository: Repository<Auth>,
         @InjectRepository(Patient)
         private readonly patientRepository: Repository<Patient>,
         @InjectRepository(Physician)
@@ -49,9 +47,28 @@ export class AppointmentService implements AppointmentInterface {
         if(!physicianExists){
             throw new NotFoundException(Constants.physicianNotFound)
         }
-        //LOGICA DE NEGIO DEL APPOINTMENT
-
+        const startDate = new Date(appointmentDTO.startDate);
+        console.log(startDate);
+        const endDate = addMinutes(startDate, appointmentDTO.duration);
+        console.log(endDate);
+        const appointmentExists = await this.appointmentRepository.find({
+            where: {
+                physician: {
+                auth: {
+                    identification: appointmentDTO.physicianIdentification,
+                },
+                },
+                startDate: LessThan(endDate),
+                endDate: MoreThan(startDate),
+            }
+            });
+        if(appointmentExists.length > 0){
+            throw new ConflictException(Constants.appointmentExists);
+        }
         const appointment = plainToInstance(Appointment, appointmentDTO, { excludeExtraneousValues: true });
+        appointment.patient = patientExists;
+        appointment.physician = physicianExists;
+        appointment.endDate = endDate;
         this.appointmentRepository.create(appointment);
         await this.appointmentRepository.save(appointment);
         const appointmentResponseDTO = plainToInstance(AppointmentResponseDTO, appointment, { excludeExtraneousValues: true })

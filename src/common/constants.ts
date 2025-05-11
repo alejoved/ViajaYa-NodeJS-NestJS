@@ -4,8 +4,9 @@ export enum Constants{
     patientNotFound = "Patient not found",
     physicianNotFound = "Physician not found",
     appointmentNotFound = "Appointment not found",
-    userNotFound = "User not found",
-    userExists = "User already exists",
+    appointmentExists = "Appointment already exists",
+    authNotFound = "Auth not found",
+    authExists = "Auth already exists",
     credentialsNotValid = "Credentials not valid",
     accessDenied = "Access denied insufficient permissions"
 }

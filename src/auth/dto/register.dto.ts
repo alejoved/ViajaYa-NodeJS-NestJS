@@ -1,5 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString } from "class-validator";
-import { Role } from "src/utils/role";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class RegisterDTO{
     @IsNotEmpty()
@@ -8,7 +7,4 @@ export class RegisterDTO{
     @IsNotEmpty()
     @IsString()
     password: string;
-    @IsNotEmpty()
-    @IsEnum(Role)
-    role: Role;
 }
