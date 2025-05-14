@@ -3,36 +3,57 @@ import { PhysicianService } from '../service/physician.service';
 import { PhysicianDTO } from '../dto/physician.dto';
 import { Auth } from 'src/auth/service/auth.decorator';
 import { Role } from 'src/common/role';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Physicians', "Physician related operations")
 @Controller('physician')
 export class PhysicianController {
     
     constructor(private physicianService: PhysicianService){}        
     
+    @ApiOperation({ summary : "Get all physicians currently" })
+    @ApiResponse({status : 200, description : "Get all physicians successfull"})
+    @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
     @Get()
     getAll(){
         return this.physicianService.getAll();
     }
 
+    @ApiOperation({ summary : "Get an physician existing by uuid" })
+    @ApiResponse({status : 200, description : "Get an physician successful"})
+    @ApiResponse({status : 404, description : "Physician not found"})
+    @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
     @Get(":id")
     getById(@Param("id", ParseUUIDPipe) id: string){
         return this.physicianService.getById(id);
     }
     
+    @ApiOperation({ summary : "Create a new physician associated with a identification, name and an code" })
+    @ApiResponse({status : 201, description : "Physician created successfull"})
+    @ApiResponse({status : 409, description : "Physician already exists"})
+    @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Post()
     create(@Body() body: PhysicianDTO){
         return this.physicianService.create(body);
     }
     
+    @ApiOperation({ summary : "Update data about a physician by uuid" })
+    @ApiResponse({status : 201, description : "Physician updated successfull"})
+    @ApiResponse({status : 404, description : "Physician not found"})
+    @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
     @Put()
     update(@Body() body: PhysicianDTO, @Param("id", ParseUUIDPipe) id: string){
         return this.physicianService.update(body, id);
     }
 
+    @ApiOperation({ summary : "Delete an physician by uuid" })
+    @ApiResponse({status : 201, description : "Physician deleted successfull"})
+    @ApiResponse({status : 404, description : "Physician not found"})
+    @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Delete()
     delete(@Param("id", ParseUUIDPipe) id: string){
