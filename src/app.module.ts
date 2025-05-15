@@ -13,12 +13,12 @@ import { ConfigModule } from '@nestjs/config';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'root',
-      database: 'vision',
-      schema: 'doctoryanodejs',
+      host: process.env.HOST,
+      port: parseInt(process.env.PORT!),
+      username: process.env.USERNAME_DB,
+      password: process.env.PASSWORD_DB,
+      database: process.env.DATABASE,
+      schema: process.env.SCHEMA,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true
     }),

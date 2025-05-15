@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe } from '@nestjs/common';
 import { PhysicianService } from '../service/physician.service';
 import { PhysicianDTO } from '../dto/physician.dto';
-import { Auth } from 'src/auth/service/auth.decorator';
+import { Auth } from 'src/config/auth.decorator';
 import { Role } from 'src/common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
