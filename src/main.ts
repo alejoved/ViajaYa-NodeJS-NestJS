@@ -9,6 +9,10 @@ async function bootstrap() {
     .setTitle("Medical Appointment Booking API")
     .setDescription("Medical Appointment Booking API Technical Documentation")
     .setVersion("1.0.0")
+    .addTag("Authentication", "Authentication related operations")
+    .addTag("Appointments", "Appointment related operations")
+    .addTag("Patients", "Patient related operations")
+    .addTag("Physicians", "Physician related operations")
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

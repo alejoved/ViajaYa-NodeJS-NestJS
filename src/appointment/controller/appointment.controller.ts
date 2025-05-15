@@ -5,14 +5,14 @@ import { Role } from 'src/common/role';
 import { AppointmentDTO } from '../dto/appointment.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Appointments', "Appointment-related operations")
+@ApiTags('Appointments')
 @Controller('appointment')
 export class AppointmentController {
 
     constructor(private appointmentService: AppointmentService){}
 
     @ApiOperation({ summary : "Get all appointments currently" })
-    @ApiResponse({status : 200, description : "Get all appointments successfull"})
+    @ApiResponse({status : 200, description : "Get all appointments successfully"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
     @Get()
@@ -21,7 +21,7 @@ export class AppointmentController {
     }
 
     @ApiOperation({ summary : "Get an appointment existing by uuid" })
-    @ApiResponse({status : 200, description : "Get an appointment successful"})
+    @ApiResponse({status : 200, description : "Get an appointment successfully"})
     @ApiResponse({status : 404, description : "Appointment not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
@@ -31,7 +31,7 @@ export class AppointmentController {
     }
     
     @ApiOperation({ summary : "Create a new appointment associated with a patient and physician" })
-    @ApiResponse({status : 201, description : "Appointment created successfull"})
+    @ApiResponse({status : 201, description : "Appointment created successfully"})
     @ApiResponse({status : 404, description : "Patient or physician not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
@@ -41,7 +41,7 @@ export class AppointmentController {
     }
 
     @ApiOperation({ summary : "Update data about an appointment by uuid" })
-    @ApiResponse({status : 200, description : "Appointment updated successfull"})
+    @ApiResponse({status : 200, description : "Appointment updated successfully"})
     @ApiResponse({status : 404, description : "Appointment not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
@@ -51,7 +51,7 @@ export class AppointmentController {
     }
     
     @ApiOperation({ summary : "Delete an appointment by uuid" })
-    @ApiResponse({status : 200, description : "Appointment deleted successfull"})
+    @ApiResponse({status : 200, description : "Appointment deleted successfully"})
     @ApiResponse({status : 404, description : "Appointment not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)

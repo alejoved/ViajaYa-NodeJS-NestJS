@@ -5,14 +5,14 @@ import { Auth } from 'src/auth/service/auth.decorator';
 import { Role } from 'src/common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Physicians', "Physician related operations")
+@ApiTags('Physicians')
 @Controller('physician')
 export class PhysicianController {
     
     constructor(private physicianService: PhysicianService){}        
     
     @ApiOperation({ summary : "Get all physicians currently" })
-    @ApiResponse({status : 200, description : "Get all physicians successfull"})
+    @ApiResponse({status : 200, description : "Get all physicians successfully"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
     @Get()
@@ -21,7 +21,7 @@ export class PhysicianController {
     }
 
     @ApiOperation({ summary : "Get an physician existing by uuid" })
-    @ApiResponse({status : 200, description : "Get an physician successful"})
+    @ApiResponse({status : 200, description : "Get an physician successfully"})
     @ApiResponse({status : 404, description : "Physician not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
@@ -31,7 +31,7 @@ export class PhysicianController {
     }
     
     @ApiOperation({ summary : "Create a new physician associated with a identification, name and an code" })
-    @ApiResponse({status : 201, description : "Physician created successfull"})
+    @ApiResponse({status : 201, description : "Physician created successfully"})
     @ApiResponse({status : 409, description : "Physician already exists"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
@@ -41,7 +41,7 @@ export class PhysicianController {
     }
     
     @ApiOperation({ summary : "Update data about a physician by uuid" })
-    @ApiResponse({status : 201, description : "Physician updated successfull"})
+    @ApiResponse({status : 201, description : "Physician updated successfully"})
     @ApiResponse({status : 404, description : "Physician not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
@@ -51,7 +51,7 @@ export class PhysicianController {
     }
 
     @ApiOperation({ summary : "Delete an physician by uuid" })
-    @ApiResponse({status : 201, description : "Physician deleted successfull"})
+    @ApiResponse({status : 201, description : "Physician deleted successfully"})
     @ApiResponse({status : 404, description : "Physician not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)

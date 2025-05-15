@@ -4,8 +4,9 @@ import { PatientDTO } from '../dto/patient.dto';
 import { Auth } from 'src/auth/service/auth.decorator';
 import { Role } from 'src/common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { PatientResponseDTO } from '../dto/patient-response.dto';
 
-@ApiTags('Patients', "Patient related operations")
+@ApiTags('Patients')
 @Controller('patient')
 export class PatientController {
     constructor(private patientService: PatientService){
@@ -13,7 +14,7 @@ export class PatientController {
     }
 
     @ApiOperation({ summary : "Get all patients currently" })
-    @ApiResponse({status : 200, description : "Get all appointments successfull"})
+    @ApiResponse({status : 200, description : "Get all appointments successfully", type: [PatientResponseDTO]})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
     @Get()
@@ -22,7 +23,7 @@ export class PatientController {
     }
 
     @ApiOperation({ summary : "Get an patient existing by uuid" })
-    @ApiResponse({status : 200, description : "Get an patient successful"})
+    @ApiResponse({status : 200, description : "Get an patient successfully"})
     @ApiResponse({status : 404, description : "Patient not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
@@ -32,7 +33,7 @@ export class PatientController {
     }
     
     @ApiOperation({ summary : "Create a new patient associated with a identification, name and an insurance" })
-    @ApiResponse({status : 201, description : "Patient created successfull"})
+    @ApiResponse({status : 201, description : "Patient created successfully"})
     @ApiResponse({status : 409, description : "Patient already exists"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
@@ -42,7 +43,7 @@ export class PatientController {
     }
 
     @ApiOperation({ summary : "Update data about a patient by uuid" })
-    @ApiResponse({status : 201, description : "Patient updated successfull"})
+    @ApiResponse({status : 201, description : "Patient updated successfully"})
     @ApiResponse({status : 404, description : "Patient not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth()
@@ -52,7 +53,7 @@ export class PatientController {
     }
     
     @ApiOperation({ summary : "Delete an patient by uuid" })
-    @ApiResponse({status : 201, description : "Patient deleted successfull"})
+    @ApiResponse({status : 201, description : "Patient deleted successfully"})
     @ApiResponse({status : 404, description : "Patient not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
