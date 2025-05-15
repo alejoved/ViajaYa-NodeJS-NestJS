@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { PatientInterface } from "./patient.interface";
@@ -29,6 +29,14 @@ export class PatientService implements PatientInterface {
     }
     async getById(id: string): Promise<PatientResponseDTO> {
         const patient = await this.patientRepository.findOne({where: { id: id }, relations: ['auth']});
+        if(!patient){
+            throw new NotFoundException(Constants.patientNotFound)
+        }
+        const patientResponseDTO = plainToInstance(PatientResponseDTO, patient, { excludeExtraneousValues: true })
+        return patientResponseDTO;
+    }
+    async getByIdentification(identification: string): Promise<PatientResponseDTO> {
+        const patient = await this.patientRepository.findOne({where: { auth: {identification: identification}}, relations: ['auth']});
         if(!patient){
             throw new NotFoundException(Constants.patientNotFound)
         }

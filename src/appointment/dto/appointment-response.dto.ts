@@ -5,6 +5,9 @@ import { format } from 'date-fns';
 import { ApiProperty } from "@nestjs/swagger";
 
 export class AppointmentResponseDTO{
+    @ApiProperty({ description: "Appointment ID" })
+    @Expose()
+    id: string;
     @ApiProperty({ description: "Date for to start medical appointment", example: "2025-05-10 14:00:00" })
     @Expose()
     @Transform(({ value }) => format(value, 'yyyy-MM-dd HH:mm:ss'))

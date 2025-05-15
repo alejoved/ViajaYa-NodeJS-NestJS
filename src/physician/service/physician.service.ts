@@ -37,6 +37,15 @@ export class PhysicianService implements PhysicianInterface {
         return physicianResponseDTO;
     }
 
+    async getByIdentification(identification: string): Promise<PhysicianResponseDTO> {
+        const physician = await this.physicianRepository.findOne({where: { auth: {identification: identification}}, relations: ['auth']});
+        if (!physician){
+            throw new NotFoundException(Constants.physicianNotFound);
+        }
+        const physicianResponseDTO = plainToInstance(PhysicianResponseDTO, physician, { excludeExtraneousValues: true })
+        return physicianResponseDTO;
+    }
+
     async create(physicianDTO: PhysicianDTO): Promise<PhysicianResponseDTO> {
         const auth = plainToInstance(Auth, physicianDTO, { excludeExtraneousValues: true });
         auth.role = Role.PHYSICIAN;

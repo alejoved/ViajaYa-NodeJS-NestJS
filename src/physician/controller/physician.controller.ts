@@ -24,10 +24,20 @@ export class PhysicianController {
     @ApiResponse({status : 200, description : "Get an physician successfully"})
     @ApiResponse({status : 404, description : "Physician not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
-    @Auth()
+    @Auth(Role.ADMIN)
     @Get(":id")
     getById(@Param("id", ParseUUIDPipe) id: string){
         return this.physicianService.getById(id);
+    }
+
+    @ApiOperation({ summary : "Get an physician existing by uuid" })
+    @ApiResponse({status : 200, description : "Get an physician successfully"})
+    @ApiResponse({status : 404, description : "Physician not found"})
+    @ApiResponse({status : 500, description : "Internal server error"})
+    @Auth()
+    @Get("/identification/:identification")
+    getByIdentification(@Param("identification") identification: string){
+        return this.physicianService.getByIdentification(identification);
     }
     
     @ApiOperation({ summary : "Create a new physician associated with a identification, name and an code" })

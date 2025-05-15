@@ -26,12 +26,12 @@ export class AppointmentService implements AppointmentInterface {
         ) {}
 
     async getAll(): Promise<AppointmentResponseDTO[]> {
-        const appointment = await this.appointmentRepository.find();
+        const appointment = await this.appointmentRepository.find({relations: ['patient', 'physician']});
         const appointmentResponseDTO = plainToInstance(AppointmentResponseDTO, appointment, { excludeExtraneousValues: true })
         return appointmentResponseDTO;
     }
     async getById(id: string): Promise<AppointmentResponseDTO> {
-        const appointment = await this.appointmentRepository.findOneBy({id: id});
+        const appointment = await this.appointmentRepository.findOne({where: {id: id}, relations: ['patient', 'physician']} );
         if(!appointment){
             throw new NotFoundException(Constants.appointmentNotFound)
         }
