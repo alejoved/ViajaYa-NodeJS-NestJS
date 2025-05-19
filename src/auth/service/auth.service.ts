@@ -40,14 +40,14 @@ export class AuthService implements AuthInterface {
     }
     async login(loginDTO: LoginDTO): Promise<LoginResponseDTO>{
         try {
-              const auth = await this.authRepository.findOneBy({identification: loginDTO.identification});
+              const auth = await this.authRepository.findOneBy({email: loginDTO.email});
               if(!auth){
                 throw new NotFoundException(Constants.authNotFound);
               }
               if(!compareSync(loginDTO.password, auth.password)){
                 throw new UnauthorizedException(Constants.credentialsNotValid);
               }
-              const token = this.jwtService.sign({identification: loginDTO.identification});
+              const token = this.jwtService.sign({email: loginDTO.email});
               return plainToInstance(LoginResponseDTO, {...auth, token},{
                 excludeExtraneousValues: true,
               });

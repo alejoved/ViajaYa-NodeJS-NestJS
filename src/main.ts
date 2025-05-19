@@ -6,13 +6,14 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   const config = new DocumentBuilder()
-    .setTitle("Medical Appointment Booking API")
-    .setDescription("Medical Appointment Booking API Technical Documentation")
+    .setTitle("Touristic flights booking API")
+    .setDescription("Touristic flights booking API Technical Documentation")
     .setVersion("1.0.0")
     .addTag("Authentication", "Authentication related operations")
-    .addTag("Appointments", "Appointment related operations")
-    .addTag("Patients", "Patient related operations")
-    .addTag("Physicians", "Physician related operations")
+    .addTag("Reservation", "Reservation related operations")
+    .addTag("Flight", "Flight related operations")
+    .addTag("Hotel", "Hotel related operations")
+    .addTag("Customer", "Customer related operations")
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

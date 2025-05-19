@@ -6,7 +6,7 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "t
 export class Auth {
   @Expose()
   @PrimaryColumn()
-  identification: string;
+  email: string;
   @Expose()
   @Column()
   password: string;

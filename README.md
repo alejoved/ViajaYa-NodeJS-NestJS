@@ -1,4 +1,4 @@
-# 🩺 API de Reservas de Citas Médicas
+# 🩺 API de Reservas de paquetes de turismo
 
 Sistema backend para la gestión de citas médicas entre pacientes y doctores. Diseñado para demostrar habilidades como desarrollador backend senior, incluyendo modelado de datos, validaciones de reglas de negocio, estructura limpia, y documentación de API.
 
@@ -6,17 +6,56 @@ Sistema backend para la gestión de citas médicas entre pacientes y doctores. D
 
 ## 🚀 Funcionalidades
 
-### 👨‍⚕️ Doctores
-- CRUD completo
-- Campos: `id`, `name`, `specialty`
+1. Reserva
+id_reserva (PK)
+fecha_reserva
+estado (pendiente, confirmada, cancelada, etc.)
+number_nights
+cliente_id (FK, referencia al cliente)
+vuelo_id (FK, referencia al vuelo)
+hotel_id (FK, referencia al hotel)
+monto_total
 
-### 🧑 Pacientes
-- CRUD completo
-- Campos: `id`, `name`, `email`
+2. Vuelo
+id_vuelo (PK)
+aerolinea
+origen
+destino
+escalas
+fecha_salida
+precio
 
-### 📆 Citas Médicas
-- Crear, listar y cancelar citas
-- Campos: `id`, `doctorId`, `patientId`, `startTime`, `endTime`, `notes`
+3. Hotel
+id_hotel (PK)
+nombre
+address
+city
+categoria (número de estrellas)
+precio_por_noche
+
+5. Cliente (opcional, si se maneja como entidad)
+id_cliente (PK)
+identificacion
+nombre
+email
+password
+
+🔗 Relaciones
+
+Reserva - Vuelo
+Una reserva solo incluye un vuelo
+id_reserva (FK)
+id_vuelo (FK)
+
+Reserva - Hotel
+Una reserva incluye un hotel
+id_reserva (FK)
+id_hotel (FK)
+
+Reserva - Servicio Adicional
+Una reserva puede incluir cero o más servicios adicionales
+id_reserva (FK)
+id_servicio (FK)
 
 ---
 

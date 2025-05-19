@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PhysicianModule } from './physician/physician.module';
 import { AuthModule } from './auth/auth.module';
-import { AppointmentModule } from './appointment/appointment.module';
-import { PatientModule } from './patient/patient.module';
+import { ReservationModule } from './reservation/reservation.module';
+import { CustomerModule } from './customer/customer.module';
+import { FlightModule } from './flight/flight.module';
+import { HotelModule } from './hotel/hotel.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -18,14 +19,14 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.USERNAME_DB,
       password: process.env.PASSWORD_DB,
       database: process.env.DATABASE,
-      schema: process.env.SCHEMA,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true
     }),
     AuthModule,
-    AppointmentModule,
-    PhysicianModule,
-    PatientModule,
+    ReservationModule,
+    CustomerModule,
+    FlightModule,
+    HotelModule
   ],
   controllers: [],
   providers: [],
