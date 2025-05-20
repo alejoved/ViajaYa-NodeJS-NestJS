@@ -50,7 +50,7 @@ export class FlightService implements FlightInterface {
         }
         const flight = plainToInstance(Flight, flightDTO, { excludeExtraneousValues: true })
         flight.id = id;
-        await this.flightRepository.save(flightDTO);
+        await this.flightRepository.save(flight);
         const flightResponseDTO = plainToInstance(FlightResponseDTO, flight, { excludeExtraneousValues: true })
         return flightResponseDTO;
     }

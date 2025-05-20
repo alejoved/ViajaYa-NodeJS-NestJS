@@ -9,6 +9,7 @@ import { plainToInstance } from "class-transformer";
 import { Constants } from "src/common/constants";
 import { Auth } from "src/auth/entity/auth.entity";
 import { Role } from "src/common/role";
+import { hashSync } from "bcrypt";
 
 @Injectable()
 export class CustomerService implements CustomerInterface {
@@ -47,9 +48,12 @@ export class CustomerService implements CustomerInterface {
     }
 
     async create(customerDTO: CustomerDTO): Promise<CustomerResponseDTO> {
+        const password = hashSync(customerDTO.password, 3); 
         const auth = plainToInstance(Auth, customerDTO, { excludeExtraneousValues: true });
         auth.role = Role.CUSTOMER;
+        auth.password = password;
         const customer = plainToInstance(Customer, customerDTO, { excludeExtraneousValues: true });
+        customer.auth = auth;
         this.customerRepository.create(customer);
         await this.customerRepository.save(customer);
         const customerResponseDTO = plainToInstance(CustomerResponseDTO, customer, { excludeExtraneousValues: true })

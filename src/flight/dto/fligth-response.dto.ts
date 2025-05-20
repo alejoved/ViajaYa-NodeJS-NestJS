@@ -2,6 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 
 export class FlightResponseDTO{
+    @ApiProperty({ description: "Flight ID" })
+    @Expose()
+    id: string;
     @ApiProperty({ description: "Main airline for the flight" })
     @Expose()
     airline: string;

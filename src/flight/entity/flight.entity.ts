@@ -20,6 +20,6 @@ export class Flight {
     departure: Date;
     @Expose()
     @Column()
-    layovers: number;
+    layovers: boolean;
 
 }

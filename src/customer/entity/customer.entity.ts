@@ -8,19 +8,13 @@ export class Customer {
     @PrimaryGeneratedColumn("uuid")
     id: string;
     @Expose()
-    @Column({ unique: true })
+    @Column()
     identification: string;
     @Expose()
     @Column()
     name: string;
     @Expose()
-    @Column({ unique: true })
-    email: string;
-    @Expose()
-    @Column()
-    password: string;
-    @Expose()
     @OneToOne(() => Auth, (auth) => auth.email, {cascade: true})
-    @JoinColumn()
+    @JoinColumn({name: "auth_email"})
     auth: Auth;
 }

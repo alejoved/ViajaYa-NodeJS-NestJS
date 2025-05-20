@@ -26,7 +26,7 @@ export class FlightController {
     @ApiResponse({status : 200, description : "Get an flight successfully", type: FlightResponseDTO})
     @ApiResponse({status : 404, description : "Flight not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
-    @Auth(Role.ADMIN)
+    @Auth()
     @Get(":id")
     getById(@Param("id", ParseUUIDPipe) id: string){
         return this.flightService.getById(id);
@@ -46,7 +46,7 @@ export class FlightController {
     @ApiResponse({status : 201, description : "Flight updated successfully", type: FlightResponseDTO})
     @ApiResponse({status : 404, description : "Flight not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
-    @Auth()
+    @Auth(Role.ADMIN)
     @Put()
     update(@Body() body: FlightDTO, @Param("id", ParseUUIDPipe) id: string){
         return this.flightService.update(body, id);

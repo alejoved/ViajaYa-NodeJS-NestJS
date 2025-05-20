@@ -6,11 +6,11 @@ export class HotelDTO{
     @IsNotEmpty()
     @IsString()
     name: string;
-    @ApiProperty({ description: "Hotel address" })
+    @ApiProperty({ description: "Hotel's country" })
     @IsNotEmpty()
     @IsString()
-    addres: string;
-    @ApiProperty({ description: "Hotel city" })
+    country: string;
+    @ApiProperty({ description: "Hotel's city" })
     @IsNotEmpty()
     @IsString()
     city: string;
@@ -21,5 +21,5 @@ export class HotelDTO{
     @ApiProperty({ description: "Price per night in the hotel" })
     @IsNotEmpty()
     @IsString()
-    pricePerNight: string;
+    pricePerNight: number;
 }

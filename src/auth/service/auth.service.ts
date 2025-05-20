@@ -56,6 +56,9 @@ export class AuthService implements AuthInterface {
               if(error instanceof UnauthorizedException){
                 throw error;
               }
+              if(error instanceof NotFoundException){
+                throw error;
+              }
             throw new InternalServerErrorException();
           }
     }

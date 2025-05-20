@@ -25,7 +25,7 @@ export class HotelController {
     @ApiResponse({status : 200, description : "Get an hotel successfully", type: HotelResponseDTO})
     @ApiResponse({status : 404, description : "Hotel not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
-    @Auth(Role.ADMIN)
+    @Auth()
     @Get(":id")
     getById(@Param("id", ParseUUIDPipe) id: string){
         return this.hotelService.getById(id);
@@ -42,7 +42,7 @@ export class HotelController {
     }
     
     @ApiOperation({ summary : "Create a new hotel associated with a name, location, price per night" })
-    @ApiResponse({status : 201, description : "Hotel created successfully"})
+    @ApiResponse({status : 201, description : "Hotel created successfully", type: HotelResponseDTO})
     @ApiResponse({status : 409, description : "Hotel already exists"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
@@ -52,10 +52,10 @@ export class HotelController {
     }
     
     @ApiOperation({ summary : "Update data about a hotel by uuid" })
-    @ApiResponse({status : 201, description : "Hotel updated successfully"})
+    @ApiResponse({status : 201, description : "Hotel updated successfully", type: HotelResponseDTO})
     @ApiResponse({status : 404, description : "Hotel not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
-    @Auth()
+    @Auth(Role.ADMIN)
     @Put()
     update(@Body() body: HotelDTO, @Param("id", ParseUUIDPipe) id: string){
         return this.hotelService.update(body, id);

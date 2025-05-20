@@ -1,5 +1,8 @@
 export enum Constants{
     error  = "error",
+    accessNotAllowed = "Access not allowed",
+    authenticationWhitoutRoles = "Authentication without roles",
+    authenticationNotFound = "Authentication not found",
     bodyInvalid = "Body Invalid",
     customerNotFound = "Customer not found",
     customerExists  = "Customer already exists",
@@ -9,6 +12,8 @@ export enum Constants{
     hotelExists = "Hotel already exists",
     reservationNotFound = "Reservation not found",
     reservationExists = "Reservation already exists",
+    reservationCanceled = "Reservation already canceled",
+    reservationConfirmed = "Reservation already confirmed",
     authNotFound = "Auth not found",
     authExists = "Auth already exists",
     credentialsNotValid = "Credentials not valid",

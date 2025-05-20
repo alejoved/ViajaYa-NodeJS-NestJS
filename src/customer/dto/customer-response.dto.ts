@@ -3,16 +3,13 @@ import { Expose, Type } from "class-transformer";
 import { AuthResponseDTO } from "src/auth/dto/auth-response.dto";
 
 export class CustomerResponseDTO{
-    @ApiProperty({ description: "Physician full name" })
+    @ApiProperty({ description: "Customer full name" })
     @Expose()
     name: string;
-    @ApiProperty({ description: "General medical code" })
+    @ApiProperty({ description: "Customer primary email" })
     @Expose()
-    code: string;
-    @ApiProperty({ description: "Speciality field of the physician" })
-    @Expose()
-    speciality: string;
-    @ApiProperty({ description: "Authentication data of the physician" })
+    email: string;
+    @ApiProperty({ description: "Customer authentication data" })
     @Expose()
     @Type(() => AuthResponseDTO)
     auth: AuthResponseDTO;

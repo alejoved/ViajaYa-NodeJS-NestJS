@@ -10,12 +10,14 @@ import { ReservationDTO } from "../dto/reservation.dto";
 import { Flight } from "src/flight/entity/flight.entity";
 import { Hotel } from "src/hotel/entity/hotel.entity";
 import { Customer } from "src/customer/entity/customer.entity";
+import { Status } from "src/common/status";
+import { ConfigModule } from "@nestjs/config";
 
 
 @Injectable()
 export class ReservationService implements ReservationInterface {
 
-    private readonly logger = new Logger("AppointmentService");
+    private readonly logger = new Logger("ReservationService");
     
     constructor(
         @InjectRepository(Customer)
@@ -42,9 +44,9 @@ export class ReservationService implements ReservationInterface {
         return reservationResponseDTO;
     }
     async create(reservationDTO: ReservationDTO): Promise<ReservationResponseDTO> {
-        const customerExists = await this.customerRepository.findOne({where: {email: reservationDTO.customerEmail}});
+        const customerExists = await this.customerRepository.findOne({where: { auth: {email: reservationDTO.customerEmail}}});
         if(!customerExists){
-            throw new NotFoundException(Constants.flightNotFound)
+            throw new NotFoundException(Constants.customerNotFound)
         }
         const flightExists = await this.flightRepository.findOne({where: {id: reservationDTO.flightId}});
         if(!flightExists){
@@ -56,14 +58,18 @@ export class ReservationService implements ReservationInterface {
         }
         const reservationExists = await this.reservationRepository.find({
             where: {
-                customer: {email: reservationDTO.customerEmail},
+                customer: { auth: { email: reservationDTO.customerEmail } },
                 flight: {id: reservationDTO.flightId},
                 hotel: {id: reservationDTO.hotelId}}
             });
         if(reservationExists.length > 0){
             throw new ConflictException(Constants.reservationExists);
         }
+        const total = hotelExists.pricePerNight * reservationDTO.numberNights;
         const reservation = plainToInstance(Reservation, reservationDTO, { excludeExtraneousValues: true });
+        reservation.reservationDate = new Date();
+        reservation.status = Status.PENDING;
+        reservation.total = total;
         reservation.customer = customerExists;
         reservation.flight = flightExists;
         reservation.hotel = hotelExists;
@@ -89,5 +95,29 @@ export class ReservationService implements ReservationInterface {
             throw new NotFoundException(Constants.reservationNotFound);
         }
         await this.reservationRepository.delete(reservationExists);
+    }
+
+    async confirm(id: string): Promise<void> {
+        const reservationExists = await this.reservationRepository.findOneBy({id: id});
+        if (!reservationExists){
+            throw new NotFoundException(Constants.reservationNotFound);
+        }
+        if (reservationExists.status == Status.CANCELED){
+            throw new ConflictException(Constants.reservationCanceled);
+        }
+        reservationExists.status = Status.CONFIRMED;
+        await this.reservationRepository.save(reservationExists);
+    }
+
+    async cancel(id: string): Promise<void> {
+        const reservationExists = await this.reservationRepository.findOneBy({id: id});
+        if (!reservationExists){
+            throw new NotFoundException(Constants.reservationNotFound);
+        }
+        if (reservationExists.status == Status.CONFIRMED){
+            throw new ConflictException(Constants.reservationConfirmed);
+        }
+        reservationExists.status = Status.CANCELED;
+        await this.reservationRepository.save(reservationExists);
     }
 }
