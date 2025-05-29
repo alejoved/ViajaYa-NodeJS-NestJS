@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe } from '@nestjs/common';
 import { FlightService } from '../service/flight.service';
-import { Auth } from 'src/config/auth.decorator';
-import { Role } from 'src/common/role';
+import { Auth } from '../../config/auth.decorator';
+import { Role } from '../../common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FlightDTO } from '../dto/fligth.dto';
 import { FlightResponseDTO } from '../dto/fligth-response.dto';
@@ -47,7 +47,7 @@ export class FlightController {
     @ApiResponse({status : 404, description : "Flight not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
-    @Put()
+    @Put(":id")
     update(@Body() body: FlightDTO, @Param("id", ParseUUIDPipe) id: string){
         return this.flightService.update(body, id);
     }
@@ -57,7 +57,7 @@ export class FlightController {
     @ApiResponse({status : 404, description : "Flight not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
-    @Delete()
+    @Delete(":id")
     delete(@Param("id", ParseUUIDPipe) id: string){
         this.flightService.delete(id);
     }

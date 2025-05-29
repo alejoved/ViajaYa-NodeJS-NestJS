@@ -3,7 +3,7 @@ import { CustomerController } from './controller/customer.controller';
 import { CustomerService } from './service/customer.service';
 import { Customer } from './entity/customer.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Auth } from 'src/auth/entity/auth.entity';
+import { Auth } from '../auth/entity/auth.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Customer]), TypeOrmModule.forFeature([Auth])],

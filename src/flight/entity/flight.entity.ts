@@ -21,5 +21,8 @@ export class Flight {
     @Expose()
     @Column()
     layovers: boolean;
+    @Expose()
+    @Column()
+    price: number;
 
 }

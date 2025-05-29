@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe } from '@nestjs/common';
 import { HotelDTO } from '../dto/hotel.dto';
-import { Auth } from 'src/config/auth.decorator';
-import { Role } from 'src/common/role';
+import { Auth } from '../../config/auth.decorator';
+import { Role } from '../../common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HotelResponseDTO } from '../dto/hotel-response.dto';
 import { HotelService } from '../service/hotel.service';
@@ -56,7 +56,7 @@ export class HotelController {
     @ApiResponse({status : 404, description : "Hotel not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
-    @Put()
+    @Put(":id")
     update(@Body() body: HotelDTO, @Param("id", ParseUUIDPipe) id: string){
         return this.hotelService.update(body, id);
     }
@@ -66,7 +66,7 @@ export class HotelController {
     @ApiResponse({status : 404, description : "Hotel not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
-    @Delete()
+    @Delete(":id")
     delete(@Param("id", ParseUUIDPipe) id: string){
         this.hotelService.delete(id);
     }

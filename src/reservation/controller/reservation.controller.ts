@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
-import { Auth } from 'src/config/auth.decorator';
+import { Auth } from '../../config/auth.decorator';
 import { ReservationService } from '../service/reservation.service';
-import { Role } from 'src/common/role';
+import { Role } from '../../common/role';
 import { ReservationDTO } from '../dto/reservation.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ReservationResponseDTO } from '../dto/reservation-response.dto';

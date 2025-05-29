@@ -1,4 +1,4 @@
-import { ICRUD } from "src/common/ICRUD";
+import { ICRUD } from "../../common/ICRUD";
 import { FlightDTO } from "../dto/fligth.dto";
 import { FlightResponseDTO } from "../dto/fligth-response.dto";
 

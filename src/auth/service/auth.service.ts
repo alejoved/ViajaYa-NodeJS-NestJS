@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Auth } from "src/auth/entity/auth.entity";
+import { Auth } from "../../auth/entity/auth.entity";
 import { Repository } from "typeorm";
 import { AuthInterface } from "./auth.interface";
 import { LoginDTO } from "../dto/login.dto";
@@ -10,8 +10,8 @@ import { RegisterResponseDTO } from "../dto/register-response.dto";
 import { compareSync, hashSync } from "bcrypt";
 import { plainToInstance } from "class-transformer";
 import { JwtService } from "@nestjs/jwt";
-import { Constants } from "src/common/constants";
-import { Role } from "src/common/role";
+import { Constants } from "../../common/constants";
+import { Role } from "../../common/role";
 
 @Injectable()
 export class AuthService implements AuthInterface {

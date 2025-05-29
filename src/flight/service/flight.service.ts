@@ -6,7 +6,7 @@ import { Flight } from "../entity/flight.entity";
 import { FlightResponseDTO } from "../dto/fligth-response.dto";
 import { FlightDTO } from "../dto/fligth.dto";
 import { plainToInstance } from "class-transformer";
-import { Constants } from "src/common/constants";
+import { Constants } from "../../common/constants";
 
 @Injectable()
 export class FlightService implements FlightInterface {

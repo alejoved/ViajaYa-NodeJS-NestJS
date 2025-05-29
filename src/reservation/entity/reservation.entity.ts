@@ -1,8 +1,9 @@
 import { Expose } from "class-transformer";
-import { Customer } from "src/customer/entity/customer.entity";
-import { Flight } from "src/flight/entity/flight.entity";
-import { Hotel } from "src/hotel/entity/hotel.entity";
+import { Customer } from "../../customer/entity/customer.entity";
+import { Flight } from "../../flight/entity/flight.entity";
+import { Hotel } from "../../hotel/entity/hotel.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Status } from "../../common/status";
 
 @Entity()
 export class Reservation {
@@ -13,10 +14,10 @@ export class Reservation {
     reservationDate: Date;
     @Expose()
     @Column()
-    status: string;
+    status: Status;
     @Expose()
     @Column()
-    numberNights: string;
+    numberNights: number;
     @Expose()
     @Column()
     total: number;

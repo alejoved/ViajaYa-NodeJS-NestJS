@@ -8,9 +8,9 @@ export class HotelResponseDTO {
     @ApiProperty({ description: "Hotel full name" })
     @Expose()
     name: string;
-    @ApiProperty({ description: "Hotel address" })
+    @ApiProperty({ description: "Hotel country" })
     @Expose()
-    addres: string;
+    country: string;
     @ApiProperty({ description: "Hotel city" })
     @Expose()
     city: string;

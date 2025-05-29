@@ -17,7 +17,10 @@ export class FlightResponseDTO{
     @ApiProperty({ description: "Departure date for the flight" })
     @Expose()
     departure: Date;
-    @ApiProperty({ description: "Flight layovers number" })
+    @ApiProperty({ description: "Flight exists layovers" })
     @Expose()
-    layovers: number;
+    layovers: boolean;
+    @ApiProperty({ description: "Flight total price" })
+    @Expose()
+    price: number;
 }

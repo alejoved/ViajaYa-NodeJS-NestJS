@@ -25,5 +25,9 @@ export class FlightDTO{
     @IsNotEmpty()
     @IsString()
     layovers: boolean;
+    @ApiProperty({ description: "Flight total price" })
+    @IsNotEmpty()
+    @IsString()
+    price: number;
 
 }

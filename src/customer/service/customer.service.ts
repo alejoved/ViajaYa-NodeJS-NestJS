@@ -6,9 +6,9 @@ import { Customer } from "../entity/customer.entity";
 import { CustomerResponseDTO } from "../dto/customer-response.dto";
 import { CustomerDTO } from "../dto/customer.dto";
 import { plainToInstance } from "class-transformer";
-import { Constants } from "src/common/constants";
-import { Auth } from "src/auth/entity/auth.entity";
-import { Role } from "src/common/role";
+import { Constants } from "../../common/constants";
+import { Auth } from "../../auth/entity/auth.entity";
+import { Role } from "../../common/role";
 import { hashSync } from "bcrypt";
 
 @Injectable()
@@ -18,9 +18,7 @@ export class CustomerService implements CustomerInterface {
 
     constructor(
         @InjectRepository(Customer)
-        private readonly customerRepository: Repository<Customer>,
-        @InjectRepository(Auth)
-        private readonly authRepository: Repository<Auth>,
+        private readonly customerRepository: Repository<Customer>
       ) {}
 
     async getAll(): Promise<CustomerResponseDTO[]> {
@@ -67,7 +65,7 @@ export class CustomerService implements CustomerInterface {
         }
         const customer = plainToInstance(Customer, customerDTO, { excludeExtraneousValues: true })
         customer.id = id;
-        await this.customerRepository.save(customerDTO);
+        await this.customerRepository.save(customer);
         const customerResponseDTO = plainToInstance(CustomerResponseDTO, customer, { excludeExtraneousValues: true })
         return customerResponseDTO;
     }

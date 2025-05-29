@@ -6,7 +6,7 @@ import { Hotel } from "../entity/hotel.entity";
 import { HotelDTO } from "../dto/hotel.dto";
 import { HotelResponseDTO } from "../dto/hotel-response.dto";
 import { plainToInstance } from "class-transformer";
-import { Constants } from "src/common/constants";
+import { Constants } from "../../common/constants";
 
 @Injectable()
 export class HotelService implements HotelInterface {

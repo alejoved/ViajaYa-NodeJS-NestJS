@@ -1,17 +1,16 @@
 import { ConflictException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { LessThan, MoreThan, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { ReservationInterface } from "./reservation.interface";
 import { ReservationResponseDTO } from "../dto/reservation-response.dto";
 import { plainToInstance } from "class-transformer";
-import { Constants } from "src/common/constants";
-import { Reservation } from "../entity/reservartion.entity";
+import { Constants } from "../../common/constants";
+import { Reservation } from "../entity/reservation.entity";
 import { ReservationDTO } from "../dto/reservation.dto";
-import { Flight } from "src/flight/entity/flight.entity";
-import { Hotel } from "src/hotel/entity/hotel.entity";
-import { Customer } from "src/customer/entity/customer.entity";
-import { Status } from "src/common/status";
-import { ConfigModule } from "@nestjs/config";
+import { Flight } from "../../flight/entity/flight.entity";
+import { Hotel } from "../../hotel/entity/hotel.entity";
+import { Customer } from "../../customer/entity/customer.entity";
+import { Status } from "../../common/status";
 
 
 @Injectable()

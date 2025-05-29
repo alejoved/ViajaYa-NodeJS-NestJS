@@ -1,4 +1,4 @@
-import { ICRUD } from "src/common/ICRUD";
+import { ICRUD } from "../../common/ICRUD";
 import { CustomerDTO } from "../dto/customer.dto";
 import { CustomerResponseDTO } from "../dto/customer-response.dto";
 

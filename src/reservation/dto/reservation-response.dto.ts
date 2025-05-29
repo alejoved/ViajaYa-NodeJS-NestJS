@@ -1,9 +1,10 @@
 import { Expose, Transform, Type } from "class-transformer";
 import { format } from 'date-fns';
 import { ApiProperty } from "@nestjs/swagger";
-import { CustomerResponseDTO } from "src/customer/dto/customer-response.dto";
-import { FlightResponseDTO } from "src/flight/dto/fligth-response.dto";
-import { HotelResponseDTO } from "src/hotel/dto/hotel-response.dto";
+import { CustomerResponseDTO } from "../../customer/dto/customer-response.dto";
+import { FlightResponseDTO } from "../../flight/dto/fligth-response.dto";
+import { HotelResponseDTO } from "../../hotel/dto/hotel-response.dto";
+import { Status } from "../../common/status";
 
 export class ReservationResponseDTO{
     @ApiProperty({ description: "Reservation ID" })
@@ -15,7 +16,7 @@ export class ReservationResponseDTO{
     reservationDate: Date;
     @ApiProperty({ description: "Status of the reservation"})
     @Expose()
-    status: string;
+    status: Status;
     @ApiProperty({ description: "total price per the flight and hotel"})
     @Expose()
     total: number;
