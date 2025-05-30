@@ -22,7 +22,7 @@ export class Flight {
     @Column()
     layovers: boolean;
     @Expose()
-    @Column()
+    @Column("float")
     price: number;
 
 }

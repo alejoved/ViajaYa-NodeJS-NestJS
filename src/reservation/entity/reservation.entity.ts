@@ -19,18 +19,18 @@ export class Reservation {
     @Column()
     numberNights: number;
     @Expose()
-    @Column()
+    @Column("float")
     total: number;
 
-    @ManyToOne(() => Customer, (customer) => customer.id, {cascade: true})
+    @ManyToOne(() => Customer, (customer) => customer.id, {cascade: true, onDelete: "CASCADE"})
     @JoinColumn({ name: 'customer_id' })
     customer: Customer;
 
-    @ManyToOne(() => Flight, (flight) => flight.id, {cascade: true})
+    @ManyToOne(() => Flight, (flight) => flight.id, {cascade: true, onDelete: "CASCADE"})
     @JoinColumn({ name: 'flight_id' })
     flight: Flight;
 
-    @ManyToOne(() => Hotel, (hotel) => hotel.id, {cascade: true})
+    @ManyToOne(() => Hotel, (hotel) => hotel.id, {cascade: true, onDelete: "CASCADE"})
     @JoinColumn({ name: 'hotel_id' })
     hotel: Hotel;
 

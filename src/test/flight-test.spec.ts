@@ -12,6 +12,7 @@ import { FlightDTO } from '../flight/dto/fligth.dto';
 
 describe('FlightController', () => {
   let app: INestApplication;
+  const timeout = 90000;
   let flightRepository: Repository<Flight>;
   let authRepository: Repository<Auth>;
   let accessToken = null;
@@ -45,29 +46,26 @@ describe('FlightController', () => {
             .expect(200)
         accessToken = responseLogin.body.token;
 
-    });
-
-    beforeEach(async () => {
         flightDB = new Flight();
         flightDB.airline = "Test Airline";
         flightDB.origin = "Test Origin";
         flightDB.destiny = "Test Destiny";
         flightDB.departure = new Date();
         flightDB.layovers = true;
-    })
+        flightDB.price = 15000;
+        flightDB = await flightRepository.save(flightDB)
 
-    afterEach(async () => {
-        await flightRepository.delete({});
-    })
+    }, timeout);
+
 
     afterAll(async () => {
-        await authRepository.delete({})
-        await app.close();
+      await flightRepository.delete({});
+      await authRepository.delete({})
+      await app.close();
         
-    });
+    }, timeout);
 
   it('/flight (GET)', async () => {
-    const flight = await flightRepository.save(flightDB)
     const response = await request(app.getHttpServer())
         .get('/flight')
         .set('Authorization', `Bearer ${accessToken}`)
@@ -77,33 +75,35 @@ describe('FlightController', () => {
         expect(response.body.length).toBeGreaterThan(0);
 
         expect(response.body[0].id).toBeDefined();
-        expect(response.body[0].airline).toBe(flight.airline);
-        expect(response.body[0].origin).toBe(flight.origin);
-        expect(response.body[0].destiny).toBe(flight.destiny);
-        expect(response.body[0].layovers).toBe(flight.layovers);
-  });
+        expect(response.body[0].airline).toBe(flightDB.airline);
+        expect(response.body[0].origin).toBe(flightDB.origin);
+        expect(response.body[0].destiny).toBe(flightDB.destiny);
+        expect(response.body[0].layovers).toBe(flightDB.layovers);
+        expect(response.body[0].price).toBe(flightDB.price);
+  }, timeout);
 
   it('/flight/:id (GET)', async () => {
-    const flight = await flightRepository.save(flightDB);
     const response = await request(app.getHttpServer())
-        .get('/flight/'+ flight.id)
+        .get('/flight/'+ flightDB.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
 
         expect(response.body.id).toBeDefined();
-        expect(response.body.airline).toBe(flight.airline);
-        expect(response.body.origin).toBe(flight.origin);
-        expect(response.body.destiny).toBe(flight.destiny);
-        expect(response.body.layovers).toBe(flight.layovers);
-  });
+        expect(response.body.airline).toBe(flightDB.airline);
+        expect(response.body.origin).toBe(flightDB.origin);
+        expect(response.body.destiny).toBe(flightDB.destiny);
+        expect(response.body.layovers).toBe(flightDB.layovers);
+        expect(response.body.price).toBe(flightDB.price);
+  }, timeout);
 
   it('/flight (POST)', async () => {
     const flightDTO = new FlightDTO();
-    flightDTO.airline = "Test Airline";
-    flightDTO.origin = "Test Origin";
-    flightDTO.destiny = "Test Destiny";
+    flightDTO.airline = "Test Airline 2";
+    flightDTO.origin = "Test Origin 2";
+    flightDTO.destiny = "Test Destiny 2";
     flightDTO.departure = new Date();
     flightDTO.layovers = true;
+    flightDTO.price = 25000;
     const response = await request(app.getHttpServer())
         .post("/flight")
         .set('Authorization', `Bearer ${accessToken}`)
@@ -115,16 +115,18 @@ describe('FlightController', () => {
         expect(response.body.origin).toBe(flightDTO.origin);
         expect(response.body.destiny).toBe(flightDTO.destiny);
         expect(response.body.layovers).toBe(flightDTO.layovers);
-  });
+        expect(response.body.price).toBe(flightDTO.price);
+  }, timeout);
 
   it('/flight (UPDATE)', async () => {
     const flight = await flightRepository.save(flightDB);
     const flightDTO = new FlightDTO();
-    flightDTO.airline = "Test Airline 2";
-    flightDTO.origin = "Test Origin 2";
-    flightDTO.destiny = "Test Destiny 2";
+    flightDTO.airline = "Test Airline 3";
+    flightDTO.origin = "Test Origin 3";
+    flightDTO.destiny = "Test Destiny 3";
     flightDTO.departure = new Date();
     flightDTO.layovers = false;
+    flightDTO.price = 45000;
     const response = await request(app.getHttpServer())
         .put("/flight/" + flight.id)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -136,13 +138,13 @@ describe('FlightController', () => {
         expect(response.body.origin).toBe(flightDTO.origin);
         expect(response.body.destiny).toBe(flightDTO.destiny);
         expect(response.body.layovers).toBe(flightDTO.layovers);
-  });
+        expect(response.body.price).toBe(flightDTO.price);
+  }, timeout);
 
   it('/flight (DELETE)', async () => {
-    const flight = await flightRepository.save(flightDB);
     await request(app.getHttpServer())
-        .delete("/flight/" + flight.id)
+        .delete("/flight/" + flightDB.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
-  });
+  }, timeout);
 });

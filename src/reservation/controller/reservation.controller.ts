@@ -35,7 +35,7 @@ export class ReservationController {
     @ApiResponse({status : 201, description : "Reservation created successfully", type: ReservationResponseDTO})
     @ApiResponse({status : 404, description : "Flight or hotel not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
-    @Auth(Role.CUSTOMER)
+    @Auth(Role.ADMIN)
     @Post()
     create(@Body() body: ReservationDTO){
         return this.reservationService.create(body);
@@ -45,8 +45,8 @@ export class ReservationController {
     @ApiResponse({status : 200, description : "Reservation updated successfully", type: ReservationResponseDTO})
     @ApiResponse({status : 404, description : "Appointment not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
-    @Auth(Role.CUSTOMER)
-    @Put()
+    @Auth(Role.ADMIN)
+    @Put(":id")
     update(@Body() body: ReservationDTO, @Param("id", ParseUUIDPipe) id: string){
         return this.reservationService.update(body, id);
     }
@@ -56,7 +56,7 @@ export class ReservationController {
     @ApiResponse({status : 404, description : "Reservation not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
-    @Delete()
+    @Delete(":id")
     delete(@Param("id", ParseUUIDPipe) id: string){
         this.reservationService.delete(id);
     }

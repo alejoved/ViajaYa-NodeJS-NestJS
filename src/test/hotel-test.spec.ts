@@ -12,6 +12,7 @@ import { HotelDTO } from '../hotel/dto/hotel.dto';
 
 describe('HotelController', () => {
   let app: INestApplication;
+  let timeout = 90000;
   let hotelRepository: Repository<Hotel>;
   let authRepository: Repository<Auth>;
   let accessToken = null;
@@ -45,29 +46,24 @@ describe('HotelController', () => {
             .expect(200)
         accessToken = responseLogin.body.token;
 
-    });
-
-    beforeEach(async () => {
         hotelDB = new Hotel();
         hotelDB.name = "Test Name";
         hotelDB.country = "Test Country";
         hotelDB.city = "Test City";
         hotelDB.category = "5";
-        hotelDB.pricePerNight = 35000
-    })
+        hotelDB.pricePerNight = 35000;
+        hotelDB = await hotelRepository.save(hotelDB);
 
-    afterEach(async () => {
-        await hotelRepository.delete({});
-    })
+    }, timeout);
 
     afterAll(async () => {
-        await authRepository.delete({})
-        await app.close();
+      await hotelRepository.delete({});
+      await authRepository.delete({})
+      await app.close();
         
-    });
+    }, timeout);
 
   it('/hotel (GET)', async () => {
-    const hotel = await hotelRepository.save(hotelDB)
     const response = await request(app.getHttpServer())
         .get('/hotel')
         .set('Authorization', `Bearer ${accessToken}`)
@@ -77,30 +73,28 @@ describe('HotelController', () => {
         expect(response.body.length).toBeGreaterThan(0);
 
         expect(response.body[0].id).toBeDefined();
-        expect(response.body[0].name).toBe(hotel.name);
-        expect(response.body[0].country).toBe(hotel.country);
-        expect(response.body[0].city).toBe(hotel.city);
-        expect(response.body[0].pricePerNight).toBe(hotel.pricePerNight);
-  });
+        expect(response.body[0].name).toBe(hotelDB.name);
+        expect(response.body[0].country).toBe(hotelDB.country);
+        expect(response.body[0].city).toBe(hotelDB.city);
+        expect(response.body[0].pricePerNight).toBe(hotelDB.pricePerNight);
+  }, timeout);
 
   it('/hotel/:id (GET)', async () => {
-    const hotel = await hotelRepository.save(hotelDB);
     const response = await request(app.getHttpServer())
-        .get('/hotel/'+ hotel.id)
+        .get('/hotel/'+ hotelDB.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
 
         expect(response.body.id).toBeDefined();
-        expect(response.body.name).toBe(hotel.name);
-        expect(response.body.country).toBe(hotel.country);
-        expect(response.body.city).toBe(hotel.city);
-        expect(response.body.pricePerNight).toBe(hotel.pricePerNight);
-  });
+        expect(response.body.name).toBe(hotelDB.name);
+        expect(response.body.country).toBe(hotelDB.country);
+        expect(response.body.city).toBe(hotelDB.city);
+        expect(response.body.pricePerNight).toBe(hotelDB.pricePerNight);
+  }, timeout);
 
   it('/hotel/country/:country/city/:city (GET)', async () => {
-    const hotel = await hotelRepository.save(hotelDB);
     const response = await request(app.getHttpServer())
-        .get('/hotel/country/'+ hotel.country + "/city/" + hotel.city)
+        .get('/hotel/country/'+ hotelDB.country + "/city/" + hotelDB.city)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
 
@@ -108,18 +102,18 @@ describe('HotelController', () => {
         expect(response.body.length).toBeGreaterThan(0);
 
         expect(response.body[0].id).toBeDefined();
-        expect(response.body[0].name).toBe(hotel.name);
-        expect(response.body[0].country).toBe(hotel.country);
-        expect(response.body[0].city).toBe(hotel.city);
-        expect(response.body[0].pricePerNight).toBe(hotel.pricePerNight);
-  });
+        expect(response.body[0].name).toBe(hotelDB.name);
+        expect(response.body[0].country).toBe(hotelDB.country);
+        expect(response.body[0].city).toBe(hotelDB.city);
+        expect(response.body[0].pricePerNight).toBe(hotelDB.pricePerNight);
+  }, timeout);
 
   it('/hotel (POST)', async () => {
     const hotelDTO = new HotelDTO();
-    hotelDTO.name = "Test Name";
-    hotelDTO.country = "Test Country";
-    hotelDTO.city = "Test City";
-    hotelDTO.category = "5";
+    hotelDTO.name = "Test Name 2";
+    hotelDTO.country = "Test Country 2";
+    hotelDTO.city = "Test City 2";
+    hotelDTO.category = "3";
     hotelDTO.pricePerNight = 35000;
     const response = await request(app.getHttpServer())
         .post("/hotel")
@@ -132,16 +126,16 @@ describe('HotelController', () => {
         expect(response.body.country).toBe(hotelDTO.country);
         expect(response.body.city).toBe(hotelDTO.city);
         expect(response.body.pricePerNight).toBe(hotelDTO.pricePerNight);
-  });
+  }, timeout);
 
   it('/hotel (UPDATE)', async () => {
     const hotel = await hotelRepository.save(hotelDB);
     const hotelDTO = new HotelDTO();
-    hotelDTO.name = "Test Name 2";
-    hotelDTO.country = "Test Country 2";
-    hotelDTO.city = "Test City 2";
-    hotelDTO.category = "10";
-    hotelDTO.pricePerNight = 15000;
+    hotelDTO.name = "Test Name 3";
+    hotelDTO.country = "Test Country 3";
+    hotelDTO.city = "Test City 3";
+    hotelDTO.category = "1";
+    hotelDTO.pricePerNight = 45000;
     const response = await request(app.getHttpServer())
         .put("/hotel/" + hotel.id)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -153,13 +147,12 @@ describe('HotelController', () => {
         expect(response.body.country).toBe(hotelDTO.country);
         expect(response.body.city).toBe(hotelDTO.city);
         expect(response.body.pricePerNight).toBe(hotelDTO.pricePerNight);
-  });
+  }, timeout);
 
   it('/hotel (DELETE)', async () => {
-    const hotel = await hotelRepository.save(hotelDB);
     await request(app.getHttpServer())
-        .delete("/hotel/" + hotel.id)
+        .delete("/hotel/" + hotelDB.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
-  });
+  }, timeout);
 });

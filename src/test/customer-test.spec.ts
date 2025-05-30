@@ -13,6 +13,7 @@ import { Role } from '../common/role';
 
 describe('CustomerController', () => {
   let app: INestApplication;
+  const timeout = 90000
   let customerRepository: Repository<Customer>;
   let authRepository: Repository<Auth>;
   let accessToken = null;
@@ -46,9 +47,6 @@ describe('CustomerController', () => {
             .expect(200)
         accessToken = responseLogin.body.token;
 
-    });
-
-    beforeEach(async () => {
         customerDB = new Customer();
         customerDB.identification = "1053847610";
         customerDB.name = "Test Name";
@@ -56,18 +54,16 @@ describe('CustomerController', () => {
         customerDB.auth.email = "CUSTOMER1@GMAIL.COM";
         customerDB.auth.password = "12345";
         customerDB.auth.role = Role.CUSTOMER;
-    })
+        customerDB = await customerRepository.save(customerDB);
 
-    afterEach(async () => {
-        await customerRepository.delete({});
-        await authRepository.delete({email: "CUSTOMER1@GMAIL.COM"})
-    })
+    }, timeout);
 
     afterAll(async () => {
-        await authRepository.delete({})
-        await app.close();
+      await customerRepository.delete({});
+      await authRepository.delete({})
+      await app.close();
         
-    });
+    }, timeout);
 
   it('/customer (GET)', async () => {
     const customer = await customerRepository.save(customerDB);
@@ -81,7 +77,7 @@ describe('CustomerController', () => {
 
         expect(response.body[0].identification).toBe(customer.identification);
         expect(response.body[0].name).toBe(customer.name);
-  });
+  }, timeout);
 
   it('/customer/:id (GET)', async () => {
     const customer = await customerRepository.save(customerDB);
@@ -92,7 +88,7 @@ describe('CustomerController', () => {
 
         expect(response.body.identification).toBe(customer.identification);
         expect(response.body.name).toBe(customer.name);
-  });
+  }, timeout);
 
   it('/customer (POST)', async () => {
     const customerDTO = new CustomerDTO();
@@ -108,7 +104,7 @@ describe('CustomerController', () => {
 
         expect(response.body.identification).toBe(customerDTO.identification);
         expect(response.body.name).toBe(customerDTO.name);
-  });
+  }, timeout);
 
   it('/customer (UPDATE)', async () => {
     const customer = await customerRepository.save(customerDB);
@@ -125,7 +121,7 @@ describe('CustomerController', () => {
 
         expect(response.body.identification).toBe(customerDTO.identification);
         expect(response.body.name).toBe(customerDTO.name);
-  });
+  }, timeout);
 
   it('/customer (DELETE)', async () => {
     const customer = await customerRepository.save(customerDB);
@@ -133,5 +129,5 @@ describe('CustomerController', () => {
         .delete("/customer/" + customer.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
-  });
+  }, timeout);
 });

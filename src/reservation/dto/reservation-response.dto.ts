@@ -17,6 +17,9 @@ export class ReservationResponseDTO{
     @ApiProperty({ description: "Status of the reservation"})
     @Expose()
     status: Status;
+    @ApiProperty({ description: "total number of nights in the hotel"})
+    @Expose()
+    numberNights: number;
     @ApiProperty({ description: "total price per the flight and hotel"})
     @Expose()
     total: number;
