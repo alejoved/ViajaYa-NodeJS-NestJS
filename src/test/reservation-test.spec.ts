@@ -13,7 +13,8 @@ import { Reservation } from '../reservation/entity/reservation.entity';
 import { Customer } from '../customer/entity/customer.entity';
 import { Flight } from '../flight/entity/flight.entity';
 import { Hotel } from '../hotel/entity/hotel.entity';
-import { Status } from '../common/status';
+import { ReservationResponseDTO } from '../reservation/dto/reservation-response.dto';
+import { plainToInstance } from 'class-transformer';
 
 describe('ReservationController', () => {
   let app: INestApplication;
@@ -24,10 +25,10 @@ describe('ReservationController', () => {
   let customerRepository: Repository<Customer>;
   let authRepository: Repository<Auth>;
   let accessToken = null;
-  let reservationDB: Reservation;
   let flightDB: Flight;
   let hotelDB: Hotel;
   let customerDB: Customer;
+  let reservation: ReservationResponseDTO;
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -43,7 +44,7 @@ describe('ReservationController', () => {
         authRepository = moduleFixture.get<Repository<Auth>>(getRepositoryToken(Auth));
 
         const registerDTO = new RegisterDTO();
-        registerDTO.email = "ADMIN1@GMAIL.COM";
+        registerDTO.email = "ADMIN4@GMAIL.COM";
         registerDTO.password = "12345";
         await request(app.getHttpServer())
             .post('/auth/register')
@@ -52,7 +53,7 @@ describe('ReservationController', () => {
         
 
         const loginDTO = new LoginDTO();
-        loginDTO.email = "ADMIN1@GMAIL.COM";
+        loginDTO.email = "ADMIN4@GMAIL.COM";
         loginDTO.password = "12345";
         const responseLogin = await request(app.getHttpServer())
             .post('/auth/login')
@@ -76,60 +77,61 @@ describe('ReservationController', () => {
         hotelDB.pricePerNight = 35000
 
         customerDB = new Customer();
-        customerDB.identification = "1053847610";
+        customerDB.identification = "1053847612";
         customerDB.name = "Test Name";
         customerDB.auth = new Auth();
-        customerDB.auth.email = "CUSTOMER1@GMAIL.COM";
+        customerDB.auth.email = "CUSTOMER2@GMAIL.COM";
         customerDB.auth.password = "12345";
         customerDB.auth.role = Role.CUSTOMER;
 
-        await flightRepository.save(flightDB);
-        await hotelRepository.save(hotelDB);
-        await customerRepository.save(customerDB);
-
+        flightDB = await flightRepository.save(flightDB);
+        hotelDB = await hotelRepository.save(hotelDB);
+        customerDB = await customerRepository.save(customerDB);
     }, timeout);
 
-    beforeEach(async () => {
-        reservationDB = new Reservation();
-        reservationDB.reservationDate = new Date();
-        reservationDB.status = Status.PENDING;
-        reservationDB.numberNights = 3;
-        reservationDB.total = 130000;
-        reservationDB.customer = customerDB;
-        reservationDB.flight = flightDB;
-        reservationDB.hotel = hotelDB;
-    }, timeout)
-
-    afterEach(async () => {
-        await reservationRepository.delete({});
-    }, timeout)
-
     afterAll(async () => {
-        await flightRepository.delete({});
-        await hotelRepository.delete({});
-        await customerRepository.delete({})
-        await authRepository.delete({})
-        await app.close();
+      await reservationRepository.delete({id: reservation.id});
+      await flightRepository.delete({id: flightDB.id});
+      await hotelRepository.delete({id: hotelDB.id});
+      await customerRepository.delete({id: customerDB.id});
+      await authRepository.delete({email: "CUSTOMER2@GMAIL.COM"});
+      await authRepository.delete({email: "ADMIN4@GMAIL.COM"});
+      await app.close();
         
     }, timeout);
 
+    it('/reservation (POST)', async () => {
+    const reservationDTO = new ReservationDTO();
+    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
+    reservationDTO.flightId = flightDB.id;
+    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.numberNights = 10;
+    const response = await request(app.getHttpServer())
+        .post("/reservation")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(reservationDTO)
+        .expect(201);
+    reservation = plainToInstance(ReservationResponseDTO, response.body, { excludeExtraneousValues: true });
+    expect(reservation.id).toBeDefined();
+    expect(reservation.flight.id).toBe(reservationDTO.flightId);
+    expect(reservation.hotel.id).toBe(reservationDTO.hotelId);
+    expect(reservation.numberNights).toBe(reservationDTO.numberNights);
+  }, timeout);
+
   it('/reservation (GET)', async () => {
-    const reservation = await reservationRepository.save(reservationDB);
     const response = await request(app.getHttpServer())
         .get('/reservation')
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
-
-        expect(Array.isArray(response.body)).toBe(true);
-        expect(response.body.length).toBeGreaterThan(0);
-
-        expect(response.body[0].id).toBeDefined();
-        expect(response.body[0].status).toBe(reservation.status);
-        expect(response.body[0].total).toBe(reservation.total);
+    
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBeGreaterThan(0);
+    expect(response.body[0].id).toBeDefined();
+    expect(response.body[0].status).toBeDefined();
+    expect(response.body[0].total).toBeDefined();
   }, timeout);
 
   it('/reservation/:id (GET)', async () => {
-    const reservation = await reservationRepository.save(reservationDB);
     const response = await request(app.getHttpServer())
         .get('/reservation/'+ reservation.id)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -140,31 +142,12 @@ describe('ReservationController', () => {
         expect(response.body.total).toBe(reservation.total);
   }, timeout);
 
-  it('/reservation (POST)', async () => {
+  it('/reservation (UPDATE)', async () => {
     const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER1@GMAIL.COM";
+    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
     reservationDTO.flightId = flightDB.id;
     reservationDTO.hotelId = hotelDB.id;
-    reservationDTO.numberNights = 3;
-    const response = await request(app.getHttpServer())
-        .post("/reservation")
-        .set('Authorization', `Bearer ${accessToken}`)
-        .send(reservationDTO)
-        .expect(201)
-
-        expect(response.body.id).toBeDefined();
-        expect(response.body.flight.id).toBe(reservationDTO.flightId);
-        expect(response.body.hotel.id).toBe(reservationDTO.hotelId);
-        expect(response.body.numberNights).toBe(reservationDTO.numberNights);
-  }, timeout);
-
-  /**it('/reservation (UPDATE)', async () => {
-    const reservation = await reservationRepository.save(reservationDB);
-    const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER1@GMAIL.COM";
-    reservationDTO.flightId = flightDB.id;
-    reservationDTO.hotelId = hotelDB.id;
-    reservationDTO.numberNights = 7;
+    reservationDTO.numberNights = 1;
     const response = await request(app.getHttpServer())
         .put("/reservation/" + reservation.id)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -176,10 +159,8 @@ describe('ReservationController', () => {
         expect(response.body.hotel.id).toBe(reservationDTO.hotelId);
         expect(response.body.numberNights).toBe(reservationDTO.numberNights);
   }, timeout);
-  */
 
   it('/reservation (DELETE)', async () => {
-    const reservation = await reservationRepository.save(reservationDB);
     await request(app.getHttpServer())
         .delete("/reservation/" + reservation.id)
         .set('Authorization', `Bearer ${accessToken}`)

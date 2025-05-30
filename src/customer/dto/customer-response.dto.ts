@@ -3,6 +3,9 @@ import { Expose, Type } from "class-transformer";
 import { AuthResponseDTO } from "../../auth/dto/auth-response.dto";
 
 export class CustomerResponseDTO{
+    @ApiProperty({ description: "Customer ID" })
+    @Expose()
+    id: string;
     @ApiProperty({ description: "Customer full name" })
     @Expose()
     name: string;

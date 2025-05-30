@@ -64,7 +64,7 @@ export class ReservationService implements ReservationInterface {
         if(reservationExists.length > 0){
             throw new ConflictException(Constants.reservationExists);
         }
-        const total = hotelExists.pricePerNight * reservationDTO.numberNights;
+        const total = hotelExists.pricePerNight * reservationDTO.numberNights + flightExists.price;
         const reservation = plainToInstance(Reservation, reservationDTO, { excludeExtraneousValues: true });
         reservation.reservationDate = new Date();
         reservation.status = Status.PENDING;
@@ -78,12 +78,13 @@ export class ReservationService implements ReservationInterface {
         return appointmentResponseDTO;
     }
     async update(reservationDTO: ReservationDTO, id: string): Promise<ReservationResponseDTO> {
-        const reservationExists = await this.reservationRepository.findOneBy({id: id});
-        if (!reservationExists){
+        const reservation = await this.reservationRepository.findOne({where: {id: id}, relations: ['flight', 'hotel']});
+        if (!reservation){
             throw new NotFoundException(Constants.reservationNotFound);
         }
-        const reservation = plainToInstance(Reservation, reservationDTO, { excludeExtraneousValues: true })
-        reservation.id = id;
+        reservation.numberNights = reservationDTO.numberNights;
+        const total = reservation.hotel.pricePerNight * reservationDTO.numberNights + reservation.flight.price;
+        reservation.total = total;
         await this.reservationRepository.save(reservation);
         const reservationResponseDTO = plainToInstance(ReservationResponseDTO, reservation, { excludeExtraneousValues: true })
         return reservationResponseDTO;

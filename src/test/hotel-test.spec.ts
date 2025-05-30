@@ -9,6 +9,8 @@ import { RegisterDTO } from '../auth/dto/register.dto';
 import { LoginDTO } from '../auth/dto/login.dto';
 import { Auth } from '../auth/entity/auth.entity';
 import { HotelDTO } from '../hotel/dto/hotel.dto';
+import { HotelResponseDTO } from '../hotel/dto/hotel-response.dto';
+import { plainToInstance } from 'class-transformer';
 
 describe('HotelController', () => {
   let app: INestApplication;
@@ -16,52 +18,64 @@ describe('HotelController', () => {
   let hotelRepository: Repository<Hotel>;
   let authRepository: Repository<Auth>;
   let accessToken = null;
-  let hotelDB: Hotel;
+  let hotel: HotelResponseDTO;
 
-    beforeAll(async () => {
-        const moduleFixture: TestingModule = await Test.createTestingModule({
-        imports: [AppModule],
-        }).compile();
+  beforeAll(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+      }).compile();
 
-        app = moduleFixture.createNestApplication();
-        await app.init();
-        hotelRepository = moduleFixture.get<Repository<Hotel>>(getRepositoryToken(Hotel));
-        authRepository = moduleFixture.get<Repository<Auth>>(getRepositoryToken(Auth));
+      app = moduleFixture.createNestApplication();
+      await app.init();
+      hotelRepository = moduleFixture.get<Repository<Hotel>>(getRepositoryToken(Hotel));
+      authRepository = moduleFixture.get<Repository<Auth>>(getRepositoryToken(Auth));
 
-        const registerDTO = new RegisterDTO();
-        registerDTO.email = "ADMIN1@GMAIL.COM";
-        registerDTO.password = "12345";
-        await request(app.getHttpServer())
-            .post('/auth/register')
-            .send(registerDTO)
-            .expect(201)
-        
+      const registerDTO = new RegisterDTO();
+      registerDTO.email = "ADMIN3@GMAIL.COM";
+      registerDTO.password = "12345";
+      await request(app.getHttpServer())
+          .post('/auth/register')
+          .send(registerDTO)
+          .expect(201)
+      
 
-        const loginDTO = new LoginDTO();
-        loginDTO.email = "ADMIN1@GMAIL.COM";
-        loginDTO.password = "12345";
-        const responseLogin = await request(app.getHttpServer())
-            .post('/auth/login')
-            .send(loginDTO)
-            .expect(200)
-        accessToken = responseLogin.body.token;
+      const loginDTO = new LoginDTO();
+      loginDTO.email = "ADMIN3@GMAIL.COM";
+      loginDTO.password = "12345";
+      const responseLogin = await request(app.getHttpServer())
+          .post('/auth/login')
+          .send(loginDTO)
+          .expect(200)
+      accessToken = responseLogin.body.token;
+  }, timeout);
 
-        hotelDB = new Hotel();
-        hotelDB.name = "Test Name";
-        hotelDB.country = "Test Country";
-        hotelDB.city = "Test City";
-        hotelDB.category = "5";
-        hotelDB.pricePerNight = 35000;
-        hotelDB = await hotelRepository.save(hotelDB);
+  afterAll(async () => {
+    await hotelRepository.delete({id: hotel.id});
+    await authRepository.delete({email: "ADMIN3@GMAIL.COM"})
+    await app.close();
+      
+  }, timeout);
 
-    }, timeout);
+  it('/hotel (POST)', async () => {
+    const hotelDTO = new HotelDTO();
+    hotelDTO.name = "Test Name";
+    hotelDTO.country = "Test Country";
+    hotelDTO.city = "Test City";
+    hotelDTO.category = "3";
+    hotelDTO.pricePerNight = 35000;
+    const response = await request(app.getHttpServer())
+        .post("/hotel")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(hotelDTO)
+        .expect(201)
 
-    afterAll(async () => {
-      await hotelRepository.delete({});
-      await authRepository.delete({})
-      await app.close();
-        
-    }, timeout);
+    hotel = plainToInstance(HotelResponseDTO, response.body, { excludeExtraneousValues: true });
+    expect(hotel.id).toBeDefined();
+    expect(hotel.name).toBe(hotelDTO.name);
+    expect(hotel.country).toBe(hotelDTO.country);
+    expect(hotel.city).toBe(hotelDTO.city);
+    expect(hotel.pricePerNight).toBe(hotelDTO.pricePerNight);
+  }, timeout);
 
   it('/hotel (GET)', async () => {
     const response = await request(app.getHttpServer())
@@ -73,28 +87,28 @@ describe('HotelController', () => {
         expect(response.body.length).toBeGreaterThan(0);
 
         expect(response.body[0].id).toBeDefined();
-        expect(response.body[0].name).toBe(hotelDB.name);
-        expect(response.body[0].country).toBe(hotelDB.country);
-        expect(response.body[0].city).toBe(hotelDB.city);
-        expect(response.body[0].pricePerNight).toBe(hotelDB.pricePerNight);
+        expect(response.body[0].name).toBeDefined();
+        expect(response.body[0].country).toBeDefined();
+        expect(response.body[0].city).toBeDefined();
+        expect(response.body[0].pricePerNight).toBeDefined();
   }, timeout);
 
   it('/hotel/:id (GET)', async () => {
     const response = await request(app.getHttpServer())
-        .get('/hotel/'+ hotelDB.id)
+        .get('/hotel/'+ hotel.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
 
         expect(response.body.id).toBeDefined();
-        expect(response.body.name).toBe(hotelDB.name);
-        expect(response.body.country).toBe(hotelDB.country);
-        expect(response.body.city).toBe(hotelDB.city);
-        expect(response.body.pricePerNight).toBe(hotelDB.pricePerNight);
+        expect(response.body.name).toBe(hotel.name);
+        expect(response.body.country).toBe(hotel.country);
+        expect(response.body.city).toBe(hotel.city);
+        expect(response.body.pricePerNight).toBe(hotel.pricePerNight);
   }, timeout);
 
   it('/hotel/country/:country/city/:city (GET)', async () => {
     const response = await request(app.getHttpServer())
-        .get('/hotel/country/'+ hotelDB.country + "/city/" + hotelDB.city)
+        .get('/hotel/country/'+ hotel.country + "/city/" + hotel.city)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
 
@@ -102,38 +116,17 @@ describe('HotelController', () => {
         expect(response.body.length).toBeGreaterThan(0);
 
         expect(response.body[0].id).toBeDefined();
-        expect(response.body[0].name).toBe(hotelDB.name);
-        expect(response.body[0].country).toBe(hotelDB.country);
-        expect(response.body[0].city).toBe(hotelDB.city);
-        expect(response.body[0].pricePerNight).toBe(hotelDB.pricePerNight);
+        expect(response.body[0].name).toBeDefined();
+        expect(response.body[0].country).toBeDefined();
+        expect(response.body[0].city).toBeDefined();
+        expect(response.body[0].pricePerNight).toBeDefined();
   }, timeout);
 
-  it('/hotel (POST)', async () => {
+  it('/hotel (UPDATE)', async () => {
     const hotelDTO = new HotelDTO();
     hotelDTO.name = "Test Name 2";
     hotelDTO.country = "Test Country 2";
     hotelDTO.city = "Test City 2";
-    hotelDTO.category = "3";
-    hotelDTO.pricePerNight = 35000;
-    const response = await request(app.getHttpServer())
-        .post("/hotel")
-        .set('Authorization', `Bearer ${accessToken}`)
-        .send(hotelDTO)
-        .expect(201)
-
-        expect(response.body.id).toBeDefined();
-        expect(response.body.name).toBe(hotelDTO.name);
-        expect(response.body.country).toBe(hotelDTO.country);
-        expect(response.body.city).toBe(hotelDTO.city);
-        expect(response.body.pricePerNight).toBe(hotelDTO.pricePerNight);
-  }, timeout);
-
-  it('/hotel (UPDATE)', async () => {
-    const hotel = await hotelRepository.save(hotelDB);
-    const hotelDTO = new HotelDTO();
-    hotelDTO.name = "Test Name 3";
-    hotelDTO.country = "Test Country 3";
-    hotelDTO.city = "Test City 3";
     hotelDTO.category = "1";
     hotelDTO.pricePerNight = 45000;
     const response = await request(app.getHttpServer())
@@ -151,7 +144,7 @@ describe('HotelController', () => {
 
   it('/hotel (DELETE)', async () => {
     await request(app.getHttpServer())
-        .delete("/hotel/" + hotelDB.id)
+        .delete("/hotel/" + hotel.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
   }, timeout);
