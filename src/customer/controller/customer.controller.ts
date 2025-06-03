@@ -61,12 +61,12 @@ export class CustomerController {
     }
 
     @ApiOperation({ summary : "Delete an customer by uuid" })
-    @ApiResponse({status : 201, description : "Customer deleted successfully"})
+    @ApiResponse({status : 200, description : "Customer deleted successfully"})
     @ApiResponse({status : 404, description : "Customer not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Delete(":id")
-    delete(@Param("id", ParseUUIDPipe) id: string){
-        this.customerService.delete(id);
+    async delete(@Param("id", ParseUUIDPipe) id: string){
+        await this.customerService.delete(id);
     }
 }

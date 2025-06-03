@@ -106,6 +106,13 @@ describe('HotelController', () => {
         expect(response.body.pricePerNight).toBe(hotel.pricePerNight);
   }, timeout);
 
+  it('/hotel/:id (NOT FOUND)', async () => {
+    const response = await request(app.getHttpServer())
+        .get('/hotel/'+ "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+
   it('/hotel/country/:country/city/:city (GET)', async () => {
     const response = await request(app.getHttpServer())
         .get('/hotel/country/'+ hotel.country + "/city/" + hotel.city)
@@ -142,10 +149,31 @@ describe('HotelController', () => {
         expect(response.body.pricePerNight).toBe(hotelDTO.pricePerNight);
   }, timeout);
 
+  it('/hotel (UPDATE NOT FOUND)', async () => {
+    const hotelDTO = new HotelDTO();
+    hotelDTO.name = "Test Name 2";
+    hotelDTO.country = "Test Country 2";
+    hotelDTO.city = "Test City 2";
+    hotelDTO.category = "1";
+    hotelDTO.pricePerNight = 45000;
+    const response = await request(app.getHttpServer())
+        .put("/hotel/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(hotelDTO)
+        .expect(404)
+  }, timeout);
+
   it('/hotel (DELETE)', async () => {
     await request(app.getHttpServer())
         .delete("/hotel/" + hotel.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
+  }, timeout);
+
+  it('/hotel (DELETE NOT FOUND)', async () => {
+    await request(app.getHttpServer())
+        .delete("/hotel/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
   }, timeout);
 });

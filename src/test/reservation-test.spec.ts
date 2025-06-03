@@ -100,7 +100,7 @@ describe('ReservationController', () => {
         
     }, timeout);
 
-    it('/reservation (POST)', async () => {
+  it('/reservation (POST)', async () => {
     const reservationDTO = new ReservationDTO();
     reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
     reservationDTO.flightId = flightDB.id;
@@ -116,6 +116,45 @@ describe('ReservationController', () => {
     expect(reservation.flight.id).toBe(reservationDTO.flightId);
     expect(reservation.hotel.id).toBe(reservationDTO.hotelId);
     expect(reservation.numberNights).toBe(reservationDTO.numberNights);
+  }, timeout);
+
+  it('/reservation (POST CUSTOMER NOT FOUND)', async () => {
+    const reservationDTO = new ReservationDTO();
+    reservationDTO.customerEmail = "CUSTOMER0@GMAIL.COM";
+    reservationDTO.flightId = flightDB.id;
+    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.numberNights = 10;
+    const response = await request(app.getHttpServer())
+        .post("/reservation")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(reservationDTO)
+        .expect(404);
+  }, timeout);
+
+  it('/reservation (POST FLIGHT NOT FOUND)', async () => {
+    const reservationDTO = new ReservationDTO();
+    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
+    reservationDTO.flightId = "6c1c4700-f515-4924-bfb3-02823bfd45e1";
+    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.numberNights = 10;
+    const response = await request(app.getHttpServer())
+        .post("/reservation")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(reservationDTO)
+        .expect(404);
+  }, timeout);
+
+  it('/reservation (POST HOTEL NOT FOUND)', async () => {
+    const reservationDTO = new ReservationDTO();
+    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
+    reservationDTO.flightId = flightDB.id;
+    reservationDTO.hotelId = "6c1c4700-f515-4924-bfb3-02823bfd45e1";
+    reservationDTO.numberNights = 10;
+    const response = await request(app.getHttpServer())
+        .post("/reservation")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(reservationDTO)
+        .expect(404);
   }, timeout);
 
   it('/reservation (GET)', async () => {
@@ -142,6 +181,52 @@ describe('ReservationController', () => {
         expect(response.body.total).toBe(reservation.total);
   }, timeout);
 
+  it('/reservation/:id (NOT FOUND)', async () => {
+    await request(app.getHttpServer())
+        .get('/reservation/'+ "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+
+  it('/reservation/:id (GET)', async () => {
+    const response = await request(app.getHttpServer())
+        .get('/reservation/'+ reservation.id)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(200)
+
+        expect(response.body.id).toBeDefined();
+        expect(response.body.status).toBe(reservation.status);
+        expect(response.body.total).toBe(reservation.total);
+  }, timeout);
+
+  it('/reservation/confirm/:id (GET)', async () => {
+    await request(app.getHttpServer())
+        .get('/reservation/confirm/'+ reservation.id)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(200)
+  }, timeout);
+
+  it('/reservation/confirm/:id (NOT FOUND)', async () => {
+    await request(app.getHttpServer())
+        .get('/reservation/confirm/'+ "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+
+  it('/reservation/cancel/:id (GET)', async () => {
+    await request(app.getHttpServer())
+        .get('/reservation/cancel/'+ reservation.id)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(409)
+  }, timeout);
+
+  it('/reservation/cancel/:id (NOT FOUND)', async () => {
+    await request(app.getHttpServer())
+        .get('/reservation/cancel/'+ "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+
   it('/reservation (UPDATE)', async () => {
     const reservationDTO = new ReservationDTO();
     reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
@@ -160,10 +245,30 @@ describe('ReservationController', () => {
         expect(response.body.numberNights).toBe(reservationDTO.numberNights);
   }, timeout);
 
+  it('/reservation (UPDATE NOT FOUND)', async () => {
+    const reservationDTO = new ReservationDTO();
+    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
+    reservationDTO.flightId = flightDB.id;
+    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.numberNights = 1;
+    const response = await request(app.getHttpServer())
+        .put("/reservation/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(reservationDTO)
+        .expect(404)
+  }, timeout);
+
   it('/reservation (DELETE)', async () => {
     await request(app.getHttpServer())
         .delete("/reservation/" + reservation.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
   }, timeout);
+
+  it('/reservation (DELETE NOT FOUND)', async () => {
+      await request(app.getHttpServer())
+          .delete("/reservation/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+          .set('Authorization', `Bearer ${accessToken}`)
+          .expect(404)
+    }, timeout);
 });

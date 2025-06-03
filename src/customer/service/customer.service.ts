@@ -71,7 +71,7 @@ export class CustomerService implements CustomerInterface {
     }
 
     async delete(id: string): Promise<void> {
-        const customerExists = await this.customerRepository.findOneBy({id: id});
+        const customerExists = await this.customerRepository.findOne({where: {id: id}});
         if (!customerExists){
             throw new NotFoundException(Constants.customerNotFound);
         }

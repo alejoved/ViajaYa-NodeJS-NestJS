@@ -98,6 +98,30 @@ describe('CustomerController', () => {
         expect(response.body.name).toBe(customer.name);
   }, timeout);
 
+  it('/customer/:id (NOT FOUND)', async () => {
+    const response = await request(app.getHttpServer())
+        .get('/customer/'+ "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+
+  it('/customer/email/:email (GET)', async () => {
+    const response = await request(app.getHttpServer())
+        .get('/customer/email/'+ customer.auth.email)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(200)
+
+        expect(response.body.identification).toBe(customer.identification);
+        expect(response.body.name).toBe(customer.name);
+  }, timeout);
+
+  it('/customer/email/:email (NOT FOUND)', async () => {
+    const response = await request(app.getHttpServer())
+        .get('/customer/email/'+ "NONE@GMAIL.COM")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+
   it('/customer (UPDATE)', async () => {
     const customerDTO = new CustomerDTO();
     customerDTO.identification = "1053847611";
@@ -114,10 +138,31 @@ describe('CustomerController', () => {
         expect(response.body.name).toBe(customerDTO.name);
   }, timeout);
 
+  it('/customer (UPDATE NOT FOUND)', async () => {
+    const customerDTO = new CustomerDTO();
+    customerDTO.identification = "1053847611";
+    customerDTO.name = "Test Name 2";
+    customerDTO.email = "CUSTOMER1@GMAIL.COM";
+    customerDTO.password = "12345";
+    const response = await request(app.getHttpServer())
+        .put("/customer/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(customerDTO)
+        .expect(404)
+  }, timeout);
+
   it('/customer (DELETE)', async () => {
     await request(app.getHttpServer())
         .delete("/customer/" + customer.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
   }, timeout);
+
+  it('/customer (DELETE NOT FOUND)', async () => {
+    await request(app.getHttpServer())
+        .delete("/customer/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+  
 });

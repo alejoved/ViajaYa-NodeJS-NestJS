@@ -25,18 +25,13 @@ export class AuthService implements AuthInterface {
       ) {}
 
     async register(registerDTO: RegisterDTO): Promise<RegisterResponseDTO>{
-        try {
-            const password = hashSync(registerDTO.password, 3); 
-            const auth = plainToInstance(Auth, registerDTO, {excludeExtraneousValues: true});
-            auth.password = password;
-            auth.role = Role.ADMIN;
-            this.authRepository.create(auth);
-            await this.authRepository.save(auth);
-            return plainToInstance(RegisterResponseDTO, auth, {excludeExtraneousValues: true});
-        } catch(error){
-            this.logger.error(error.message);
-            throw new InternalServerErrorException();
-        }
+      const password = hashSync(registerDTO.password, 3); 
+      const auth = plainToInstance(Auth, registerDTO, {excludeExtraneousValues: true});
+      auth.password = password;
+      auth.role = Role.ADMIN;
+      this.authRepository.create(auth);
+      await this.authRepository.save(auth);
+      return plainToInstance(RegisterResponseDTO, auth, {excludeExtraneousValues: true});
     }
     async login(loginDTO: LoginDTO): Promise<LoginResponseDTO>{
         try {
@@ -59,7 +54,7 @@ export class AuthService implements AuthInterface {
               if(error instanceof NotFoundException){
                 throw error;
               }
-            throw new InternalServerErrorException();
+              throw new InternalServerErrorException();
           }
     }
 }

@@ -62,12 +62,12 @@ export class HotelController {
     }
 
     @ApiOperation({ summary : "Delete an hotel by uuid" })
-    @ApiResponse({status : 201, description : "Hotel deleted successfully"})
+    @ApiResponse({status : 200, description : "Hotel deleted successfully"})
     @ApiResponse({status : 404, description : "Hotel not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Delete(":id")
-    delete(@Param("id", ParseUUIDPipe) id: string){
-        this.hotelService.delete(id);
+    async delete(@Param("id", ParseUUIDPipe) id: string){
+        await this.hotelService.delete(id);
     }
 }

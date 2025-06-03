@@ -111,6 +111,27 @@ describe('FlightController', () => {
         expect(response.body.price).toBe(flight.price);
   }, timeout);
 
+  it('/flight/:id (NOT FOUND)', async () => {
+    const response = await request(app.getHttpServer())
+        .get('/flight/'+ "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
+  }, timeout);
+
+  it('/flight/origin/:origin/destiny/:destiny (GET)', async () => {
+    const response = await request(app.getHttpServer())
+        .get('/flight/origin/'+ flight.origin + "/destiny/" + flight.destiny)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(200)
+
+        expect(response.body[0].id).toBeDefined();
+        expect(response.body[0].airline).toBeDefined();
+        expect(response.body[0].origin).toBeDefined();
+        expect(response.body[0].destiny).toBeDefined();
+        expect(response.body[0].layovers).toBeDefined();
+        expect(response.body[0].price).toBeDefined();
+  }, timeout);
+
   it('/flight (UPDATE)', async () => {
     const flightDTO = new FlightDTO();
     flightDTO.airline = "Test Airline 2";
@@ -133,10 +154,32 @@ describe('FlightController', () => {
         expect(response.body.price).toBe(flightDTO.price);
   }, timeout);
 
+  it('/flight (UPDATE NOT FOUND)', async () => {
+    const flightDTO = new FlightDTO();
+    flightDTO.airline = "Test Airline 2";
+    flightDTO.origin = "Test Origin 2";
+    flightDTO.destiny = "Test Destiny 2";
+    flightDTO.departure = new Date();
+    flightDTO.layovers = false;
+    flightDTO.price = 45000;
+    const response = await request(app.getHttpServer())
+        .put("/flight/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(flightDTO)
+        .expect(404)
+  }, timeout);
+
   it('/flight (DELETE)', async () => {
     await request(app.getHttpServer())
         .delete("/flight/" + flight.id)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
+  }, timeout);
+
+  it('/flight (DELETE)', async () => {
+    await request(app.getHttpServer())
+        .delete("/flight/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")
+        .set('Authorization', `Bearer ${accessToken}`)
+        .expect(404)
   }, timeout);
 });

@@ -57,8 +57,8 @@ export class ReservationController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Delete(":id")
-    delete(@Param("id", ParseUUIDPipe) id: string){
-        this.reservationService.delete(id);
+    async delete(@Param("id", ParseUUIDPipe) id: string){
+        await this.reservationService.delete(id);
     }
 
     @ApiOperation({ summary : "Confirm a reservation by uuid" })
@@ -68,8 +68,8 @@ export class ReservationController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Get("/confirm/:id")
-    confirm(@Param("id", ParseUUIDPipe) id: string){
-        this.reservationService.confirm(id);
+    async confirm(@Param("id", ParseUUIDPipe) id: string){
+        await this.reservationService.confirm(id);
     }
 
     @ApiOperation({ summary : "Cancel a reservation by uuid" })
@@ -79,7 +79,7 @@ export class ReservationController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Get("/cancel/:id")
-    cancel(@Param("id", ParseUUIDPipe) id: string){
-        this.reservationService.cancel(id);
+    async cancel(@Param("id", ParseUUIDPipe) id: string){
+        await this.reservationService.cancel(id);
     }
 }

@@ -31,6 +31,16 @@ export class FlightController {
     getById(@Param("id", ParseUUIDPipe) id: string){
         return this.flightService.getById(id);
     }
+
+    @ApiOperation({ summary : "Get an flight by origin and destiny" })
+    @ApiResponse({status : 200, description : "Get an flight successfully", type: FlightResponseDTO})
+    @ApiResponse({status : 404, description : "Flight not found"})
+    @ApiResponse({status : 500, description : "Internal server error"})
+    @Auth()
+    @Get("/origin/:origin/destiny/:destiny")
+    getByOriginAndDestiny(@Param("origin") origin: string, @Param("destiny") destiny: string ){
+        return this.flightService.getByOriginAndDestiny(origin, destiny);
+    }
     
     @ApiOperation({ summary : "Create a new flight associated with a origin and destiny" })
     @ApiResponse({status : 201, description : "Flight created successfully", type: FlightResponseDTO})
@@ -58,7 +68,7 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @Auth(Role.ADMIN)
     @Delete(":id")
-    delete(@Param("id", ParseUUIDPipe) id: string){
-        this.flightService.delete(id);
+    async delete(@Param("id", ParseUUIDPipe) id: string){
+        await this.flightService.delete(id);
     }
 }
