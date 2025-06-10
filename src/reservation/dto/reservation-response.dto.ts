@@ -2,7 +2,7 @@ import { Expose, Transform, Type } from "class-transformer";
 import { format } from 'date-fns';
 import { ApiProperty } from "@nestjs/swagger";
 import { CustomerResponseDTO } from "../../customer/dto/customer-response.dto";
-import { FlightResponseDTO } from "../../flight/dto/fligth-response.dto";
+import { FlightResponseDTO } from "../../flight/adapter/dto/fligth-response-dto";
 import { HotelResponseDTO } from "../../hotel/dto/hotel-response.dto";
 import { Status } from "../../common/status";
 

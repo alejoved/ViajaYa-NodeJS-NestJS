@@ -1,9 +1,9 @@
 import { Body, Controller, HttpCode, Inject, Post } from '@nestjs/common';
-import { RegisterDTO } from '../dto/register.dto';
-import { LoginDTO } from '../dto/login.dto';
+import { RegisterDTO } from '../dto/register-dto';
+import { LoginDTO } from '../dto/login-dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { LoginResponseDTO } from '../dto/login-response.dto';
-import { RegisterResponseDTO } from '../dto/register-response.dto';
+import { LoginResponseDTO } from '../dto/login-response-dto';
+import { RegisterResponseDTO } from '../dto/register-response-dto';
 import { RegisterCommand } from '../../../auth/application/command/register-command';
 import { plainToInstance } from 'class-transformer';
 import { LoginCommand } from '../../../auth/application/command/login-command';

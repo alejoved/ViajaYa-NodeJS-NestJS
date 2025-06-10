@@ -4,7 +4,7 @@ import { ReservationService } from './service/reservation.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Reservation } from './entity/reservation.entity';
 import { Customer } from '../customer/entity/customer.entity';
-import { Flight } from '../flight/entity/flight.entity';
+import { Flight } from '../flight/infrastructure/model/flight';
 import { Hotel } from '../hotel/entity/hotel.entity';
 
 @Module({

@@ -4,12 +4,12 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Flight } from '../flight/entity/flight.entity';
-import { RegisterDTO } from '../auth/adapter/dto/register.dto';
-import { LoginDTO } from '../auth/adapter/dto/login.dto';
+import { Flight } from '../flight/infrastructure/model/flight';
+import { RegisterDTO } from '../auth/adapter/dto/register-dto';
+import { LoginDTO } from '../auth/adapter/dto/login-dto';
 import { Auth } from '../auth/entity/auth.entity';
-import { FlightDTO } from '../flight/dto/fligth.dto';
-import { FlightResponseDTO } from '../flight/dto/fligth-response.dto';
+import { FlightDTO } from '../flight/adapter/dto/fligth-dto';
+import { FlightResponseDTO } from '../flight/adapter/dto/fligth-response-dto';
 import { plainToInstance } from 'class-transformer';
 
 describe('FlightController', () => {

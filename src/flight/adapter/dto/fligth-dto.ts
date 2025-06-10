@@ -29,5 +29,4 @@ export class FlightDTO{
     @IsNotEmpty()
     @IsString()
     price: number;
-
 }

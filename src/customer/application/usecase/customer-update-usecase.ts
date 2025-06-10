@@ -9,7 +9,7 @@ import { CustomerUpdateCommand } from "../command/customer-update-command";
 @Injectable()
 export class CustomerUpdateUseCase implements CustomerUpdateUseCaseInterface {
 
-    private readonly logger = new Logger("AuthService");
+    private readonly logger = new Logger("CustomerUpdateUseCase");
 
     constructor(
         @Inject('CustomerRepositoryInterface')

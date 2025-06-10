@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, Inject } from '@nestjs/common';
 import { Role } from '../../../common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CustomerDTO } from '../dto/customer.dto';
+import { CustomerDTO } from '../dto/customer-dto';
 import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
 import { CustomerGetUseCaseInterface } from '../../../customer/application/port/customer-get-usecase.interface';
 import { CustomerCreateUseCaseInterface } from '../../../customer/application/port/customer-create-usecase.interface';
 import { CustomerUpdateUseCaseInterface } from '../../../customer/application/port/customer-update-usecase.interface';
 import { CustomerDeleteUseCaseInterface } from '../../../customer/application/port/customer-delete-usecase.interface';
 import { plainToInstance } from 'class-transformer';
-import { CustomerResponseDTO } from '../dto/customer-response.dto';
+import { CustomerResponseDTO } from '../dto/customer-response-dto';
 import { CustomerCreateCommand } from 'src/customer/application/command/customer-create-command';
 
 @ApiTags('Customers')
@@ -88,6 +88,6 @@ export class CustomerController {
     @AuthDecorator(Role.ADMIN)
     @Delete(":id")
     async delete(@Param("id", ParseUUIDPipe) id: string){
-        this.customerDeleteUseCaseInterface.execute(id);
+        await this.customerDeleteUseCaseInterface.execute(id);
     }
 }

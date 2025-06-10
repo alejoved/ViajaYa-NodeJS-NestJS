@@ -7,7 +7,7 @@ import { plainToInstance } from "class-transformer";
 import { Constants } from "../../common/constants";
 import { Reservation } from "../entity/reservation.entity";
 import { ReservationDTO } from "../dto/reservation.dto";
-import { Flight } from "../../flight/entity/flight.entity";
+import { Flight } from "../../flight/infrastructure/model/flight";
 import { Hotel } from "../../hotel/entity/hotel.entity";
 import { Customer } from "../../customer/entity/customer.entity";
 import { Status } from "../../common/status";
