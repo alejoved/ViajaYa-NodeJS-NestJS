@@ -130,3 +130,107 @@ GET /api (una vez corriendo el servidor)
 docker-compose up --build
 ```
 ---
+
+## Arquitecturas populares
+
+### Arquitectura Hexagonal
+✅ ¿Por qué se usa?
+Facilita la separación de la lógica de negocio del resto de la infraestructura (como bases de datos, controladores web, mensajería).
+🧩 En un microservicio típico:
+Dominio: núcleo del sistema (modelos y reglas).
+Aplicación: casos de uso.
+Adapters: REST controllers, repositorios, clientes externos.
+Ports: interfaces para entrada (controladores) y salida (repositorios, clientes).
+
+### Arquitectura en capas
+🧩 Estructura típica:
+Presentation Layer (controladores REST, UI)
+Service Layer (lógica de negocio)
+Repository/DAO Layer (acceso a datos)
+Database (persistencia)
+✅ Pros:
+Fácil de entender y aplicar.
+Muy común en aplicaciones web tradicionales.
+Bien soportada por frameworks como Spring.
+❌ Contras:
+Alta dependencia entre capas.
+Poca separación entre infraestructura y dominio.
+Puede volverse monolítica si no se gestiona bien.
+
+### Clean Architecture
+🧩 Estructura:
+Entidades (Entities): lógica del dominio.
+Casos de uso (Use Cases): reglas específicas de la aplicación.
+Interfaces (Gateways): definiciones de comunicación.
+Frameworks/Drivers: controladores, DB, red.
+✅ Pros:
+Aislamiento total del dominio frente a tecnologías externas.
+Altamente testeable y mantenible.
+❌ Contras:
+Mayor complejidad inicial.
+Puede sentirse “overkill” para proyectos pequeños.
+
+### Arquitectura orientada a dominio
+🧩 Estructura:
+Bounded Contexts, Agregados, Entidades, Repositorios, Servicios de Dominio.
+Compatible con hexagonal, onion, clean, etc.
+✅ Pros:
+Fuerte alineación entre modelo de negocio y código.
+Útil en sistemas complejos y con lógica rica.
+❌ Contras:
+Requiere conocimiento profundo de DDD.
+Innecesario para proyectos simples o CRUD.
+
+🧠 Clean Architecture: Visión general
+Clean Architecture separa las responsabilidades en capas concéntricas, priorizando la independencia del negocio frente a frameworks, bases de datos o protocolos externos.
+
+🗂️ Estructura de carpetas típica
+src/
+├── domain/
+│   ├── model/
+│   └── repository/
+├── application/
+│   ├── usecase/
+│   ├── command/ (o dto/)
+│   ├── port/
+│   └── model/ (opcional para respuestas)
+├── adapter/
+│   ├── controller/
+│   ├── dto/
+│   └── mapper/
+├── infrastructure/
+│   ├── repository/
+│   └── config/
+└── main.ts / app.module.ts
+
+1. 📦 domain/ (Nivel más interno)
+Responsabilidad: Define las reglas de negocio puras. Esta capa no depende de nada externo.
+model/: Entidades del dominio con lógica de negocio. Ej: User, Order, Auth, etc.
+repository/: Interfaces para acceder a datos desde el dominio (ej: UserRepositoryInterface).
+✅ Nunca debe importar cosas de NestJS, TypeORM, Axios, etc.
+
+2. ⚙️ application/
+Responsabilidad: Casos de uso. Aquí se orquesta la lógica de negocio con inputs del mundo exterior.
+usecase/: Casos de uso como RegisterUserUseCase, LoginUseCase, CreateReservationUseCase, etc.
+command/: Objetos que representan la intención del usuario (input del caso de uso).
+port/: Interfaces de entrada (RegisterUseCaseInterface) y salida (EmailService, AuthRepositoryInterface).
+model/: (Opcional) modelos que representan salidas (puedes usarlos en vez de devolver directamente DTOs).
+✅ Puede depender de domain/, pero no de adapter/ ni infrastructure/.
+
+3. 🌐 adapter/
+Responsabilidad: Adapta la comunicación externa al sistema.
+controller/: Controladores HTTP (o GraphQL, gRPC, etc.). Aquí llega el request.
+dto/: Objetos que representan datos del request/response HTTP. Solo usados aquí.
+mapper/: Opcional, traduce entre DTO ↔ Command, o ResponseModel ↔ DTO.
+✅ Depende de application/, nunca al revés.
+
+4. 🧱 infrastructure/
+Responsabilidad: Implementación concreta de tecnologías externas.
+repository/: Implementación concreta de las interfaces del dominio usando TypeORM, Sequelize, etc.
+config/: Configuración de seguridad, JWT, guards, strategies, etc.
+También puedes tener: services/ (para enviar emails, logs, etc.)
+✅ Implementa interfaces del domain o application pero no las define.
+
+5. 🚀 main.ts y app.module.ts
+Se usa para bootstrapping y registrar dependencias.
+Aquí haces el binding: provide: 'AuthRepositoryInterface', useClass: AuthRepository.

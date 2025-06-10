@@ -5,10 +5,10 @@ import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Customer } from '../customer/entity/customer.entity';
-import { LoginDTO } from '../auth/dto/login.dto';
+import { LoginDTO } from '../auth/adapter/dto/login.dto';
 import { Auth } from '../auth/entity/auth.entity';
-import { CustomerDTO } from '../customer/dto/customer.dto';
-import { RegisterDTO } from '../auth/dto/register.dto';
+import { CustomerDTO } from '../customer/adapter/dto/customer.dto';
+import { RegisterDTO } from '../auth/adapter/dto/register.dto';
 import { plainToInstance } from 'class-transformer';
 import { CustomerResponseDTO } from '../customer/dto/customer-response.dto';
 

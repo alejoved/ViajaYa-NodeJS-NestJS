@@ -1,13 +1,19 @@
 import { Module } from '@nestjs/common';
-import { CustomerController } from './controller/customer.controller';
-import { CustomerService } from './service/customer.service';
-import { Customer } from './entity/customer.entity';
+import { CustomerController } from './adapter/controller/customer.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Auth } from '../auth/entity/auth.entity';
+import { Customer } from './infrastructure/model/customer';
+import { Auth } from '../auth/infrastructure/model/auth';
+import { CustomerGetUseCase } from './application/usecase/customer-get-usecase';
+import { CustomerCreateUseCase } from './application/usecase/customer-create-usecase';
+import { CustomerUpdateUseCase } from './application/usecase/customer-update-usecase';
+import { CustomerDeleteUseCase } from './application/usecase/customer-delete-usecase';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Customer]), TypeOrmModule.forFeature([Auth])],
     controllers: [CustomerController],
-    providers: [CustomerService],
+    providers: [{provide: "CustomerGetUseCaseInterface", useClass: CustomerGetUseCase}, 
+                {provide: "CustomerCreateUseCaseInterface", useClass: CustomerCreateUseCase},
+                {provide: "CustomerUpdateUseCaseInterface", useClass: CustomerUpdateUseCase},
+                {provide: "CustomerDeleteUseCaseInterface", useClass: CustomerDeleteUseCase}],
 })
 export class CustomerModule {}

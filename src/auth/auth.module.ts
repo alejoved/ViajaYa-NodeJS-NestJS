@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './controller/auth.controller';
-import { AuthService } from './service/auth.service';
-import { Auth } from './entity/auth.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtStrategy } from '../config/jwt-starategy';
+import { JwtStrategy } from './infrastructure/config/jwt-starategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthController } from './adapter/controller/auth.controller';
+import { LoginUseCase } from './application/usecase/login-usecase';
+import { RegisterUseCase } from './application/usecase/register-usecase';
+import { AuthRepository } from './infrastructure/repository/auth-repository';
+import { Auth } from './infrastructure/model/auth';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Auth]),
@@ -20,6 +22,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         }),
       }),],
     controllers: [AuthController],
-    providers: [AuthService, JwtStrategy]
+    providers: [JwtStrategy, 
+      {provide: "LoginUseCaseInterface", useClass: LoginUseCase}, 
+      {provide: "RegisterUseCaseInterface", useClass: RegisterUseCase},
+      {provide: "AuthRepositoryInterface", useClass: AuthRepository}],
+    
 })
 export class AuthModule {}

@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
-import { Auth } from '../../config/auth.decorator';
 import { ReservationService } from '../service/reservation.service';
 import { Role } from '../../common/role';
 import { ReservationDTO } from '../dto/reservation.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ReservationResponseDTO } from '../dto/reservation-response.dto';
+import { Auth } from '../../auth/infrastructure/config/auth.decorator';
 
 @ApiTags('Reservations')
 @Controller('reservation')

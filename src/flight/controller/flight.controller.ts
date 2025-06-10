@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe } from '@nestjs/common';
 import { FlightService } from '../service/flight.service';
-import { Auth } from '../../config/auth.decorator';
 import { Role } from '../../common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FlightDTO } from '../dto/fligth.dto';
 import { FlightResponseDTO } from '../dto/fligth-response.dto';
+import { Auth } from '../../auth/infrastructure/config/auth.decorator';
 
 @ApiTags('Flights')
 @Controller('flight')

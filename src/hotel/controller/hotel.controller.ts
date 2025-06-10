@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe } from '@nestjs/common';
 import { HotelDTO } from '../dto/hotel.dto';
-import { Auth } from '../../config/auth.decorator';
 import { Role } from '../../common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HotelResponseDTO } from '../dto/hotel-response.dto';
 import { HotelService } from '../service/hotel.service';
+import { Auth } from '../../auth/infrastructure/config/auth.decorator';
 
 @ApiTags('Hotels')
 @Controller('hotel')
