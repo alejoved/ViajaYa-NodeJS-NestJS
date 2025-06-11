@@ -4,12 +4,12 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Hotel } from '../hotel/entity/hotel.entity';
+import { Hotel } from '../hotel/infrastructure/model/hotel';
 import { RegisterDTO } from '../auth/adapter/dto/register-dto';
 import { LoginDTO } from '../auth/adapter/dto/login-dto';
 import { Auth } from '../auth/entity/auth.entity';
-import { HotelDTO } from '../hotel/dto/hotel.dto';
-import { HotelResponseDTO } from '../hotel/dto/hotel-response.dto';
+import { HotelDTO } from '../hotel/adapter/dto/hotel.dto';
+import { HotelResponseDTO } from '../hotel/adapter/dto/hotel-response.dto';
 import { plainToInstance } from 'class-transformer';
 
 describe('HotelController', () => {

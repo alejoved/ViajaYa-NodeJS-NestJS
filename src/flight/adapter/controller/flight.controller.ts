@@ -18,7 +18,7 @@ export class FlightController {
     constructor(@Inject("FlightGetUseCaseInterface") private readonly flightGetUseCaseInterface: FlightGetUseCaseInterface,
                 @Inject("FlightCreateUseCaseInterface") private readonly flightCreateUseCaseInterface: FlightCreateUseCaseInterface,
                 @Inject("FlightUpdateUseCaseInterface") private readonly flightUpdateUseCaseInterface: FlightUpdateUseCaseInterface,
-                @Inject("FlightDeleteUseCaseInterface") private readonly flightDeleteUseCaseInterface: FlightDeleteUseCaseInterface, ){} 
+                @Inject("FlightDeleteUseCaseInterface") private readonly flightDeleteUseCaseInterface: FlightDeleteUseCaseInterface ){} 
 
     @ApiOperation({ summary : "Get all flights currently" })
     @ApiResponse({status : 200, description : "Get all flights successfully", type: [FlightResponseDTO]})

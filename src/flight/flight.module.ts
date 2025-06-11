@@ -6,6 +6,7 @@ import { FlightGetUseCase } from './application/usecase/flight-get-usecase';
 import { FlightCreateUseCase } from './application/usecase/flight-create-usecase';
 import { FlightUpdateUseCase } from './application/usecase/flight-update-usecase';
 import { FlightDeleteUseCase } from './application/usecase/flight-delete-usecase';
+import { FlightRepository } from './infrastructure/repository/flight-repository';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Flight])],
@@ -13,6 +14,7 @@ import { FlightDeleteUseCase } from './application/usecase/flight-delete-usecase
     providers: [{provide: "FlightGetUseCaseInterface", useClass: FlightGetUseCase}, 
                 {provide: "FlightCreateUseCaseInterface", useClass: FlightCreateUseCase},
                 {provide: "FlightUpdateUseCaseInterface", useClass: FlightUpdateUseCase},
-                {provide: "FlightDeleteUseCaseInterface", useClass: FlightDeleteUseCase}],
+                {provide: "FlightDeleteUseCaseInterface", useClass: FlightDeleteUseCase},
+                {provide: "FlightRepositoryInterface", useClass: FlightRepository}],
 })
 export class FlightModule {}

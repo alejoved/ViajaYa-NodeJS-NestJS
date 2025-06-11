@@ -6,5 +6,4 @@ export class FlightModel {
     departure: Date;
     layovers: boolean;
     price: number;
-
 }

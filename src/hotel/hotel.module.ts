@@ -1,12 +1,20 @@
 import { Module } from '@nestjs/common';
-import { HotelController } from './controller/hotel.controller';
-import { HotelService } from './service/hotel.service';
-import { Hotel } from './entity/hotel.entity';
+import { Hotel } from './infrastructure/model/hotel';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { HotelController } from './adapter/controller/hotel.controller';
+import { HotelGetUseCase } from './application/usecase/hotel-get-usecase';
+import { HotelCreateUseCase } from './application/usecase/hotel-create-usecase';
+import { HotelUpdateUseCase } from './application/usecase/hotel-update-usecase';
+import { HotelDeleteUseCase } from './application/usecase/hotel-delete-usecase';
+import { HotelRepository } from './infrastructure/repository/hotel-repository';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Hotel])],
     controllers: [HotelController],
-    providers: [HotelService],
+    providers: [{provide: "HotelGetUseCaseInterface", useClass: HotelGetUseCase}, 
+                {provide: "HotelCreateUseCaseInterface", useClass: HotelCreateUseCase},
+                {provide: "HotelUpdateUseCaseInterface", useClass: HotelUpdateUseCase},
+                {provide: "HotelDeleteUseCaseInterface", useClass: HotelDeleteUseCase},
+                {provide: "HotelRepositoryInterface", useClass: HotelRepository}],
 })
 export class HotelModule {}

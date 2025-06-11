@@ -6,6 +6,11 @@ import { CustomerModule } from './customer/customer.module';
 import { FlightModule } from './flight/flight.module';
 import { HotelModule } from './hotel/hotel.module';
 import { ConfigModule } from '@nestjs/config';
+import { Auth } from './auth/infrastructure/model/auth';
+import { Customer } from './customer/infrastructure/model/customer';
+import { Flight } from './flight/infrastructure/model/flight';
+import { Hotel } from './hotel/infrastructure/model/hotel';
+import { Reservation } from './reservation/infrastructure/model/reservation';
 
 @Module({
   imports: [
@@ -19,7 +24,7 @@ import { ConfigModule } from '@nestjs/config';
       database: process.env.POSTGRES_DB,
       username: process.env.USERNAME_DB,
       password: process.env.PASSWORD_DB,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [Auth, Customer, Flight, Hotel, Reservation],
       synchronize: true
     }),
     AuthModule,

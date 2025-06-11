@@ -2,12 +2,9 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { FlightCreateUseCaseInterface } from "../port/flight-create-usecase.interface";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
 import { FlightCreateCommand } from "../command/flight-create-command";
-import { hashSync } from "bcrypt";
 import { plainToInstance } from "class-transformer";
-import { Auth } from "src/auth/infrastructure/model/auth";
-import { Role } from "src/common/role";
-import { Customer } from "src/customer/infrastructure/model/customer";
-import { CustomerModel } from "src/customer/domain/model/customer-model";
+import { FlightModel } from "../../../flight/domain/model/flight-model";
+import { Flight } from "../../../flight/infrastructure/model/flight";
 
 @Injectable()
 export class FlightCreateUseCase implements FlightCreateUseCaseInterface {

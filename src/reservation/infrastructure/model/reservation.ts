@@ -1,9 +1,9 @@
 import { Expose } from "class-transformer";
-import { Customer } from "../../customer/entity/customer.entity";
-import { Flight } from "../../flight/infrastructure/model/flight";
-import { Hotel } from "../../hotel/entity/hotel.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Status } from "../../common/status";
+import { Status } from "../../../common/status";
+import { Customer } from "../../../customer/infrastructure/model/customer";
+import { Flight } from "../../../flight/infrastructure/model/flight";
+import { Hotel } from "../../../hotel/infrastructure/model/hotel";
 
 @Entity()
 export class Reservation {

@@ -6,7 +6,7 @@ import { Constants } from "src/common/constants";
 @Injectable()
 export class FlightDeleteUseCase implements FlightDeleteUseCaseInterface {
 
-    private readonly logger = new Logger("AuthService");
+    private readonly logger = new Logger("FlightDeleteUseCase");
 
     constructor(
         @Inject('FlightRepositoryInterface')

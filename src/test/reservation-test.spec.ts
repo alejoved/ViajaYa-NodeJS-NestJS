@@ -7,12 +7,12 @@ import { Repository } from 'typeorm';
 import { RegisterDTO } from '../auth/adapter/dto/register-dto';
 import { LoginDTO } from '../auth/adapter/dto/login-dto';
 import { Auth } from '../auth/entity/auth.entity';
-import { ReservationDTO } from '../reservation/dto/reservation.dto';
+import { ReservationDTO } from '../reservation/adapter/dto/reservation.dto';
 import { Role } from '../common/role';
 import { Reservation } from '../reservation/entity/reservation.entity';
 import { Customer } from '../customer/entity/customer.entity';
 import { Flight } from '../flight/infrastructure/model/flight';
-import { Hotel } from '../hotel/entity/hotel.entity';
+import { Hotel } from '../hotel/infrastructure/model/hotel';
 import { ReservationResponseDTO } from '../reservation/dto/reservation-response.dto';
 import { plainToInstance } from 'class-transformer';
 
