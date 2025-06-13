@@ -16,13 +16,13 @@ export class ReservationGetUseCase implements ReservationGetUseCaseInterface {
 
     async execute(): Promise<ReservationModel[]> {
         const reservation = await this.reservationRepositoryInterface.get();
-        const reservationModel = plainToInstance(ReservationModel, reservation, { excludeExtraneousValues: true });
+        const reservationModel = plainToInstance(ReservationModel, reservation);
         return reservationModel;
     }
 
     async executeById(id: string): Promise<ReservationModel> {
         const reservation = await this.reservationRepositoryInterface.getById(id);
-        const reservationModel = plainToInstance(ReservationModel, reservation, { excludeExtraneousValues: true });
+        const reservationModel = plainToInstance(ReservationModel, reservation);
         return reservationModel;
     }
 }

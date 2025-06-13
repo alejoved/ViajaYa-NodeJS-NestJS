@@ -16,19 +16,19 @@ export class HotelGetUseCase implements HotelGetUseCaseInterface {
 
     async execute(): Promise<HotelModel[]>{
         const hotel = await this.hotelRepositoryInterface.get();
-        const hotelModel = plainToInstance(HotelModel, hotel, { excludeExtraneousValues: true });
+        const hotelModel = plainToInstance(HotelModel, hotel);
         return hotelModel;
     }
 
     async executeById(id: string): Promise<HotelModel>{
         const hotel = await this.hotelRepositoryInterface.getById(id);
-        const hotelModel = plainToInstance(HotelModel, hotel, { excludeExtraneousValues: true });
+        const hotelModel = plainToInstance(HotelModel, hotel);
         return hotelModel;
     }
 
     async executeByCountryAndCity(country: string, city: string): Promise<HotelModel[]>{
         const hotel = await this.hotelRepositoryInterface.getByCountryAndCity(country, city);
-        const hotelModel = plainToInstance(HotelModel, hotel, { excludeExtraneousValues: true });
+        const hotelModel = plainToInstance(HotelModel, hotel);
         return hotelModel;
     }
 }

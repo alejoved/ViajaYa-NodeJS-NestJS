@@ -22,8 +22,8 @@ export class ReservationController {
                 @Inject("ReservationCreateUseCaseInterface") private readonly reservationCreateUseCaseInterface: ReservationCreateUseCaseInterface,
                 @Inject("ReservationUpdateUseCaseInterface") private readonly reservationUpdateUseCaseInterface: ReservationUpdateUseCaseInterface,
                 @Inject("ReservationDeleteUseCaseInterface") private readonly reservationDeleteUseCaseInterface: ReservationDeleteUseCaseInterface,
-                @Inject("ReservationDeleteUseCaseInterface") private readonly reservationConfirmUseCaseInterface: ReservationConfirmUseCaseInterface,
-                @Inject("ReservationDeleteUseCaseInterface") private readonly reservationCancelUseCaseInterface: ReservationCancelUseCaseInterface){}
+                @Inject("ReservationConfirmUseCaseInterface") private readonly reservationConfirmUseCaseInterface: ReservationConfirmUseCaseInterface,
+                @Inject("ReservationCancelUseCaseInterface") private readonly reservationCancelUseCaseInterface: ReservationCancelUseCaseInterface){}
 
     @ApiOperation({ summary : "Get all reservations currently" })
     @ApiResponse({status : 200, description : "Get all reservations successfully", type: [ReservationResponseDTO]})
@@ -55,7 +55,7 @@ export class ReservationController {
     @AuthDecorator(Role.ADMIN)
     @Post()
     create(@Body() reservationDTO: ReservationDTO){
-        const reservationCreateCommand = plainToInstance(ReservationCreateCommand, reservationDTO, {excludeExtraneousValues: true});
+        const reservationCreateCommand = plainToInstance(ReservationCreateCommand, reservationDTO);
         const reservationModel = this.reservationCreateUseCaseInterface.execute(reservationCreateCommand);
         const reservationResponseDTO = plainToInstance(ReservationResponseDTO, reservationModel, {excludeExtraneousValues: true});
         return reservationResponseDTO;
@@ -68,7 +68,7 @@ export class ReservationController {
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
     update(@Body() reservationDTO: ReservationDTO, @Param("id", ParseUUIDPipe) id: string){
-        const reservationUpdateCommand = plainToInstance(ReservationUpdateCommand, reservationDTO, {excludeExtraneousValues: true});
+        const reservationUpdateCommand = plainToInstance(ReservationUpdateCommand, reservationDTO);
         const reservationModel = this.reservationUpdateUseCaseInterface.execute(reservationUpdateCommand, id);
         const reservationResponseDTO = plainToInstance(ReservationResponseDTO, reservationModel, {excludeExtraneousValues: true});
         return reservationResponseDTO;

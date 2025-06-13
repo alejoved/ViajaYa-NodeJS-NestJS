@@ -17,9 +17,9 @@ export class FlightCreateUseCase implements FlightCreateUseCaseInterface {
       ) {}
 
     async execute(flightCreateCommand: FlightCreateCommand): Promise<FlightModel>{
-        const flight = plainToInstance(Flight, flightCreateCommand, { excludeExtraneousValues: true });
+        const flight = plainToInstance(Flight, flightCreateCommand);
         await this.flightRepositoryInterface.create(flight);
-        const flightModel = plainToInstance(FlightModel, flight, { excludeExtraneousValues: true })
+        const flightModel = plainToInstance(FlightModel, flight)
         return flightModel;
     }
 }

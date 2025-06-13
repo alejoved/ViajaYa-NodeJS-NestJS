@@ -4,10 +4,10 @@ import { CustomerRepositoryInterface } from "../../../customer/domain/repository
 import { CustomerCreateCommand } from "../command/customer-create-command";
 import { hashSync } from "bcrypt";
 import { plainToInstance } from "class-transformer";
-import { Auth } from "src/auth/infrastructure/model/auth";
-import { Role } from "src/common/role";
-import { Customer } from "src/customer/infrastructure/model/customer";
-import { CustomerModel } from "src/customer/domain/model/customer-model";
+import { Auth } from "../../../auth/infrastructure/model/auth";
+import { Role } from "../../../common/role";
+import { Customer } from "../../../customer/infrastructure/model/customer";
+import { CustomerModel } from "../../../customer/domain/model/customer-model";
 
 @Injectable()
 export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
@@ -21,13 +21,13 @@ export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
 
     async execute(customerCreateCommand: CustomerCreateCommand): Promise<CustomerModel>{
         const password = hashSync(customerCreateCommand.password, 3); 
-        const auth = plainToInstance(Auth, customerCreateCommand, { excludeExtraneousValues: true });
+        const auth = plainToInstance(Auth, customerCreateCommand);
         auth.role = Role.CUSTOMER;
         auth.password = password;
-        const customer = plainToInstance(Customer, customerCreateCommand, { excludeExtraneousValues: true });
+        const customer = plainToInstance(Customer, customerCreateCommand);
         customer.auth = auth;
         await this.customerRepositoryInterface.create(customer);
-        const customerModel = plainToInstance(CustomerModel, customer, { excludeExtraneousValues: true })
+        const customerModel = plainToInstance(CustomerModel, customer)
         return customerModel;
     }
 }

@@ -23,6 +23,6 @@ export class ReservationConfirmUseCase implements ReservationConfirmUseCaseInter
             throw new ConflictException(Constants.reservationCanceled);
         }
         reservationExists.status = Status.CONFIRMED;
-        await this.reservationRepositoryInterface.create(reservationExists);
+        await this.reservationRepositoryInterface.update(reservationExists);
     }
 }

@@ -62,7 +62,7 @@ export class FlightController {
     @AuthDecorator(Role.ADMIN)
     @Post()
     create(@Body() flightDTO: FlightDTO){
-        const flightCreateCommand = plainToInstance(FlightCreateCommand, flightDTO, {excludeExtraneousValues: true});
+        const flightCreateCommand = plainToInstance(FlightCreateCommand, flightDTO);
         const flightModel = this.flightCreateUseCaseInterface.execute(flightCreateCommand);
         const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
         return flightResponseDTO;
@@ -75,7 +75,7 @@ export class FlightController {
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
     update(@Body() flightDTO: FlightDTO, @Param("id", ParseUUIDPipe) id: string){
-        const flightUpdateCommand = plainToInstance(FlightUpdateCommand, flightDTO, {excludeExtraneousValues: true});
+        const flightUpdateCommand = plainToInstance(FlightUpdateCommand, flightDTO);
         const flightModel = this.flightUpdateUseCaseInterface.execute(flightUpdateCommand, id);
         const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
         return flightResponseDTO;

@@ -22,6 +22,13 @@ export class ReservationRepository implements ReservationRepositoryInterface {
         return await this.reservationRepository.findOneBy({id: id});
     }
 
+    async getByIdAndCustomerAndFlightAndHotel(customerEmail:string, flightId: string, hotelId: string): Promise<Reservation[]> {
+        return await this.reservationRepository.find({where: {customer: { auth: { email: customerEmail } },
+                                                    flight: {id: flightId},
+                                                    hotel: {id: hotelId}}
+                                                });
+    }
+
     async create(reservation: Reservation): Promise<Reservation>{
         this.reservationRepository.create(reservation);
         return await this.reservationRepository.save(reservation);

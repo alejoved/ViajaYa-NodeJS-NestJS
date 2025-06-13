@@ -15,7 +15,7 @@ export class CustomerRepository implements CustomerRepositoryInterface {
       ) {}
 
     async get(): Promise<Customer[]>{
-        return await this.customerRepository.find();
+        return await this.customerRepository.find({relations: ['auth']});
     }
 
     async getById(id: string): Promise<Customer | null>{
@@ -23,7 +23,7 @@ export class CustomerRepository implements CustomerRepositoryInterface {
     }
 
     async getByEmail(email: string): Promise<Customer | null>{
-        return await this.customerRepository.findOne({where: { auth: {email: email}}, relations: ['authModel']});
+        return await this.customerRepository.findOne({where: { auth: {email: email}}, relations: ['auth']});
     }
 
     async create(customer: Customer): Promise<Customer>{

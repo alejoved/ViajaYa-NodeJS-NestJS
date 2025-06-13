@@ -22,10 +22,10 @@ export class ReservationUpdateUseCase implements ReservationUpdateUseCaseInterfa
         if (!reservationExists){
             throw new NotFoundException(Constants.hotelNotFound);
         }
-        const reservation = plainToInstance(Reservation, reservationUpdateCommand, { excludeExtraneousValues: true });
+        const reservation = plainToInstance(Reservation, reservationUpdateCommand);
         reservation.id = id;
         await this.reservationRepositoryInterface.update(reservation);
-        const hotelModel = plainToInstance(ReservationModel, reservation, { excludeExtraneousValues: true })
+        const hotelModel = plainToInstance(ReservationModel, reservation);
         return hotelModel;
     }
 }

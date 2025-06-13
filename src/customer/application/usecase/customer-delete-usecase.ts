@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { CustomerRepositoryInterface } from "../../../customer/domain/repository/customer-repository.interface";
 import { CustomerDeleteUseCaseInterface } from "../port/customer-delete-usecase.interface";
-import { Constants } from "src/common/constants";
+import { Constants } from "../../../common/constants";
 
 @Injectable()
 export class CustomerDeleteUseCase implements CustomerDeleteUseCaseInterface {

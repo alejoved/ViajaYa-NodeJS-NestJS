@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { format } from "date-fns";
 
 export class FlightDTO{
@@ -23,10 +23,10 @@ export class FlightDTO{
     departure: Date;
     @ApiProperty({ description: "Flight layovers" })
     @IsNotEmpty()
-    @IsString()
+    @IsBoolean()
     layovers: boolean;
     @ApiProperty({ description: "Flight total price" })
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     price: number;
 }

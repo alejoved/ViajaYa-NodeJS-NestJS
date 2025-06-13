@@ -23,7 +23,7 @@ export class AuthController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @Post("/register")
     register(@Body() registerDTO: RegisterDTO) {
-        const registerCommand = plainToInstance(RegisterCommand, registerDTO, {excludeExtraneousValues: true});
+        const registerCommand = plainToInstance(RegisterCommand, registerDTO);
         const authModel = this.registerUseCaseInterface.execute(registerCommand);
         const registerResponseDTO = plainToInstance(RegisterResponseDTO, authModel, {excludeExtraneousValues: true});
         return registerResponseDTO;
@@ -36,7 +36,7 @@ export class AuthController {
     @Post("/login")
     @HttpCode(200)
     public login(@Body() loginDTO: LoginDTO) {
-        const loginCommand = plainToInstance(LoginCommand, loginDTO, {excludeExtraneousValues: true});
+        const loginCommand = plainToInstance(LoginCommand, loginDTO);
         const token = this.loginUseCaseInterface.execute(loginCommand);
         const loginResponseDTO = plainToInstance(LoginResponseDTO, token, {excludeExtraneousValues: true});
         return loginResponseDTO;

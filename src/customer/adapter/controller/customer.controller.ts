@@ -62,7 +62,7 @@ export class CustomerController {
     @AuthDecorator(Role.ADMIN)
     @Post()
     create(@Body() customerDTO: CustomerDTO){
-        const customerCreateCommand = plainToInstance(CustomerCreateCommand, customerDTO, {excludeExtraneousValues: true});
+        const customerCreateCommand = plainToInstance(CustomerCreateCommand, customerDTO);
         const customerModel = this.customerCreateUseCaseInterface.execute(customerCreateCommand);
         const customerResponseDTO = plainToInstance(CustomerResponseDTO, customerModel, {excludeExtraneousValues: true});
         return customerResponseDTO;
@@ -75,7 +75,7 @@ export class CustomerController {
     @AuthDecorator()
     @Put(":id")
     update(@Body() customerDTO: CustomerDTO, @Param("id", ParseUUIDPipe) id: string){
-        const customerCreateCommand = plainToInstance(CustomerCreateCommand, customerDTO, {excludeExtraneousValues: true});
+        const customerCreateCommand = plainToInstance(CustomerCreateCommand, customerDTO);
         const customerModel = this.customerUpdateUseCaseInterface.execute(customerCreateCommand);
         const customerResponseDTO = plainToInstance(CustomerResponseDTO, customerModel, {excludeExtraneousValues: true});
         return customerResponseDTO;

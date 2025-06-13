@@ -9,16 +9,12 @@ import { Hotel } from "../../../hotel/infrastructure/model/hotel";
 export class Reservation {
     @PrimaryGeneratedColumn("uuid")
     id: string;
-    @Expose()
     @Column({ type: 'timestamp', nullable: false })
     reservationDate: Date;
-    @Expose()
     @Column()
     status: Status;
-    @Expose()
     @Column()
     numberNights: number;
-    @Expose()
     @Column("float")
     total: number;
 

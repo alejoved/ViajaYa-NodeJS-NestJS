@@ -22,10 +22,10 @@ export class HotelUpdateUseCase implements HotelUpdateUseCaseInterface {
         if (!hotelExists){
             throw new NotFoundException(Constants.hotelNotFound);
         }
-        const hotel = plainToInstance(Hotel, hotelUpdateCommand, { excludeExtraneousValues: true });
+        const hotel = plainToInstance(Hotel, hotelUpdateCommand);
         hotel.id = id;
         await this.hotelRepositoryInterface.update(hotel);
-        const hotelModel = plainToInstance(HotelModel, hotel, { excludeExtraneousValues: true })
+        const hotelModel = plainToInstance(HotelModel, hotel)
         return hotelModel;
     }
 }

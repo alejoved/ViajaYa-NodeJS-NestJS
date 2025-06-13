@@ -17,9 +17,9 @@ export class HotelCreateUseCase implements HotelCreateUseCaseInterface {
       ) {}
 
     async execute(hotelCreateCommand: HotelCreateCommand): Promise<HotelModel>{
-        const hotel = plainToInstance(Hotel, hotelCreateCommand, { excludeExtraneousValues: true });
+        const hotel = plainToInstance(Hotel, hotelCreateCommand);
         await this.hotelRepositoryInterface.create(hotel);
-        const hotelModel = plainToInstance(HotelModel, hotel, { excludeExtraneousValues: true })
+        const hotelModel = plainToInstance(HotelModel, hotel)
         return hotelModel;
     }
 }

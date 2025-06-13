@@ -12,6 +12,9 @@ import { ReservationDeleteUseCase } from './application/usecase/reservation-dele
 import { ReservationConfirmUseCase } from './application/usecase/reservation-confirm-usecase';
 import { ReservationCancelUseCase } from './application/usecase/reservation-cancel-usecase';
 import { ReservationRepository } from './infrastructure/repository/reservation-repository';
+import { CustomerRepository } from '../customer/infrastructure/repository/customer-repository';
+import { FlightRepository } from '../flight/infrastructure/repository/flight-repository';
+import { HotelRepository } from '../hotel/infrastructure/repository/hotel-repository';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Reservation]), TypeOrmModule.forFeature([Customer]), TypeOrmModule.forFeature([Flight]), TypeOrmModule.forFeature([Hotel])],
@@ -22,6 +25,9 @@ import { ReservationRepository } from './infrastructure/repository/reservation-r
                 {provide: "ReservationDeleteUseCaseInterface", useClass: ReservationDeleteUseCase},
                 {provide: "ReservationConfirmUseCaseInterface", useClass: ReservationConfirmUseCase},
                 {provide: "ReservationCancelUseCaseInterface", useClass: ReservationCancelUseCase},
-                {provide: "ReservationRepositoryInterface", useClass: ReservationRepository}],
+                {provide: "ReservationRepositoryInterface", useClass: ReservationRepository},
+                {provide: "CustomerRepositoryInterface", useClass: CustomerRepository},
+                {provide: "FlightRepositoryInterface", useClass: FlightRepository},
+                {provide: "HotelRepositoryInterface", useClass: HotelRepository}],
 })
 export class ReservationModule {}

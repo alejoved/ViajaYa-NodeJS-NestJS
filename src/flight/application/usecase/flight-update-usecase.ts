@@ -22,10 +22,10 @@ export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
         if (!flightExists){
             throw new NotFoundException(Constants.flightNotFound);
         }
-        const flight = plainToInstance(Flight, flightUpdateCommand, { excludeExtraneousValues: true });
+        const flight = plainToInstance(Flight, flightUpdateCommand);
         flight.id = id;
         await this.flightRepositoryInterface.update(flight);
-        const flightModel = plainToInstance(FlightModel, flight, { excludeExtraneousValues: true })
+        const flightModel = plainToInstance(FlightModel, flight);
         return flightModel;
     }
 }

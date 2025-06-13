@@ -63,7 +63,7 @@ export class HotelController {
     @AuthDecorator(Role.ADMIN)
     @Post()
     create(@Body() hotelDTO: HotelDTO){
-        const hotelCreateCommand = plainToInstance(HotelCreateCommand, hotelDTO, {excludeExtraneousValues: true});
+        const hotelCreateCommand = plainToInstance(HotelCreateCommand, hotelDTO);
         const hotelModel = this.hotelCreateUseCaseInterface.execute(hotelCreateCommand);
         const hotelResponseDTO = plainToInstance(HotelResponseDTO, hotelModel, {excludeExtraneousValues: true});
         return hotelResponseDTO;
@@ -76,7 +76,7 @@ export class HotelController {
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
     update(@Body() hotelDTO: HotelDTO, @Param("id", ParseUUIDPipe) id: string){
-        const hotelUpdateCommand = plainToInstance(HotelUpdateCommand, hotelDTO, {excludeExtraneousValues: true});
+        const hotelUpdateCommand = plainToInstance(HotelUpdateCommand, hotelDTO);
         const hotelModel = this.hotelUpdateUseCaseInterface.execute(hotelUpdateCommand, id);
         const hotelResponseDTO = plainToInstance(HotelResponseDTO, hotelModel, {excludeExtraneousValues: true});
         return hotelResponseDTO;
