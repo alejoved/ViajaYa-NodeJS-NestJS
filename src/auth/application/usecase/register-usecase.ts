@@ -3,10 +3,11 @@ import { hashSync } from "bcrypt";
 import { plainToInstance } from "class-transformer";
 import { Role } from "../../../common/role";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
-import { RegisterCommand } from "../command/register-command";
 import { RegisterUseCaseInterface } from "../port/register-usecase.interface";
-import { Auth } from "../../../auth/infrastructure/model/auth";
 import { AuthModel } from "../../../auth/domain/model/auth-model";
+import { AuthEntity } from "../../infrastructure/persistence/entity/auth-entity";
+import { AuthMapper } from "src/auth/application/mapper/auth-mapper";
+
 
 @Injectable()
 export class RegisterUseCase implements RegisterUseCaseInterface{
@@ -16,12 +17,13 @@ export class RegisterUseCase implements RegisterUseCaseInterface{
     constructor(@Inject('AuthRepositoryInterface') private readonly authRepositoryInterface: AuthRepositoryInterface
       ) {}
 
-    async execute(registerCommand: RegisterCommand): Promise<AuthModel>{
-      const password = hashSync(registerCommand.password, 3); 
-      const auth = plainToInstance(Auth, registerCommand, {excludeExtraneousValues: true});
-      auth.password = password;
-      auth.role = Role.ADMIN;
-      const authModel = await this.authRepositoryInterface.create(auth);
-      return plainToInstance(AuthModel, authModel, {excludeExtraneousValues: true});
+    async execute(authModel: AuthModel): Promise<AuthModel>{
+      const password = hashSync(authModel.password, 3);
+      authModel.password = password;
+      authModel.role = Role.ADMIN;
+      const authEntity = AuthMapper.modelToEntity(authModel);
+      await this.authRepositoryInterface.create(authEntity);
+      const response = AuthMapper.entityToModel(authEntity);
+      return response
     }
 }

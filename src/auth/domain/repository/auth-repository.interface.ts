@@ -1,7 +1,7 @@
-import { Auth } from "../../../auth/infrastructure/model/auth";
+import { AuthEntity } from "../../infrastructure/persistence/entity/auth-entity";
 
 export interface AuthRepositoryInterface {
-    get(): Promise<Auth[]>;
-    getByEmail(email: string): Promise<Auth | null>;
-    create(auth: Auth): Promise<Auth>
+    get(): Promise<AuthEntity[]>;
+    getByEmail(email: string): Promise<AuthEntity | null>;
+    create(authEntity: AuthEntity): Promise<AuthEntity>
 }

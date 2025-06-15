@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
-import { Flight } from "../model/flight";
+import { Flight } from "../model/flight-entity";
 
 @Injectable()
 export class FlightRepository implements FlightRepositoryInterface {

@@ -1,10 +1,8 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { FlightCreateUseCaseInterface } from "../port/flight-create-usecase.interface";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
-import { FlightCreateCommand } from "../command/flight-create-command";
-import { plainToInstance } from "class-transformer";
 import { FlightModel } from "../../../flight/domain/model/flight-model";
-import { Flight } from "../../../flight/infrastructure/model/flight";
+import { FlightMapper } from "../mapper/flight-mapper";
 
 @Injectable()
 export class FlightCreateUseCase implements FlightCreateUseCaseInterface {
@@ -16,10 +14,9 @@ export class FlightCreateUseCase implements FlightCreateUseCaseInterface {
         private readonly flightRepositoryInterface: FlightRepositoryInterface
       ) {}
 
-    async execute(flightCreateCommand: FlightCreateCommand): Promise<FlightModel>{
-        const flight = plainToInstance(Flight, flightCreateCommand);
-        await this.flightRepositoryInterface.create(flight);
-        const flightModel = plainToInstance(FlightModel, flight)
-        return flightModel;
+    async execute(flightModel: FlightModel): Promise<FlightModel>{
+        const flightEntity = FlightMapper.modelToEntity(flightModel);
+        await this.flightRepositoryInterface.create(flightEntity);
+        return FlightMapper.entityToModel(flightEntity);
     }
 }

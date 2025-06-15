@@ -3,8 +3,8 @@ import { compareSync } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { Constants } from "../../../common/constants";
 import { AuthRepositoryInterface } from "src/auth/domain/repository/auth-repository.interface";
-import { LoginCommand } from "../command/login-command";
 import { LoginUseCaseInterface } from "../port/login-usecase.interface";
+import { AuthModel } from "src/auth/domain/model/auth-model";
 
 @Injectable()
 export class LoginUseCase implements LoginUseCaseInterface {
@@ -17,15 +17,15 @@ export class LoginUseCase implements LoginUseCaseInterface {
         private readonly jwtService: JwtService
       ) {}
 
-    async execute(loginCommand: LoginCommand): Promise<string>{
-      const authModel = await this.authRepositoryInterface.getByEmail(loginCommand.email);
-      if(!authModel){
+    async execute(authModel: AuthModel): Promise<string>{
+      const authEntity = await this.authRepositoryInterface.getByEmail(authModel.email);
+      if(!authEntity){
         throw new NotFoundException(Constants.authNotFound);
       }
-      if(!compareSync(loginCommand.password, authModel.password)){
+      if(!compareSync(authModel.password, authEntity.password)){
         throw new UnauthorizedException(Constants.credentialsNotValid);
       }
-      const token = this.jwtService.sign({email: loginCommand.email});
+      const token = this.jwtService.sign({email: authModel.email});
       return token;
     }
 }

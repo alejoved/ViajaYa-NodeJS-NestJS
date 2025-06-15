@@ -1,5 +1,5 @@
 export class FlightModel {
-    id: string;
+    id?: string;
     airline: string;
     origin: string;
     destiny: string;

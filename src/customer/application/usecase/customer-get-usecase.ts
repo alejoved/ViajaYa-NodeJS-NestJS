@@ -3,6 +3,7 @@ import { CustomerRepositoryInterface } from "../../../customer/domain/repository
 import { plainToInstance } from "class-transformer";
 import { CustomerModel } from "../../../customer/domain/model/customer-model";
 import { CustomerGetUseCaseInterface } from "../port/customer-get-usecase.interface";
+import { CustomerMapper } from "../mapper/customer-mapper";
 
 @Injectable()
 export class CustomerGetUseCase implements CustomerGetUseCaseInterface {
@@ -15,19 +16,19 @@ export class CustomerGetUseCase implements CustomerGetUseCaseInterface {
       ) {}
 
     async execute(): Promise<CustomerModel[]>{
-        const customer = await this.customerRepositoryInterface.get();
-        const customerModel = plainToInstance(CustomerModel, customer);
+        const customerEntity = await this.customerRepositoryInterface.get();
+        const customerModel = customerEntity.map(CustomerMapper.entityToModel);
         return customerModel;
     }
 
     async executeById(id: string): Promise<CustomerModel>{
-        const customer = await this.customerRepositoryInterface.getById(id);
-        const customerModel = plainToInstance(CustomerModel, customer);
+        const customerEntity = await this.customerRepositoryInterface.getById(id);
+        const customerModel = CustomerMapper.entityToModel(customerEntity);
         return customerModel;
     }
     async executeByEmail(email: string): Promise<CustomerModel>{
-        const customer = await this.customerRepositoryInterface.getByEmail(email)
-        const customerModel = plainToInstance(CustomerModel, customer);
+        const customerEntity = await this.customerRepositoryInterface.getByEmail(email)
+        const customerModel = CustomerMapper.entityToModel(customerEntity);
         return customerModel;
     }
 }

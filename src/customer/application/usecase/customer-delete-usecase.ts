@@ -14,10 +14,10 @@ export class CustomerDeleteUseCase implements CustomerDeleteUseCaseInterface {
       ) {}
 
     async execute(id: string): Promise<void>{
-        const customer = await this.customerRepositoryInterface.getById(id);
-        if (!customer){
+        const customerEntity = await this.customerRepositoryInterface.getById(id);
+        if (!customerEntity){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        await this.customerRepositoryInterface.delete(customer);
+        await this.customerRepositoryInterface.delete(customerEntity);
     }
 }

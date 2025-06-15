@@ -6,9 +6,9 @@ import { CustomerModule } from './customer/customer.module';
 import { FlightModule } from './flight/flight.module';
 import { HotelModule } from './hotel/hotel.module';
 import { ConfigModule } from '@nestjs/config';
-import { Auth } from './auth/infrastructure/model/auth';
-import { Customer } from './customer/infrastructure/model/customer';
-import { Flight } from './flight/infrastructure/model/flight';
+import { Auth } from './auth/infrastructure/persistence/entity/auth-entity';
+import { Customer } from './customer/infrastructure/model/customer-entity';
+import { Flight } from './flight/infrastructure/model/flight-entity';
 import { Hotel } from './hotel/infrastructure/model/hotel';
 import { Reservation } from './reservation/infrastructure/model/reservation';
 

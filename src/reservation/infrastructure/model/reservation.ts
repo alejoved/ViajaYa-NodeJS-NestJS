@@ -1,8 +1,8 @@
 import { Expose } from "class-transformer";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Status } from "../../../common/status";
-import { Customer } from "../../../customer/infrastructure/model/customer";
-import { Flight } from "../../../flight/infrastructure/model/flight";
+import { Customer } from "../../../customer/infrastructure/model/customer-entity";
+import { Flight } from "../../../flight/infrastructure/model/flight-entity";
 import { Hotel } from "../../../hotel/infrastructure/model/hotel";
 
 @Entity()

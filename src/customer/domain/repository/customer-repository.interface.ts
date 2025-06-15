@@ -1,4 +1,4 @@
-import { Customer } from "../../infrastructure/model/customer";
+import { Customer } from "../../infrastructure/model/customer-entity";
 
 export interface CustomerRepositoryInterface{
     get(): Promise<Customer[]>;

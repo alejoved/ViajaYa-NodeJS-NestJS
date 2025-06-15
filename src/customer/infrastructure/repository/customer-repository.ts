@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CustomerRepositoryInterface } from "../../../customer/domain/repository/customer-repository.interface";
-import { Customer } from "../model/customer";
+import { Customer } from "../model/customer-entity";
 
 @Injectable()
 export class CustomerRepository implements CustomerRepositoryInterface {

@@ -1,4 +1,4 @@
-import { Flight } from "../../../flight/infrastructure/model/flight";
+import { Flight } from "../../infrastructure/model/flight-entity";
 
 export interface FlightRepositoryInterface{
     get(): Promise<Flight[]>;

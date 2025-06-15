@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
-import { plainToInstance } from "class-transformer";
 import { FlightModel } from "../../../flight/domain/model/flight-model";
 import { FlightGetUseCaseInterface } from "../port/flight-get-usecase.interface";
+import { FlightMapper } from "../mapper/flight-mapper";
 
 @Injectable()
 export class FlightGetUseCase implements FlightGetUseCaseInterface {
@@ -15,20 +15,20 @@ export class FlightGetUseCase implements FlightGetUseCaseInterface {
       ) {}
 
     async execute(): Promise<FlightModel[]>{
-        const flight = await this.flightRepositoryInterface.get();
-        const flightModel = plainToInstance(FlightModel, flight);
+        const flightEntity = await this.flightRepositoryInterface.get();
+        const flightModel = flightEntity.map(FlightMapper.entityToModel);
         return flightModel;
     }
 
     async executeById(id: string): Promise<FlightModel>{
-        const flight = await this.flightRepositoryInterface.getById(id);
-        const flightModel = plainToInstance(FlightModel, flight);
+        const flightEntity = await this.flightRepositoryInterface.getById(id);
+        const flightModel = FlightMapper.entityToModel(flightEntity);
         return flightModel;
     }
 
     async executeByOriginAndDestiny(origin: string, destiny: string): Promise<FlightModel[]>{
-        const flight = await this.flightRepositoryInterface.getByOriginAndDestiny(origin, destiny);
-        const flightModel = plainToInstance(FlightModel, flight);
+        const flightEntity = await this.flightRepositoryInterface.getByOriginAndDestiny(origin, destiny);
+        const flightModel = flightEntity.map(FlightMapper.entityToModel);
         return flightModel;
     }
 }

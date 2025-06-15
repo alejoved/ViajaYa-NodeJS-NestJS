@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { Flight } from './infrastructure/model/flight';
+import { Flight } from './infrastructure/model/flight-entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FlightController } from './adapter/controller/flight.controller';
 import { FlightGetUseCase } from './application/usecase/flight-get-usecase';

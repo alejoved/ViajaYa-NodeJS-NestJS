@@ -234,3 +234,11 @@ También puedes tener: services/ (para enviar emails, logs, etc.)
 5. 🚀 main.ts y app.module.ts
 Se usa para bootstrapping y registrar dependencias.
 Aquí haces el binding: provide: 'AuthRepositoryInterface', useClass: AuthRepository.
+
+
+| Objeto       | Se mapea a...               | Capa                        |
+| ------------ | --------------------------- | --------------------------- |
+| `RequestDTO` | → `Entidad de dominio`      | `interface → domain`        |
+| `Dominio`    | → `Entidad de persistencia` | `domain → infrastructure`   |
+| `Entity`     | → `Dominio`                 | `infraestructura → dominio` |
+| `Dominio`    | → `ResponseDTO`             | `domain → interface`        |

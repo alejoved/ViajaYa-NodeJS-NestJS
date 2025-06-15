@@ -1,7 +1,7 @@
 import { AuthModel } from "../../../auth/domain/model/auth-model";
 
 export class CustomerModel {
-    id: string;
+    id?: string;
     identification: string;
     name: string;
     authModel: AuthModel;

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Flight } from '../flight/infrastructure/model/flight';
+import { Flight } from '../flight/infrastructure/model/flight-entity';
 import { Hotel } from '../hotel/infrastructure/model/hotel';
 import { Reservation } from './infrastructure/model/reservation';
-import { Customer } from '../customer/infrastructure/model/customer';
+import { Customer } from '../customer/infrastructure/model/customer-entity';
 import { ReservationController } from './adapter/controller/reservation.controller';
 import { ReservationGetUseCase } from './application/usecase/reservation-get-usecase';
 import { ReservationCreateUseCase } from './application/usecase/reservation-create-usecase';
