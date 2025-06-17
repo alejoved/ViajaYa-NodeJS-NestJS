@@ -1,4 +1,4 @@
-import { AuthEntity } from "../../infrastructure/persistence/entity/auth-entity";
+import { AuthEntity } from "../../infrastructure/entity/auth-entity";
 
 export interface AuthRepositoryInterface {
     get(): Promise<AuthEntity[]>;

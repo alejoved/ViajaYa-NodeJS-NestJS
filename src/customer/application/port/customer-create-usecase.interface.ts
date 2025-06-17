@@ -1,5 +1,5 @@
-import { CustomerModel } from "src/customer/domain/model/customer-model";
+import { CustomerModel } from "../../domain/model/customer-model";
 
 export interface CustomerCreateUseCaseInterface {
-  execute(customerModel: CustomerModel): Promise<CustomerModel>;
+  execute(customerCreateModel: CustomerModel): Promise<CustomerModel>;
 }

@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { HotelRepositoryInterface } from "../../../hotel/domain/repository/hotel-repository.interface";
-import { Hotel } from "../model/hotel";
+import { HotelEntity } from "../entity/hotel-entity";
 
 @Injectable()
 export class HotelRepository implements HotelRepositoryInterface {
@@ -10,32 +10,32 @@ export class HotelRepository implements HotelRepositoryInterface {
     private readonly logger = new Logger("HotelRepository");
 
     constructor(
-        @InjectRepository(Hotel)
-        private readonly hotelRepository: Repository<Hotel>,
+        @InjectRepository(HotelEntity)
+        private readonly hotelRepository: Repository<HotelEntity>,
       ) {}
 
-    async get(): Promise<Hotel[]>{
+    async get(): Promise<HotelEntity[]>{
         return await this.hotelRepository.find();
     }
 
-    async getById(id: string): Promise<Hotel | null>{
+    async getById(id: string): Promise<HotelEntity | null>{
         return await this.hotelRepository.findOneBy({id: id});
     }
 
-    async getByCountryAndCity(country: string, city: string): Promise<Hotel[]>{
+    async getByCountryAndCity(country: string, city: string): Promise<HotelEntity[]>{
         return await this.hotelRepository.findBy({country: country, city: city});
     }
 
-    async create(hotel: Hotel): Promise<Hotel>{
-        this.hotelRepository.create(hotel);
-        return await this.hotelRepository.save(hotel);
+    async create(hotelEntity: HotelEntity): Promise<HotelEntity>{
+        this.hotelRepository.create(hotelEntity);
+        return await this.hotelRepository.save(hotelEntity);
     }
 
-    async update(hotel: Hotel): Promise<Hotel>{
-        return await this.hotelRepository.save(hotel);
+    async update(hotelEntity: HotelEntity): Promise<HotelEntity>{
+        return await this.hotelRepository.save(hotelEntity);
     }
 
-    async delete(hotel: Hotel): Promise<void>{
-        await this.hotelRepository.delete(hotel);
+    async delete(hotelEntity: HotelEntity): Promise<void>{
+        await this.hotelRepository.delete(hotelEntity);
     }
 }

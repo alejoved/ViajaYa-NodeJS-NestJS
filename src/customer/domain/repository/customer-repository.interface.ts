@@ -1,10 +1,10 @@
-import { Customer } from "../../infrastructure/model/customer-entity";
+import { CustomerEntity } from "../../infrastructure/entity/customer-entity";
 
 export interface CustomerRepositoryInterface{
-    get(): Promise<Customer[]>;
-    getById(id: string): Promise<Customer | null>;
-    getByEmail(email: string): Promise<Customer | null>;
-    create(customer: Customer): Promise<Customer>
-    update(customer: Customer): Promise<Customer>
-    delete(customer: Customer): Promise<void>
+    get(): Promise<CustomerEntity[]>;
+    getById(id: string): Promise<CustomerEntity | null>;
+    getByEmail(email: string): Promise<CustomerEntity | null>;
+    create(customerEntity: CustomerEntity): Promise<CustomerEntity>
+    update(customerEntity: CustomerEntity): Promise<CustomerEntity>
+    delete(customerEntity: CustomerEntity): Promise<void>
 }

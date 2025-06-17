@@ -1,10 +1,10 @@
-import { Hotel } from "src/hotel/infrastructure/model/hotel";
+import { HotelEntity } from "src/hotel/infrastructure/entity/hotel-entity";
 
 export interface HotelRepositoryInterface{
-    get(): Promise<Hotel[]>;
-    getById(id: string): Promise<Hotel | null>;
-    getByCountryAndCity(country: string, city: string): Promise<Hotel[]>;
-    create(flight: Hotel): Promise<Hotel>
-    update(flight: Hotel): Promise<Hotel>
-    delete(flight: Hotel): Promise<void>
+    get(): Promise<HotelEntity[]>;
+    getById(id: string): Promise<HotelEntity | null>;
+    getByCountryAndCity(country: string, city: string): Promise<HotelEntity[]>;
+    create(hotelEntity: HotelEntity): Promise<HotelEntity>
+    update(hotelEntity: HotelEntity): Promise<HotelEntity>
+    delete(hotelEntity: HotelEntity): Promise<void>
 }

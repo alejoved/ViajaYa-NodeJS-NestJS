@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { FlightModel } from "../../../flight/domain/model/flight-model";
+import { FlightModel } from "../../domain/model/flight-model";
 import { FlightUpdateUseCaseInterface } from "../port/flight-update-usecase.interface";
-import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
+import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { Constants } from "../../../common/constants";
 import { FlightMapper } from "../mapper/flight-mapper";
 
@@ -20,9 +20,8 @@ export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
         if(!flightExist){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        flightModel.id = id;
         const flightEntity = FlightMapper.modelToEntity(flightModel);
-        await this.flightRepositoryInterface.update(flightEntity);
-        return FlightMapper.entityToModel(flightEntity);
+        const response = await this.flightRepositoryInterface.update(flightEntity);
+        return FlightMapper.entityToModel(response);
     }
 }

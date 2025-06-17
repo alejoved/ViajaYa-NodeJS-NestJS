@@ -1,4 +1,4 @@
-import { Reservation } from "../../../reservation/infrastructure/model/reservation";
+import { Reservation } from "../../infrastructure/entity/reservation-entity";
 
 export interface ReservationRepositoryInterface{
     get(): Promise<Reservation[]>;

@@ -1,8 +1,5 @@
 import { ConflictException, Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { plainToInstance } from "class-transformer";
 import { ReservationModel } from "../../../reservation/domain/model/reservation-model";
-import { Reservation } from "../../../reservation/infrastructure/model/reservation";
-import { ReservationCreateCommand } from "../command/reservation-create-command";
 import { ReservationRepositoryInterface } from "../../../reservation/domain/repository/reservation-repository.interface";
 import { ReservationCreateUseCaseInterface } from "../port/reservation-create-usecase.interface";
 import { Constants } from "../../../common/constants";
@@ -10,6 +7,10 @@ import { CustomerRepositoryInterface } from "../../../customer/domain/repository
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
 import { HotelRepositoryInterface } from "../../../hotel/domain/repository/hotel-repository.interface";
 import { Status } from "../../../common/status";
+import { ReservationMapper } from "../mapper/reservation-mapper";
+import { CustomerMapper } from "../../../customer/application/mapper/customer-mapper";
+import { FlightMapper } from "../../../flight/application/mapper/flight-mapper";
+import { HotelMapper } from "../../../hotel/application/mapper/hotel-mapper";
 
 @Injectable()
 export class ReservationCreateUseCase implements ReservationCreateUseCaseInterface {
@@ -27,33 +28,32 @@ export class ReservationCreateUseCase implements ReservationCreateUseCaseInterfa
         private readonly hotelRepositoryInterface: HotelRepositoryInterface
       ) {}
 
-    async execute(reservationCreateCommand: ReservationCreateCommand): Promise<ReservationModel>{
-        const customerExists = await this.customerRepositoryInterface.getByEmail(reservationCreateCommand.customerEmail);
+    async execute(reservationModel: ReservationModel): Promise<ReservationModel>{
+        const customerExists = await this.customerRepositoryInterface.getByEmail(reservationModel.customerEmail!);
         if(!customerExists){
             throw new NotFoundException(Constants.customerNotFound)
         }
-        const flightExists = await this.flightRepositoryInterface.getById(reservationCreateCommand.flightId);
+        const flightExists = await this.flightRepositoryInterface.getById(reservationModel.flightId!);
         if(!flightExists){
             throw new NotFoundException(Constants.flightNotFound);
         }
-        const hotelExists = await this.hotelRepositoryInterface.getById(reservationCreateCommand.hotelId);
+        const hotelExists = await this.hotelRepositoryInterface.getById(reservationModel.hotelId!);
         if(!hotelExists){
             throw new NotFoundException(Constants.hotelNotFound)
         }
-        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservationCreateCommand.customerEmail, reservationCreateCommand.flightId, reservationCreateCommand.hotelId);
+        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservationModel.customerEmail!, reservationModel.flightId!, reservationModel.hotelId!);
         if(reservationExists.length > 0){
             throw new ConflictException(Constants.reservationExists);
         }
-        const total = hotelExists.pricePerNight * reservationCreateCommand.numberNights + flightExists.price;
-        const reservation = plainToInstance(Reservation, reservationCreateCommand);
-        reservation.reservationDate = new Date();
-        reservation.status = Status.PENDING;
-        reservation.total = total;
-        reservation.customer = customerExists;
-        reservation.flight = flightExists;
-        reservation.hotel = hotelExists;
-        await this.reservationRepositoryInterface.create(reservation);
-        const reservationModel = plainToInstance(ReservationModel, reservation)
-        return reservationModel;
+        const total = hotelExists.pricePerNight * reservationModel.numberNights + flightExists.price;
+        reservationModel.reservationDate = new Date();
+        reservationModel.status = Status.PENDING;
+        reservationModel.total = total;
+        reservationModel.customerModel = CustomerMapper.entityToModel(customerExists);
+        reservationModel.flightModel = FlightMapper.entityToModel(flightExists);
+        reservationModel.hotelModel = HotelMapper.entityToModel(hotelExists);
+        const reservationEntity = ReservationMapper.modelToEntity(reservationModel);
+        const response = await this.reservationRepositoryInterface.create(reservationEntity);
+        return ReservationMapper.entityToModel(response);
     }
 }

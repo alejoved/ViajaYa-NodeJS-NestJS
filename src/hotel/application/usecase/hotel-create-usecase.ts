@@ -1,10 +1,8 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { HotelCreateUseCaseInterface } from "../port/hotel-create-usecase.interface";
 import { HotelRepositoryInterface } from "../../../hotel/domain/repository/hotel-repository.interface";
-import { HotelCreateCommand } from "../command/hotel-create-command";
-import { plainToInstance } from "class-transformer";
 import { HotelModel } from "../../../hotel/domain/model/hotel-model";
-import { Hotel } from "../../../hotel/infrastructure/model/hotel";
+import { HotelMapper } from "../mapper/hotel-mapper";
 
 @Injectable()
 export class HotelCreateUseCase implements HotelCreateUseCaseInterface {
@@ -16,10 +14,9 @@ export class HotelCreateUseCase implements HotelCreateUseCaseInterface {
         private readonly hotelRepositoryInterface: HotelRepositoryInterface
       ) {}
 
-    async execute(hotelCreateCommand: HotelCreateCommand): Promise<HotelModel>{
-        const hotel = plainToInstance(Hotel, hotelCreateCommand);
-        await this.hotelRepositoryInterface.create(hotel);
-        const hotelModel = plainToInstance(HotelModel, hotel)
-        return hotelModel;
+    async execute(hotelModel: HotelModel): Promise<HotelModel>{
+        const hotelEntity = HotelMapper.modelToEntity(hotelModel);
+        const response = await this.hotelRepositoryInterface.create(hotelEntity);
+        return HotelMapper.entityToModel(response);
     }
 }

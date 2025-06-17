@@ -1,5 +1,5 @@
 export class HotelModel {
-    id: string;
+    id?: string;
     name: string;
     country: string;
     city: string;

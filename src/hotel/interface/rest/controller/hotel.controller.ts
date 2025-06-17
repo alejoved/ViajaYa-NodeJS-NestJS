@@ -1,16 +1,14 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, Inject } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
-import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
+import { AuthDecorator } from '../../../../auth/infrastructure/config/auth.decorator';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HotelResponseDTO } from '../dto/hotel-response.dto';
-import { Role } from '../../../common/role';
+import { Role } from '../../../../common/role';
 import { HotelDTO } from '../dto/hotel.dto';
-import { HotelCreateCommand } from '../../../hotel/application/command/hotel-create-command';
-import { HotelUpdateCommand } from '../../../hotel/application/command/hotel-update-command';
-import { HotelGetUseCaseInterface } from '../../../hotel/application/port/hotel-get-usecase.interface';
-import { HotelCreateUseCaseInterface } from '../../../hotel/application/port/hotel-create-usecase.interface';
-import { HotelUpdateUseCaseInterface } from '../../../hotel/application/port/hotel-update-usecase.interface';
-import { HotelDeleteUseCaseInterface } from '../../../hotel/application/port/hotel-delete-usecase.interface';
+import { HotelGetUseCaseInterface } from '../../../application/port/hotel-get-usecase.interface';
+import { HotelCreateUseCaseInterface } from '../../../application/port/hotel-create-usecase.interface';
+import { HotelUpdateUseCaseInterface } from '../../../application/port/hotel-update-usecase.interface';
+import { HotelDeleteUseCaseInterface } from '../../../application/port/hotel-delete-usecase.interface';
+import { HotelMapper } from '../../../application/mapper/hotel-mapper';
 
 @ApiTags('Hotels')
 @Controller('hotel')
@@ -26,9 +24,9 @@ export class HotelController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get()
-    getAll(){
-        const hotelModel = this.hotelGetUseCaseInterface.execute();
-        const hotelResponseDTO = plainToInstance(HotelResponseDTO, hotelModel, {excludeExtraneousValues: true});
+    async getAll(){
+        const hotelModel = await this.hotelGetUseCaseInterface.execute();
+        const hotelResponseDTO = hotelModel.map(HotelMapper.modelToDto);
         return hotelResponseDTO;
     }
 
@@ -38,9 +36,9 @@ export class HotelController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get(":id")
-    getById(@Param("id", ParseUUIDPipe) id: string){
-        const hotelModel = this.hotelGetUseCaseInterface.executeById(id);
-        const hotelResponseDTO = plainToInstance(HotelResponseDTO, hotelModel, {excludeExtraneousValues: true});
+    async getById(@Param("id", ParseUUIDPipe) id: string){
+        const hotelModel = await this.hotelGetUseCaseInterface.executeById(id);
+        const hotelResponseDTO = HotelMapper.modelToDto(hotelModel);
         return hotelResponseDTO;
     }
 
@@ -50,9 +48,9 @@ export class HotelController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get("/country/:country/city/:city")
-    getByCity(@Param("country") country: string, @Param("city") city: string){
-        const hotelModel = this.hotelGetUseCaseInterface.executeByCountryAndCity(country, city);
-        const hotelResponseDTO = plainToInstance(HotelResponseDTO, hotelModel, {excludeExtraneousValues: true});
+    async getByCity(@Param("country") country: string, @Param("city") city: string){
+        const hotelModel = await this.hotelGetUseCaseInterface.executeByCountryAndCity(country, city);
+        const hotelResponseDTO = hotelModel.map(HotelMapper.modelToDto);
         return hotelResponseDTO;
     }
     
@@ -62,10 +60,10 @@ export class HotelController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Post()
-    create(@Body() hotelDTO: HotelDTO){
-        const hotelCreateCommand = plainToInstance(HotelCreateCommand, hotelDTO);
-        const hotelModel = this.hotelCreateUseCaseInterface.execute(hotelCreateCommand);
-        const hotelResponseDTO = plainToInstance(HotelResponseDTO, hotelModel, {excludeExtraneousValues: true});
+    async create(@Body() hotelDTO: HotelDTO){
+        const hotelModel = HotelMapper.dtoToModel(hotelDTO);
+        const response = await this.hotelCreateUseCaseInterface.execute(hotelModel);
+        const hotelResponseDTO = HotelMapper.modelToDto(response); 
         return hotelResponseDTO;
     }
     
@@ -75,10 +73,10 @@ export class HotelController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
-    update(@Body() hotelDTO: HotelDTO, @Param("id", ParseUUIDPipe) id: string){
-        const hotelUpdateCommand = plainToInstance(HotelUpdateCommand, hotelDTO);
-        const hotelModel = this.hotelUpdateUseCaseInterface.execute(hotelUpdateCommand, id);
-        const hotelResponseDTO = plainToInstance(HotelResponseDTO, hotelModel, {excludeExtraneousValues: true});
+    async update(@Body() hotelDTO: HotelDTO, @Param("id", ParseUUIDPipe) id: string){
+        const hotelModel = HotelMapper.dtoToModel(hotelDTO);
+        const response = await this.hotelUpdateUseCaseInterface.execute(hotelModel, id);
+        const hotelResponseDTO = HotelMapper.modelToDto(response);
         return hotelResponseDTO;
     }
 

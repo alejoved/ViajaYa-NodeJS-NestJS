@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { Constants } from "../../../common/constants";
-import { Reservation } from "../../../reservation/infrastructure/model/reservation";
+import { Reservation } from "../../infrastructure/entity/reservation-entity";
 import { ReservationUpdateCommand } from "../command/reservation-update-command";
 import { ReservationModel } from "../../../reservation/domain/model/reservation-model";
 import { ReservationRepositoryInterface } from "../../../reservation/domain/repository/reservation-repository.interface";

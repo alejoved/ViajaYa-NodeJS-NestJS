@@ -1,10 +1,10 @@
-import { Flight } from "../../infrastructure/model/flight-entity";
+import { FlightEntity } from "../../infrastructure/entity/flight-entity";
 
 export interface FlightRepositoryInterface{
-    get(): Promise<Flight[]>;
-    getById(id: string): Promise<Flight | null>;
-    getByOriginAndDestiny(origin: string, destiny: string): Promise<Flight[]>;
-    create(flight: Flight): Promise<Flight>
-    update(flight: Flight): Promise<Flight>
-    delete(flight: Flight): Promise<void>
+    get(): Promise<FlightEntity[]>;
+    getById(id: string): Promise<FlightEntity | null>;
+    getByOriginAndDestiny(origin: string, destiny: string): Promise<FlightEntity[]>;
+    create(flightEntity: FlightEntity): Promise<FlightEntity>
+    update(flightEntity: FlightEntity): Promise<FlightEntity>
+    delete(flightEntity: FlightEntity): Promise<void>
 }

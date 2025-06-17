@@ -7,9 +7,6 @@ import { CustomerGetUseCaseInterface } from '../../../application/port/customer-
 import { CustomerCreateUseCaseInterface } from '../../../application/port/customer-create-usecase.interface';
 import { CustomerUpdateUseCaseInterface } from '../../../application/port/customer-update-usecase.interface';
 import { CustomerDeleteUseCaseInterface } from '../../../application/port/customer-delete-usecase.interface';
-import { plainToInstance } from 'class-transformer';
-import { CustomerResponseDTO } from '../dto/customer-response-dto';
-import { CustomerModel } from 'src/customer/domain/model/customer-model';
 import { CustomerMapper } from 'src/customer/application/mapper/customer-mapper';
 
 @ApiTags('Customers')

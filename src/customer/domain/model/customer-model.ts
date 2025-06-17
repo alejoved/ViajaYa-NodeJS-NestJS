@@ -4,5 +4,6 @@ export class CustomerModel {
     id?: string;
     identification: string;
     name: string;
+    authId?: string;
     authModel: AuthModel;
 }

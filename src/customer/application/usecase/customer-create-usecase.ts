@@ -2,10 +2,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { CustomerCreateUseCaseInterface } from "../port/customer-create-usecase.interface";
 import { CustomerRepositoryInterface } from "../../../customer/domain/repository/customer-repository.interface";
 import { hashSync } from "bcrypt";
-import { plainToInstance } from "class-transformer";
-import { AuthEntity } from "../../../auth/infrastructure/persistence/entity/auth-entity";
 import { Role } from "../../../common/role";
-import { CustomerEntity } from "../../infrastructure/model/customer-entity";
 import { CustomerModel } from "../../../customer/domain/model/customer-model";
 import { CustomerMapper } from "../mapper/customer-mapper";
 
@@ -20,7 +17,7 @@ export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
       ) {}
 
     async execute(customerModel: CustomerModel): Promise<CustomerModel>{
-        const password = hashSync(customerModel.authModel.password, 3);
+        const password = hashSync(customerModel.authModel.password!, 3);
         customerModel.authModel.role = Role.CUSTOMER;
         customerModel.authModel.password = password;
         const customerEntity = CustomerMapper.modelToEntity(customerModel);

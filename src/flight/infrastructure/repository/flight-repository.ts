@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
-import { Flight } from "../model/flight-entity";
+import { FlightEntity } from "../entity/flight-entity";
 
 @Injectable()
 export class FlightRepository implements FlightRepositoryInterface {
@@ -10,32 +10,32 @@ export class FlightRepository implements FlightRepositoryInterface {
     private readonly logger = new Logger("FlightRepository");
 
     constructor(
-        @InjectRepository(Flight)
-        private readonly flightRepository: Repository<Flight>,
+        @InjectRepository(FlightEntity)
+        private readonly flightRepository: Repository<FlightEntity>,
       ) {}
 
-    async get(): Promise<Flight[]>{
+    async get(): Promise<FlightEntity[]>{
         return await this.flightRepository.find();
     }
 
-    async getById(id: string): Promise<Flight | null>{
+    async getById(id: string): Promise<FlightEntity | null>{
         return await this.flightRepository.findOneBy({id: id});
     }
 
-    async getByOriginAndDestiny(origin: string, destiny: string): Promise<Flight[]>{
+    async getByOriginAndDestiny(origin: string, destiny: string): Promise<FlightEntity[]>{
         return await this.flightRepository.findBy({origin: origin, destiny: destiny});
     }
 
-    async create(flight: Flight): Promise<Flight>{
-        this.flightRepository.create(flight);
-        return await this.flightRepository.save(flight);
+    async create(flightEntity: FlightEntity): Promise<FlightEntity>{
+        this.flightRepository.create(flightEntity);
+        return await this.flightRepository.save(flightEntity);
     }
 
-    async update(flight: Flight): Promise<Flight>{
-        return await this.flightRepository.save(flight);
+    async update(flightEntity: FlightEntity): Promise<FlightEntity>{
+        return await this.flightRepository.save(flightEntity);
     }
 
-    async delete(flight: Flight): Promise<void>{
-        await this.flightRepository.delete(flight);
+    async delete(flightEntity: FlightEntity): Promise<void>{
+        await this.flightRepository.delete(flightEntity);
     }
 }

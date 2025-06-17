@@ -1,7 +1,7 @@
-import { FlightModel } from "src/flight/domain/model/flight-model";
-import { FlightEntity } from "src/flight/infrastructure/model/flight-entity";
-import { FlightDTO } from "src/flight/interface/dto/fligth-dto";
-import { FlightResponseDTO } from "src/flight/interface/dto/fligth-response-dto";
+import { FlightModel } from "../../domain/model/flight-model";
+import { FlightEntity } from "../../infrastructure/entity/flight-entity";
+import { FlightDTO } from "../../interface/rest/dto/fligth-dto";
+import { FlightResponseDTO } from "../../interface/rest/dto/fligth-response-dto";
 
 export class FlightMapper{
     static dtoToModel(flightDTO: FlightDTO): FlightModel {
@@ -28,7 +28,7 @@ export class FlightMapper{
 
     static entityToModel(flightEntity: FlightEntity): FlightModel {
         return {
-            id: flightEntity.id,
+            id: flightEntity.id!,
             airline: flightEntity.airline,
             origin: flightEntity.origin,
             destiny :  flightEntity.destiny,
@@ -39,7 +39,7 @@ export class FlightMapper{
     }
     static modelToDto(flightModel: FlightModel): FlightResponseDTO {
         return {
-            id: flightModel.id,
+            id: flightModel.id!,
             airline: flightModel.airline,
             origin: flightModel.origin,
             destiny :  flightModel.destiny,

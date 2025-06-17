@@ -2,9 +2,9 @@ import { Expose, Transform, Type } from "class-transformer";
 import { format } from 'date-fns';
 import { ApiProperty } from "@nestjs/swagger";
 import { Status } from "src/common/status";
-import { CustomerResponseDTO } from "../../../customer/adapter/dto/customer-response-dto";
-import { FlightResponseDTO } from "../../../flight/adapter/dto/fligth-response-dto";
-import { HotelResponseDTO } from "../../../hotel/adapter/dto/hotel-response.dto";
+import { CustomerResponseDTO } from "../../../../customer/interface/rest/dto/customer-response-dto";
+import { FlightResponseDTO } from "../../../../flight/interface/rest/dto/fligth-response-dto";
+import { HotelResponseDTO } from "../../../../hotel/interface/rest/dto/hotel-response.dto";
 
 export class ReservationResponseDTO{
     @ApiProperty({ description: "Reservation ID" })

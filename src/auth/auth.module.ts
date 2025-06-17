@@ -7,8 +7,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './interface/rest/controller/auth.controller';
 import { LoginUseCase } from './application/usecase/login-usecase';
 import { RegisterUseCase } from './application/usecase/register-usecase';
-import { AuthRepository } from './infrastructure/persistence/repository/auth-repository';
-import { AuthEntity } from './infrastructure/persistence/entity/auth-entity';
+import { AuthRepository } from './infrastructure/repository/auth-repository';
+import { AuthEntity } from './infrastructure/entity/auth-entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([AuthEntity]),

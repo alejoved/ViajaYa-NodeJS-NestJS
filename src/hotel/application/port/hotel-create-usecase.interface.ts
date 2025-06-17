@@ -1,6 +1,5 @@
-import { HotelModel } from "src/hotel/domain/model/hotel-model";
-import { HotelCreateCommand } from "../command/hotel-create-command";
+import { HotelModel } from "../../domain/model/hotel-model";
 
 export interface HotelCreateUseCaseInterface {
-  execute(command: HotelCreateCommand): Promise<HotelModel>;
+  execute(hotelModel: HotelModel): Promise<HotelModel>;
 }

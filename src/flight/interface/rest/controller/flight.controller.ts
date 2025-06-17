@@ -1,16 +1,15 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, Inject } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
+import { AuthDecorator } from '../../../../auth/infrastructure/config/auth.decorator';
 import { plainToInstance } from 'class-transformer';
 import { FlightResponseDTO } from '../dto/fligth-response-dto';
-import { Role } from '../../../common/role';
+import { Role } from '../../../../common/role';
 import { FlightDTO } from '../dto/fligth-dto';
-import { FlightCreateCommand } from '../../../flight/application/command/flight-create-command';
-import { FlightUpdateCommand } from '../../../flight/application/command/flight-update-command';
-import { FlightGetUseCaseInterface } from 'src/flight/application/port/flight-get-usecase.interface';
-import { FlightCreateUseCaseInterface } from '../../../flight/application/port/flight-create-usecase.interface';
-import { FlightUpdateUseCaseInterface } from '../../../flight/application/port/flight-update-usecase.interface';
-import { FlightDeleteUseCaseInterface } from '../../../flight/application/port/flight-delete-usecase.interface';
+import { FlightGetUseCaseInterface } from '../../../application/port/flight-get-usecase.interface';
+import { FlightCreateUseCaseInterface } from '../../../application/port/flight-create-usecase.interface';
+import { FlightUpdateUseCaseInterface } from '../../../application/port/flight-update-usecase.interface';
+import { FlightDeleteUseCaseInterface } from '../../../application/port/flight-delete-usecase.interface';
+import { FlightMapper } from '../../../application/mapper/flight-mapper';
 
 @ApiTags('Flights')
 @Controller('flight')
@@ -25,7 +24,7 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get()
-    getAll(){
+    async getAll(){
         const flightModel = this.flightGetUseCaseInterface.execute();
         const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
         return flightResponseDTO;
@@ -37,9 +36,9 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get(":id")
-    getById(@Param("id", ParseUUIDPipe) id: string){
-        const flightModel = this.flightGetUseCaseInterface.executeById(id);
-        const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
+    async getById(@Param("id", ParseUUIDPipe) id: string){
+        const flightModel = await this.flightGetUseCaseInterface.executeById(id);
+        const flightResponseDTO = FlightMapper.modelToDto(flightModel);
         return flightResponseDTO;
     }
 
@@ -49,9 +48,9 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get("/origin/:origin/destiny/:destiny")
-    getByOriginAndDestiny(@Param("origin") origin: string, @Param("destiny") destiny: string ){
-        const flightModel = this.flightGetUseCaseInterface.executeByOriginAndDestiny(origin, destiny);
-        const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
+    async getByOriginAndDestiny(@Param("origin") origin: string, @Param("destiny") destiny: string ){
+        const flightModel = await this.flightGetUseCaseInterface.executeByOriginAndDestiny(origin, destiny);
+        const flightResponseDTO = flightModel.map(FlightMapper.modelToDto);
         return flightResponseDTO;
     }
     
@@ -61,10 +60,10 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Post()
-    create(@Body() flightDTO: FlightDTO){
-        const flightCreateCommand = plainToInstance(FlightCreateCommand, flightDTO);
-        const flightModel = this.flightCreateUseCaseInterface.execute(flightCreateCommand);
-        const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
+    async create(@Body() flightDTO: FlightDTO){
+        const flightModel = FlightMapper.dtoToModel(flightDTO);
+        const response = await this.flightCreateUseCaseInterface.execute(flightModel);
+        const flightResponseDTO = FlightMapper.modelToDto(response);
         return flightResponseDTO;
     }
 
@@ -74,10 +73,10 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
-    update(@Body() flightDTO: FlightDTO, @Param("id", ParseUUIDPipe) id: string){
-        const flightUpdateCommand = plainToInstance(FlightUpdateCommand, flightDTO);
-        const flightModel = this.flightUpdateUseCaseInterface.execute(flightUpdateCommand, id);
-        const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
+    async update(@Body() flightDTO: FlightDTO, @Param("id", ParseUUIDPipe) id: string){
+        const flightModel = FlightMapper.dtoToModel(flightDTO);
+        const response = await this.flightUpdateUseCaseInterface.execute(flightModel, id);
+        const flightResponseDTO = FlightMapper.modelToDto(response);
         return flightResponseDTO;
     }
     

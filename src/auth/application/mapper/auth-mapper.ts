@@ -1,15 +1,14 @@
-import { AuthModel } from "src/auth/domain/model/auth-model";
-import { AuthEntity } from "src/auth/infrastructure/persistence/entity/auth-entity";
-import { AuthDTO } from "src/auth/interface/rest/dto/auth-dto";
-import { AuthResponseDTO } from "src/auth/interface/rest/dto/auth-response-dto";
-import { TokenResponseDTO } from "src/auth/interface/rest/dto/token-response-dto";
+import { AuthModel } from "../../domain/model/auth-model";
+import { AuthEntity } from "../../infrastructure/entity/auth-entity";
+import { AuthDTO } from "../../interface/rest/dto/auth-dto";
+import { AuthResponseDTO } from "../../interface/rest/dto/auth-response-dto";
+import { TokenResponseDTO } from "../../interface/rest/dto/token-response-dto";
 
 export class AuthMapper{
     static dtoToModel(authDTO: AuthDTO): AuthModel {
         return {
             email: authDTO.email,
             password: authDTO.password,
-            role : undefined
         };
     }
 
@@ -17,7 +16,7 @@ export class AuthMapper{
         return {
             email: authModel.email,
             password: authModel.password,
-            role : undefined
+            role: authModel.role!
         };
     }
 

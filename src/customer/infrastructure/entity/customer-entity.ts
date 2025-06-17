@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Expose } from "class-transformer";
-import { AuthEntity } from "../../../auth/infrastructure/persistence/entity/auth-entity";
+import { AuthEntity } from "../../../auth/infrastructure/entity/auth-entity";
 
 @Entity("customer")
 export class CustomerEntity {

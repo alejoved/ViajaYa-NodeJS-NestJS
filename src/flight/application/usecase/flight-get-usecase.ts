@@ -1,8 +1,9 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
 import { FlightModel } from "../../../flight/domain/model/flight-model";
 import { FlightGetUseCaseInterface } from "../port/flight-get-usecase.interface";
 import { FlightMapper } from "../mapper/flight-mapper";
+import { Constants } from "src/common/constants";
 
 @Injectable()
 export class FlightGetUseCase implements FlightGetUseCaseInterface {
@@ -22,6 +23,9 @@ export class FlightGetUseCase implements FlightGetUseCaseInterface {
 
     async executeById(id: string): Promise<FlightModel>{
         const flightEntity = await this.flightRepositoryInterface.getById(id);
+        if(!flightEntity){
+            throw new NotFoundException(Constants.flightNotFound);
+        }
         const flightModel = FlightMapper.entityToModel(flightEntity);
         return flightModel;
     }
