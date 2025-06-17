@@ -23,8 +23,8 @@ services:
     container_name: viajaya-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${USERNAME_DB}
-      POSTGRES_PASSWORD: ${PASSWORD_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "${PORT_DB}:5432"  
     volumes:

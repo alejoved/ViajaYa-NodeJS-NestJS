@@ -22,8 +22,8 @@ import { ReservationEntity } from './reservation/infrastructure/entity/reservati
       host: process.env.HOST_DB,
       port: parseInt(process.env.PORT_DB!),
       database: process.env.POSTGRES_DB,
-      username: process.env.USERNAME_DB,
-      password: process.env.PASSWORD_DB,
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
       entities: [AuthEntity, CustomerEntity, FlightEntity, HotelEntity, ReservationEntity],
       synchronize: true
     }),

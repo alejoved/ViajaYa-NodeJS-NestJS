@@ -242,3 +242,33 @@ Aquí haces el binding: provide: 'AuthRepositoryInterface', useClass: AuthReposi
 | `Dominio`    | → `Entidad de persistencia` | `domain → infrastructure`   |
 | `Entity`     | → `Dominio`                 | `infraestructura → dominio` |
 | `Dominio`    | → `ResponseDTO`             | `domain → interface`        |
+
+## 📦 Docker
+
+```bash
+podman build -t doctorya-app:latest .
+podman compose up
+```
+---
+
+# MINIKUBE
+Descargar Minikube para windows
+Hacer la instalacion del .exe
+Si no se tiene docker-desktop iniciar minikube con hyperv
+```bash
+minikube delete
+minikube start
+minikube addons enable metrics-server
+kubectl get nodes
+kubectl get pods
+```
+Posterior es necesario crear la imagen
+Exportar la imagen y cargar la imagen a minikube y por ultimo aplicar los manifiestos
+```bash
+podman save -o viajaya-app.tar viajaya-app:latest
+minikube image load viajaya-app.tar
+kubectl apply -f k8s/
+kubectl logs "pod"
+kubectl delete pod "pod"
+minikube service
+```
