@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { ReservationModel } from "../../domain/model/reservation-model";
-import { ReservationRepositoryInterface } from "../../../reservation/domain/repository/reservation-repository.interface";
-import { ReservationGetUseCaseInterface } from "../port/reservation-get-usecase.interface";
-import { ReservationMapper } from "../mapper/reservation-mapper";
+import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
+import { ReservationGetUseCaseInterface } from "../interface/reservation-get-usecase.interface";
+import { ReservationMapper } from "../../adapter/mapper/reservation-mapper";
 import { Constants } from "../../../common/constants";
 
 @Injectable()

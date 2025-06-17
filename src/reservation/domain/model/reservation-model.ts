@@ -1,4 +1,4 @@
-import { CustomerModel } from "src/customer/domain/model/customer-model";
+import { CustomerModel } from "../../../customer/domain/model/customer-model";
 import { Status } from "../../../common/status";
 import { FlightModel } from "../../../flight/domain/model/flight-model";
 import { HotelModel } from "../../../hotel/domain/model/hotel-model";

@@ -6,7 +6,7 @@ import { FlightCreateUseCase } from './application/usecase/flight-create-usecase
 import { FlightUpdateUseCase } from './application/usecase/flight-update-usecase';
 import { FlightDeleteUseCase } from './application/usecase/flight-delete-usecase';
 import { FlightRepository } from './infrastructure/repository/flight-repository';
-import { FlightController } from './interface/rest/controller/flight.controller';
+import { FlightController } from './adapter/controller/flight.controller';
 
 @Module({
     imports: [TypeOrmModule.forFeature([FlightEntity])],

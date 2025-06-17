@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
+import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { FlightEntity } from "../entity/flight-entity";
 
 @Injectable()

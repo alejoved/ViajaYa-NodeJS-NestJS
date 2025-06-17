@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CustomerController } from './interface/rest/controller/customer.controller';
+import { CustomerController } from './adapter/controller/customer.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomerEntity } from './infrastructure/entity/customer-entity';
 import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';

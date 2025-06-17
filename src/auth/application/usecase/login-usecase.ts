@@ -3,7 +3,7 @@ import { compareSync } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { Constants } from "../../../common/constants";
 import { AuthRepositoryInterface } from "src/auth/domain/repository/auth-repository.interface";
-import { LoginUseCaseInterface } from "../port/login-usecase.interface";
+import { LoginUseCaseInterface } from "../interface/login-usecase.interface";
 import { AuthModel } from "src/auth/domain/model/auth-model";
 
 @Injectable()

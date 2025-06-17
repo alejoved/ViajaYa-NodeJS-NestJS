@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { CustomerRepositoryInterface } from "../../../customer/domain/repository/customer-repository.interface";
-import { CustomerModel } from "../../../customer/domain/model/customer-model";
-import { CustomerUpdateUseCaseInterface } from "../port/customer-update-usecase.interface";
-import { CustomerMapper } from "../mapper/customer-mapper";
-import { Constants } from "src/common/constants";
+import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
+import { CustomerModel } from "../../domain/model/customer-model";
+import { CustomerUpdateUseCaseInterface } from "../interface/customer-update-usecase.interface";
+import { Constants } from "../../../common/constants";
+import { CustomerMapper } from "../../adapter/mapper/customer-mapper";
 
 @Injectable()
 export class CustomerUpdateUseCase implements CustomerUpdateUseCaseInterface {

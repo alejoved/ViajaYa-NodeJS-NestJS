@@ -4,7 +4,7 @@ import { JwtStrategy } from './infrastructure/config/jwt-starategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthController } from './interface/rest/controller/auth.controller';
+import { AuthController } from './adapter/controller/auth.controller';
 import { LoginUseCase } from './application/usecase/login-usecase';
 import { RegisterUseCase } from './application/usecase/register-usecase';
 import { AuthRepository } from './infrastructure/repository/auth-repository';

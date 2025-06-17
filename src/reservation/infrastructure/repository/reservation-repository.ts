@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ReservationEntity } from "../entity/reservation-entity";
-import { ReservationRepositoryInterface } from "../../../reservation/domain/repository/reservation-repository.interface";
+import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
 
 @Injectable()
 export class ReservationRepository implements ReservationRepositoryInterface {

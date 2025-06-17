@@ -1,16 +1,16 @@
 import { ConflictException, Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { ReservationModel } from "../../../reservation/domain/model/reservation-model";
-import { ReservationRepositoryInterface } from "../../../reservation/domain/repository/reservation-repository.interface";
-import { ReservationCreateUseCaseInterface } from "../port/reservation-create-usecase.interface";
+import { ReservationModel } from "../../domain/model/reservation-model";
+import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
+import { ReservationCreateUseCaseInterface } from "../interface/reservation-create-usecase.interface";
 import { Constants } from "../../../common/constants";
 import { CustomerRepositoryInterface } from "../../../customer/domain/repository/customer-repository.interface";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
 import { HotelRepositoryInterface } from "../../../hotel/domain/repository/hotel-repository.interface";
 import { Status } from "../../../common/status";
-import { ReservationMapper } from "../mapper/reservation-mapper";
-import { CustomerMapper } from "../../../customer/application/mapper/customer-mapper";
-import { FlightMapper } from "../../../flight/application/mapper/flight-mapper";
-import { HotelMapper } from "../../../hotel/application/mapper/hotel-mapper";
+import { CustomerMapper } from "../../../customer/adapter/mapper/customer-mapper";
+import { FlightMapper } from "../../../flight/adapter/mapper/flight-mapper";
+import { HotelMapper } from "../../../hotel/adapter/mapper/hotel-mapper";
+import { ReservationMapper } from "../../adapter/mapper/reservation-mapper";
 
 @Injectable()
 export class ReservationCreateUseCase implements ReservationCreateUseCaseInterface {

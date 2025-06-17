@@ -1,8 +1,8 @@
 import { ConflictException, Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { ReservationRepositoryInterface } from "../../../reservation/domain/repository/reservation-repository.interface";
+import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
 import { Status } from "../../../common/status";
 import { Constants } from "../../../common/constants";
-import { ReservationConfirmUseCaseInterface } from "../port/reservation-confirm-usecase.interface";
+import { ReservationConfirmUseCaseInterface } from "../interface/reservation-confirm-usecase.interface";
 
 @Injectable()
 export class ReservationConfirmUseCase implements ReservationConfirmUseCaseInterface {

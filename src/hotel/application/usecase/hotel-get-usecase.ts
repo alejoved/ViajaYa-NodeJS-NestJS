@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { HotelGetUseCaseInterface } from "../port/hotel-get-usecase.interface";
+import { HotelGetUseCaseInterface } from "../interface/hotel-get-usecase.interface";
 import { HotelRepositoryInterface } from "../../domain/repository/hotel-repository.interface";
 import { HotelModel } from "../../domain/model/hotel-model";
-import { HotelMapper } from "../mapper/hotel-mapper";
 import { Constants } from "../../../common/constants";
+import { HotelMapper } from "../../adapter/mapper/hotel-mapper";
 
 @Injectable()
 export class HotelGetUseCase implements HotelGetUseCaseInterface {

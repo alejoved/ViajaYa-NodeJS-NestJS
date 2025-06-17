@@ -1,12 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { plainToInstance } from "class-transformer";
 import { Constants } from "../../../common/constants";
-import { ReservationEntity } from "../../infrastructure/entity/reservation-entity";
-import { ReservationModel } from "../../../reservation/domain/model/reservation-model";
-import { ReservationRepositoryInterface } from "../../../reservation/domain/repository/reservation-repository.interface";
-import { ReservationUpdateUseCaseInterface } from "../port/reservation-update-usecase.interface";
-import { ApiPermanentRedirectResponse } from "@nestjs/swagger";
-import { ReservationMapper } from "../mapper/reservation-mapper";
+import { ReservationModel } from "../../domain/model/reservation-model";
+import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
+import { ReservationUpdateUseCaseInterface } from "../interface/reservation-update-usecase.interface";
+import { ReservationMapper } from "../../adapter/mapper/reservation-mapper";
 
 @Injectable()
 export class ReservationUpdateUseCase implements ReservationUpdateUseCaseInterface {

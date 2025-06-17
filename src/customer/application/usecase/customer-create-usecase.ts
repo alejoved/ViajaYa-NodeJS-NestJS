@@ -1,10 +1,10 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { CustomerCreateUseCaseInterface } from "../port/customer-create-usecase.interface";
-import { CustomerRepositoryInterface } from "../../../customer/domain/repository/customer-repository.interface";
+import { CustomerCreateUseCaseInterface } from "../interface/customer-create-usecase.interface";
+import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
 import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
-import { CustomerModel } from "../../../customer/domain/model/customer-model";
-import { CustomerMapper } from "../mapper/customer-mapper";
+import { CustomerModel } from "../../domain/model/customer-model";
+import { CustomerMapper } from "../../adapter/mapper/customer-mapper";
 
 @Injectable()
 export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {

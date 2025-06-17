@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { HotelEntity } from './infrastructure/entity/hotel-entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { HotelController } from './interface/rest/controller/hotel.controller';
+import { HotelController } from './adapter/controller/hotel.controller';
 import { HotelGetUseCase } from './application/usecase/hotel-get-usecase';
 import { HotelCreateUseCase } from './application/usecase/hotel-create-usecase';
 import { HotelUpdateUseCase } from './application/usecase/hotel-update-usecase';

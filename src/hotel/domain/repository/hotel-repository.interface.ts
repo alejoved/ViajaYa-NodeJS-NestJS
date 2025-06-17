@@ -1,4 +1,4 @@
-import { HotelEntity } from "src/hotel/infrastructure/entity/hotel-entity";
+import { HotelEntity } from "../../infrastructure/entity/hotel-entity";
 
 export interface HotelRepositoryInterface{
     get(): Promise<HotelEntity[]>;

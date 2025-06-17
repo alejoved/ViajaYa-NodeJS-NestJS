@@ -77,20 +77,6 @@ id_servicio (FK)
 - **Swagger** - Documentación automática de la API
 - **Jest** - Testing unitario
 - **Docker** - Entorno de desarrollo reproducible
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-src/
-├── doctors/
-├── patients/
-├── appointments/
-├── common/
-test/
-```
-
 ---
 
 ## 🎯 Qué demuestra este proyecto
@@ -184,24 +170,50 @@ Innecesario para proyectos simples o CRUD.
 🧠 Clean Architecture: Visión general
 Clean Architecture separa las responsabilidades en capas concéntricas, priorizando la independencia del negocio frente a frameworks, bases de datos o protocolos externos.
 
-🗂️ Estructura de carpetas típica
+📁 Estructura de Carpetas — Clean Architecture
+graphql
+Copiar
+Editar
 src/
-├── domain/
-│   ├── model/
-│   └── repository/
-├── application/
-│   ├── usecase/
-│   ├── command/ (o dto/)
-│   ├── port/
-│   └── model/ (opcional para respuestas)
-├── adapter/
-│   ├── controller/
-│   ├── dto/
-│   └── mapper/
-├── infrastructure/
-│   ├── repository/
-│   └── config/
-└── main.ts / app.module.ts
+├── domain/                          # Capa de Entidades (núcleo del sistema)
+│   ├── models/                      # Entidades del dominio (objetos ricos)
+│   │   └── customer.model.ts
+│   ├── repositories/                # Interfaces (contratos) de persistencia
+│   │   └── customer.repository.ts
+│   └── exceptions/                  # Excepciones de negocio
+│       └── customer-not-found.exception.ts
+│
+├── application/                     # Casos de uso (Application Business Rules)
+│   ├── use-cases/                   # Lógica orquestadora del dominio
+│   │   └── create-customer.use-case.ts
+│   └── interfaces/                  # Interfaces que los casos de uso consumen
+│       └── services/                # (Opcional: para puertos secundarios abstractos)
+│           └── email-sender.interface.ts
+│
+├── infrastructure/                 # Implementaciones concretas (Frameworks & Drivers)
+│   ├── persistence/                # Base de datos (ORM, repositorios, migraciones)
+│   │   ├── entities/               # Entidades ORM como TypeORM o Prisma
+│   │   │   └── customer.entity.ts
+│   │   └── repositories/           # Implementaciones concretas de los repositorios
+│   │       └── customer.repository.impl.ts
+│   ├── services/                   # Adaptadores externos (email, mensajería, etc.)
+│   └── config/                     # Configuración de env, database, etc.
+│
+├── adapters/                       # Interface Adapters (REST, GraphQL, CLI, etc.)
+│   ├── controllers/                # Controladores que reciben la entrada
+│   │   └── customer.controller.ts
+│   ├── dtos/                       # Data Transfer Objects
+│   │   └── customer.dto.ts
+│   ├── mappers/                    # Mapear entre DTOs y modelos
+│   │   └── customer.mapper.ts
+│   └── middleware/                 # Interceptores, guards, etc.
+│
+├── shared/                         # Código común o utilidades
+│   ├── utils/
+│   ├── constants/
+│   └── types/
+│
+└── main.ts
 
 1. 📦 domain/ (Nivel más interno)
 Responsabilidad: Define las reglas de negocio puras. Esta capa no depende de nada externo.

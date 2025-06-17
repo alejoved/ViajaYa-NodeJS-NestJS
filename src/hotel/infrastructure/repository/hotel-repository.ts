@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { HotelRepositoryInterface } from "../../../hotel/domain/repository/hotel-repository.interface";
+import { HotelRepositoryInterface } from "../../domain/repository/hotel-repository.interface";
 import { HotelEntity } from "../entity/hotel-entity";
 
 @Injectable()

@@ -4,7 +4,7 @@ import { FlightEntity } from '../flight/infrastructure/entity/flight-entity';
 import { HotelEntity } from '../hotel/infrastructure/entity/hotel-entity';
 import { ReservationEntity } from './infrastructure/entity/reservation-entity';
 import { CustomerEntity } from '../customer/infrastructure/entity/customer-entity';
-import { ReservationController } from './interface/rest/controller/reservation.controller';
+import { ReservationController } from './adapter/controller/reservation.controller';
 import { ReservationGetUseCase } from './application/usecase/reservation-get-usecase';
 import { ReservationCreateUseCase } from './application/usecase/reservation-create-usecase';
 import { ReservationUpdateUseCase } from './application/usecase/reservation-update-usecase';
