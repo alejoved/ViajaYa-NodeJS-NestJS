@@ -36,7 +36,7 @@ export class HotelMapper{
     }
     static modelToDto(hotelModel: HotelModel): HotelResponseDTO {
         return {
-            id: hotelModel.id,
+            id: hotelModel.id!,
             name: hotelModel.name,
             country: hotelModel.country,
             city: hotelModel.city,

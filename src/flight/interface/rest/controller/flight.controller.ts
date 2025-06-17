@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, Inject } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthDecorator } from '../../../../auth/infrastructure/config/auth.decorator';
-import { plainToInstance } from 'class-transformer';
 import { FlightResponseDTO } from '../dto/fligth-response-dto';
 import { Role } from '../../../../common/role';
 import { FlightDTO } from '../dto/fligth-dto';
@@ -26,7 +25,7 @@ export class FlightController {
     @Get()
     async getAll(){
         const flightModel = this.flightGetUseCaseInterface.execute();
-        const flightResponseDTO = plainToInstance(FlightResponseDTO, flightModel, {excludeExtraneousValues: true});
+        const flightResponseDTO = (await flightModel).map(FlightMapper.modelToDto);
         return flightResponseDTO;
     }
 

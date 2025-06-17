@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Inject, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { plainToInstance } from 'class-transformer';
 import { ReservationResponseDTO } from '../dto/reservation-response.dto';
 import { ReservationCreateUseCaseInterface } from '../../../application/port/reservation-create-usecase.interface';
 import { ReservationDeleteUseCaseInterface } from '../../../application/port/reservation-delete-usecase.interface';
@@ -9,10 +8,9 @@ import { ReservationUpdateUseCaseInterface } from '../../../application/port/res
 import { AuthDecorator } from '../../../../auth/infrastructure/config/auth.decorator';
 import { Role } from '../../../../common/role';
 import { ReservationDTO } from '../dto/reservation.dto';
-import { ReservationCreateCommand } from '../../../application/command/reservation-create-command';
-import { ReservationUpdateCommand } from '../../../application/command/reservation-update-command';
 import { ReservationConfirmUseCaseInterface } from '../../../application/port/reservation-confirm-usecase.interface';
 import { ReservationCancelUseCaseInterface } from '../../../application/port/reservation-cancel-usecase.interface';
+import { ReservationMapper } from 'src/reservation/application/mapper/reservation-mapper';
 
 @ApiTags('Reservations')
 @Controller('reservation')
@@ -30,9 +28,9 @@ export class ReservationController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get()
-    getAll(){
-        const reservationModel = this.reservationGetUseCaseInterface.execute();
-        const reservationResponseDTO = plainToInstance(ReservationResponseDTO, reservationModel, {excludeExtraneousValues: true});
+    async getAll(){
+        const reservationModel = await this.reservationGetUseCaseInterface.execute();
+        const reservationResponseDTO = reservationModel.map(ReservationMapper.modelToDto);
         return reservationResponseDTO;
     }
 
@@ -42,9 +40,9 @@ export class ReservationController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get(":id")
-    getById(@Param("id", ParseUUIDPipe) id: string){
-        const reservationModel = this.reservationGetUseCaseInterface.executeById(id);
-        const reservationResponseDTO = plainToInstance(ReservationResponseDTO, reservationModel, {excludeExtraneousValues: true});
+    async getById(@Param("id", ParseUUIDPipe) id: string){
+        const reservationModel = await this.reservationGetUseCaseInterface.executeById(id);
+        const reservationResponseDTO = ReservationMapper.modelToDto(reservationModel);
         return reservationResponseDTO;
     }
     
@@ -54,10 +52,10 @@ export class ReservationController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Post()
-    create(@Body() reservationDTO: ReservationDTO){
-        const reservationCreateCommand = plainToInstance(ReservationCreateCommand, reservationDTO);
-        const reservationModel = this.reservationCreateUseCaseInterface.execute(reservationCreateCommand);
-        const reservationResponseDTO = plainToInstance(ReservationResponseDTO, reservationModel, {excludeExtraneousValues: true});
+    async create(@Body() reservationDTO: ReservationDTO){
+        const reservationModel = ReservationMapper.dtoToModel(reservationDTO);
+        const response = await this.reservationCreateUseCaseInterface.execute(reservationModel);
+        const reservationResponseDTO = ReservationMapper.modelToDto(response);
         return reservationResponseDTO;
     }
 
@@ -67,10 +65,10 @@ export class ReservationController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
-    update(@Body() reservationDTO: ReservationDTO, @Param("id", ParseUUIDPipe) id: string){
-        const reservationUpdateCommand = plainToInstance(ReservationUpdateCommand, reservationDTO);
-        const reservationModel = this.reservationUpdateUseCaseInterface.execute(reservationUpdateCommand, id);
-        const reservationResponseDTO = plainToInstance(ReservationResponseDTO, reservationModel, {excludeExtraneousValues: true});
+    async update(@Body() reservationDTO: ReservationDTO, @Param("id", ParseUUIDPipe) id: string){
+        const reservationModel = ReservationMapper.dtoToModel(reservationDTO);
+        const response = await this.reservationUpdateUseCaseInterface.execute(reservationModel, id);
+        const reservationResponseDTO = ReservationMapper.modelToDto(response);
         return reservationResponseDTO;
     }
     

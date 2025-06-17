@@ -53,7 +53,6 @@ export class ReservationMapper{
             status: reservationEntity.status!,
             total: reservationEntity.total!,
             customerModel: {
-                id: reservationEntity.customerEntity.id,
                 identification: reservationEntity.customerEntity.identification!,
                 name: reservationEntity.customerEntity.name,
                 authModel: {

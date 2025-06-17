@@ -3,14 +3,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import { Auth } from "../entity/auth-entity";
+import { AuthEntity } from "../entity/auth-entity";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy (Strategy) {
 
     constructor(
-        @InjectRepository(Auth)
-        private readonly authRepository: Repository<Auth>
+        @InjectRepository(AuthEntity)
+        private readonly authRepository: Repository<AuthEntity>
     ){
         super({
             secretOrKey: process.env.JWT_SECRET!,
@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy (Strategy) {
         });
     }
 
-    async validate(payload: any): Promise<Auth>{
+    async validate(payload: any): Promise<AuthEntity>{
         const auth = await this.authRepository.findOneBy({email: payload.email});
         if (!auth){
             throw new UnauthorizedException();

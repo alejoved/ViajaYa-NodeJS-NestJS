@@ -2,7 +2,7 @@ import { BadRequestException, CanActivate, ExecutionContext, ForbiddenException,
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
 import { Constants } from "../../../common/constants";
-import { Auth } from "../entity/auth-entity";
+import { AuthModel } from "src/auth/domain/model/auth-model";
 
 @Injectable()
 export class RolesGuard implements CanActivate{
@@ -14,7 +14,7 @@ export class RolesGuard implements CanActivate{
         const validRoles: string[] = this.reflector.get( "roles", context.getHandler() );
         if(!validRoles || validRoles.length === 0) return true;
         const req = context.switchToHttp().getRequest();
-        const auth = req.user as Auth;
+        const auth = req.user as AuthModel;
         if(!auth){
             throw new BadRequestException(Constants.authenticationNotFound);
         }

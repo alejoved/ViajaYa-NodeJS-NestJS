@@ -1,5 +1,4 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Expose } from "class-transformer";
 
 @Entity("flight")
 export class FlightEntity {

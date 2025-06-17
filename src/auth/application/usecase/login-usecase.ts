@@ -22,7 +22,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
       if(!authEntity){
         throw new NotFoundException(Constants.authNotFound);
       }
-      if(!compareSync(authModel.password, authEntity.password)){
+      if(!compareSync(authModel.password!, authEntity.password!)){
         throw new UnauthorizedException(Constants.credentialsNotValid);
       }
       const token = this.jwtService.sign({email: authModel.email});
