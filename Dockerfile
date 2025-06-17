@@ -13,9 +13,10 @@ RUN npm install
 # Copiar todo el proyecto
 COPY . .
 
+RUN chmod +x ./node_modules/.bin/nest
+
 # Compilar el proyecto NestJS (assume que usa TypeScript)
 RUN npm run build
-
 
 # Etapa 2: Crear imagen liviana para producción
 FROM node:18-alpine
