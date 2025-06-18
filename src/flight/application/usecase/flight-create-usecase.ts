@@ -15,9 +15,7 @@ export class FlightCreateUseCase implements FlightCreateUseCaseInterface {
       ) {}
 
     async execute(flightModel: FlightModel): Promise<FlightModel>{
-        const flightEntity = FlightMapper.modelToEntity(flightModel);
-        const response = await this.flightRepositoryInterface.create(flightEntity);
-        const flighModel = FlightMapper.entityToModel(response);
-        return flighModel;
+        const response = await this.flightRepositoryInterface.create(flightModel);
+        return response;
     }
 }

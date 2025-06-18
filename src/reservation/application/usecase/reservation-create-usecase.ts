@@ -7,10 +7,6 @@ import { CustomerRepositoryInterface } from "../../../customer/domain/repository
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";
 import { HotelRepositoryInterface } from "../../../hotel/domain/repository/hotel-repository.interface";
 import { Status } from "../../../common/status";
-import { CustomerMapper } from "../../../customer/adapter/mapper/customer-mapper";
-import { FlightMapper } from "../../../flight/adapter/mapper/flight-mapper";
-import { HotelMapper } from "../../../hotel/adapter/mapper/hotel-mapper";
-import { ReservationMapper } from "../../adapter/mapper/reservation-mapper";
 
 @Injectable()
 export class ReservationCreateUseCase implements ReservationCreateUseCaseInterface {
@@ -49,11 +45,6 @@ export class ReservationCreateUseCase implements ReservationCreateUseCaseInterfa
         reservationModel.reservationDate = new Date();
         reservationModel.status = Status.PENDING;
         reservationModel.total = total;
-        reservationModel.customerModel = CustomerMapper.entityToModel(customerExists);
-        reservationModel.flightModel = FlightMapper.entityToModel(flightExists);
-        reservationModel.hotelModel = HotelMapper.entityToModel(hotelExists);
-        const reservationEntity = ReservationMapper.modelToEntity(reservationModel);
-        const response = await this.reservationRepositoryInterface.create(reservationEntity);
-        return ReservationMapper.entityToModel(response);
+        return await this.reservationRepositoryInterface.create(reservationModel);
     }
 }

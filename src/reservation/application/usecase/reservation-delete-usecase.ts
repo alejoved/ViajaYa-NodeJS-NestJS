@@ -14,10 +14,6 @@ export class ReservationDeleteUseCase implements ReservationDeleteUseCaseInterfa
       ) {}
 
     async execute(id: string): Promise<void>{
-        const reservation = await this.reservationRepositoryInterface.getById(id);
-        if (!reservation){
-            throw new NotFoundException(Constants.reservationNotFound);
-        }
-        await this.reservationRepositoryInterface.delete(reservation);
+        await this.reservationRepositoryInterface.delete(id);
     }
 }

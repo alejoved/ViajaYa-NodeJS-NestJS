@@ -3,7 +3,6 @@ import { HotelUpdateUseCaseInterface } from "../interface/hotel-update-usecase.i
 import { Constants } from "../../../common/constants";
 import { HotelRepositoryInterface } from "../../domain/repository/hotel-repository.interface";
 import { HotelModel } from "../../domain/model/hotel-model";
-import { HotelMapper } from "../../adapter/mapper/hotel-mapper";
 
 @Injectable()
 export class HotelUpdateUseCase implements HotelUpdateUseCaseInterface {
@@ -20,9 +19,7 @@ export class HotelUpdateUseCase implements HotelUpdateUseCaseInterface {
         if (!hotelExists){
             throw new NotFoundException(Constants.hotelNotFound);
         }
-        const hotelEntity = HotelMapper.modelToEntity(hotelModel);
-        hotelEntity.id = id;
-        const response = await this.hotelRepositoryInterface.update(hotelEntity);
-        return HotelMapper.entityToModel(response);
+        hotelModel.id = id;
+        return await this.hotelRepositoryInterface.update(hotelModel);
     }
 }

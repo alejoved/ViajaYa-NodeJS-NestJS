@@ -14,10 +14,6 @@ export class FlightDeleteUseCase implements FlightDeleteUseCaseInterface {
       ) {}
 
     async execute(id: string): Promise<void>{
-        const flight = await this.flightRepositoryInterface.getById(id);
-        if (!flight){
-            throw new NotFoundException(Constants.customerNotFound);
-        }
-        await this.flightRepositoryInterface.delete(flight);
+        await this.flightRepositoryInterface.delete(id);
     }
 }

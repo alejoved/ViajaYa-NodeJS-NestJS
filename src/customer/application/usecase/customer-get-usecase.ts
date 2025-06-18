@@ -3,7 +3,6 @@ import { CustomerRepositoryInterface } from "../../domain/repository/customer-re
 import { CustomerModel } from "../../domain/model/customer-model";
 import { CustomerGetUseCaseInterface } from "../interface/customer-get-usecase.interface";
 import { Constants } from "../../../common/constants";
-import { CustomerMapper } from "src/customer/adapter/mapper/customer-mapper";
 
 @Injectable()
 export class CustomerGetUseCase implements CustomerGetUseCaseInterface {
@@ -16,25 +15,22 @@ export class CustomerGetUseCase implements CustomerGetUseCaseInterface {
       ) {}
 
     async execute(): Promise<CustomerModel[]>{
-        const customerEntity = await this.customerRepositoryInterface.get();
-        const customerModel = customerEntity.map(CustomerMapper.entityToModel);
+        const customerModel = await this.customerRepositoryInterface.get();
         return customerModel;
     }
 
     async executeById(id: string): Promise<CustomerModel>{
-        const customerEntity = await this.customerRepositoryInterface.getById(id);
-        if(!customerEntity){
+        const customerModel = await this.customerRepositoryInterface.getById(id);
+        if(!customerModel){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        const customerModel = CustomerMapper.entityToModel(customerEntity);
         return customerModel;
     }
     async executeByEmail(email: string): Promise<CustomerModel>{
-        const customerEntity = await this.customerRepositoryInterface.getByEmail(email);
-        if(!customerEntity){
+        const customerModel = await this.customerRepositoryInterface.getByEmail(email);
+        if(!customerModel){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        const customerModel = CustomerMapper.entityToModel(customerEntity);
         return customerModel;
     }
 }

@@ -4,7 +4,6 @@ import { CustomerRepositoryInterface } from "../../domain/repository/customer-re
 import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
 import { CustomerModel } from "../../domain/model/customer-model";
-import { CustomerMapper } from "../../adapter/mapper/customer-mapper";
 
 @Injectable()
 export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
@@ -20,8 +19,6 @@ export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
         const password = hashSync(customerModel.authModel.password!, 3);
         customerModel.authModel.role = Role.CUSTOMER;
         customerModel.authModel.password = password;
-        const customerEntity = CustomerMapper.modelToEntity(customerModel);
-        await this.customerRepositoryInterface.create(customerEntity);
-        return CustomerMapper.entityToModel(customerEntity);
+        return await this.customerRepositoryInterface.create(customerModel);
     }
 }

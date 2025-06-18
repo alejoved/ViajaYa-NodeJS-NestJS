@@ -2,6 +2,7 @@ import { BadRequestException, CanActivate, ExecutionContext, ForbiddenException,
 import { Reflector } from "@nestjs/core";
 import { Observable } from "rxjs";
 import { Constants } from "../../../common/constants";
+import { Auth } from "../entity/auth";
 import { AuthModel } from "src/auth/domain/model/auth-model";
 
 @Injectable()

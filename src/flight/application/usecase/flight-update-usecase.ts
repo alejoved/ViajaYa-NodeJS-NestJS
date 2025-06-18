@@ -3,7 +3,6 @@ import { FlightModel } from "../../domain/model/flight-model";
 import { FlightUpdateUseCaseInterface } from "../interface/flight-update-usecase.interface";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { Constants } from "../../../common/constants";
-import { FlightMapper } from "../../adapter/mapper/flight-mapper";
 
 @Injectable()
 export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
@@ -20,8 +19,7 @@ export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
         if(!flightExist){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        const flightEntity = FlightMapper.modelToEntity(flightModel);
-        const response = await this.flightRepositoryInterface.update(flightEntity);
-        return FlightMapper.entityToModel(response);
+        flightModel.id = id;
+        return await this.flightRepositoryInterface.update(flightModel);
     }
 }

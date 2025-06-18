@@ -1,8 +1,11 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { Flight } from "../entity/flight";
+import { FlightMapper } from "../mapper/flight-mapper";
+import { FlightModel } from "../../domain/model/flight-model";
+import { Constants } from "../../../common/constants";
 
 @Injectable()
 export class FlightRepository implements FlightRepositoryInterface {
@@ -14,28 +17,42 @@ export class FlightRepository implements FlightRepositoryInterface {
         private readonly flightRepository: Repository<Flight>,
       ) {}
 
-    async get(): Promise<Flight[]>{
-        return await this.flightRepository.find();
+    async get(): Promise<FlightModel[]>{
+        const flight = await this.flightRepository.find();
+        return flight.map(FlightMapper.modelToEntity);
     }
 
-    async getById(id: string): Promise<Flight | null>{
-        return await this.flightRepository.findOneBy({id: id});
+    async getById(id: string): Promise<FlightModel>{
+        const flight = await this.flightRepository.findOneBy({id: id});
+        if(!flight){
+            throw new NotFoundException(Constants.flightNotFound);
+        }
+        return FlightMapper.entityToModel(flight);
     }
 
-    async getByOriginAndDestiny(origin: string, destiny: string): Promise<Flight[]>{
-        return await this.flightRepository.findBy({origin: origin, destiny: destiny});
+    async getByOriginAndDestiny(origin: string, destiny: string): Promise<FlightModel[]>{
+        const flight = await this.flightRepository.findBy({origin: origin, destiny: destiny});
+        return flight.map(FlightMapper.entityToModel);
     }
 
-    async create(flight: Flight): Promise<Flight>{
+    async create(flightModel: FlightModel): Promise<FlightModel>{
+        const flight = FlightMapper.modelToEntity(flightModel);
         this.flightRepository.create(flight);
-        return await this.flightRepository.save(flight);
+        const response = await this.flightRepository.save(flight);
+        return FlightMapper.entityToModel(response);
     }
 
-    async update(flight: Flight): Promise<Flight>{
-        return await this.flightRepository.save(flight);
+    async update(flightModel: FlightModel): Promise<FlightModel>{
+        const flight = FlightMapper.modelToEntity(flightModel);
+        const response = await this.flightRepository.save(flight);
+        return FlightMapper.entityToModel(response);
     }
 
-    async delete(flight: Flight): Promise<void>{
+    async delete(id: string): Promise<void>{
+        const flight = await this.flightRepository.findOneBy({id:id});
+        if(!flight){
+            throw new NotFoundException(Constants.flightNotFound);
+        }
         await this.flightRepository.delete(flight);
     }
 }

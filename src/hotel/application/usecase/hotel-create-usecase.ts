@@ -15,8 +15,6 @@ export class HotelCreateUseCase implements HotelCreateUseCaseInterface {
       ) {}
 
     async execute(hotelModel: HotelModel): Promise<HotelModel>{
-        const hotelEntity = HotelMapper.modelToEntity(hotelModel);
-        const response = await this.hotelRepositoryInterface.create(hotelEntity);
-        return HotelMapper.entityToModel(response);
+        return await this.hotelRepositoryInterface.create(hotelModel);
     }
 }

@@ -3,7 +3,6 @@ import { HotelGetUseCaseInterface } from "../interface/hotel-get-usecase.interfa
 import { HotelRepositoryInterface } from "../../domain/repository/hotel-repository.interface";
 import { HotelModel } from "../../domain/model/hotel-model";
 import { Constants } from "../../../common/constants";
-import { HotelMapper } from "../../adapter/mapper/hotel-mapper";
 
 @Injectable()
 export class HotelGetUseCase implements HotelGetUseCaseInterface {
@@ -16,23 +15,20 @@ export class HotelGetUseCase implements HotelGetUseCaseInterface {
       ) {}
 
     async execute(): Promise<HotelModel[]>{
-        const hotelEntity = await this.hotelRepositoryInterface.get();
-        const hotelModel = hotelEntity.map(HotelMapper.entityToModel);
+        const hotelModel = await this.hotelRepositoryInterface.get();
         return hotelModel;
     }
 
     async executeById(id: string): Promise<HotelModel>{
-        const hotelEntity = await this.hotelRepositoryInterface.getById(id);
-        if (!hotelEntity){
+        const hotelModel = await this.hotelRepositoryInterface.getById(id);
+        if(!hotelModel){
             throw new NotFoundException(Constants.hotelNotFound);
         }
-        const hotelModel = HotelMapper.entityToModel(hotelEntity);
         return hotelModel;
     }
 
     async executeByCountryAndCity(country: string, city: string): Promise<HotelModel[]>{
-        const hotelEntity = await this.hotelRepositoryInterface.getByCountryAndCity(country, city);
-        const hotelModel = hotelEntity.map(HotelMapper.entityToModel);
+        const hotelModel = await this.hotelRepositoryInterface.getByCountryAndCity(country, city);
         return hotelModel;
     }
 }

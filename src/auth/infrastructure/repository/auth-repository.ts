@@ -3,9 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
 import { Repository } from "typeorm";
 import { Auth } from "../entity/auth";
-import { AuthModel } from "src/auth/domain/model/auth-model";
+import { AuthModel } from "../../domain/model/auth-model";
 import { AuthMapper } from "../mapper/auth-mapper";
-import { Constants } from "src/common/constants";
+import { Constants } from "../../../common/constants";
 
 @Injectable()
 export class AuthRepository implements AuthRepositoryInterface {
@@ -22,7 +22,7 @@ export class AuthRepository implements AuthRepositoryInterface {
         return auth.map(AuthMapper.entityToModel);
     }
 
-    async getByEmail(email: string): Promise<AuthModel | null>{
+    async getByEmail(email: string): Promise<AuthModel>{
         const auth = await this.authRepository.findOneBy({email: email});
         if(!auth){
             throw new NotFoundException(Constants.authNotFound);

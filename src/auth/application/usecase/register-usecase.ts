@@ -4,7 +4,6 @@ import { Role } from "../../../common/role";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
 import { RegisterUseCaseInterface } from "../interface/register-usecase.interface";
 import { AuthModel } from "../../domain/model/auth-model";
-import { AuthMapper } from "../../infrastructure/mapper/auth-mapper";
 
 
 @Injectable()
@@ -19,9 +18,6 @@ export class RegisterUseCase implements RegisterUseCaseInterface{
       const password = hashSync(authModel.password!, 3);
       authModel.password = password;
       authModel.role = Role.ADMIN;
-      const authEntity = AuthMapper.modelToEntity(authModel);
-      await this.authRepositoryInterface.create(authEntity);
-      const response = AuthMapper.entityToModel(authEntity);
-      return response
+      return await this.authRepositoryInterface.create(authModel);
     }
 }

@@ -1,6 +1,5 @@
 import { CustomerResponseDTO } from "../../adapter/dto/customer-response-dto";
 import { CustomerModel } from "../../domain/model/customer-model";
-import { Customer } from "../../infrastructure/entity/customer";
 import { CustomerDTO } from "../../adapter/dto/customer-dto";
 
 export class CustomerMapper{
@@ -14,31 +13,6 @@ export class CustomerMapper{
                 }
             };
         }
-    
-    static modelToEntity(customerModel: CustomerModel): Customer {
-        return {
-            identification: customerModel.identification,
-            name: customerModel.name,
-            auth: {
-                email: customerModel.authModel.email, 
-                password: customerModel.authModel.password,
-                role: customerModel.authModel.role!
-            }
-        };
-    }
-
-    static entityToModel(customerEntity: Customer): CustomerModel {
-        return {
-            id: customerEntity.id!,
-            identification: customerEntity.identification,
-            name: customerEntity.name,
-            authModel : {
-                email: customerEntity.auth.email, 
-                password: customerEntity.auth.password, 
-                role: customerEntity.auth.role
-            }
-        };
-    }
     static modelToDto(customerModel: CustomerModel): CustomerResponseDTO {
         return {
             id: customerModel.id!,

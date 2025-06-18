@@ -20,9 +20,7 @@ export class ReservationUpdateUseCase implements ReservationUpdateUseCaseInterfa
         if (!reservationExists){
             throw new NotFoundException(Constants.hotelNotFound);
         }
-        const reservationEntity = ReservationMapper.modelToEntity(reservationModel);
-        reservationEntity.id = id;
-        const response = await this.reservationRepositoryInterface.update(reservationEntity);
-        return ReservationMapper.entityToModel(response);
+        reservationModel.id = id;
+        return await this.reservationRepositoryInterface.update(reservationModel);
     }
 }
