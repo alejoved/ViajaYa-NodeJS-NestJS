@@ -1,6 +1,6 @@
 import { ReservationResponseDTO } from "../../adapter/dto/reservation-response.dto";
 import { ReservationModel } from "../../domain/model/reservation-model";
-import { ReservationEntity } from "../../infrastructure/entity/reservation-entity";
+import { Reservation} from "../../infrastructure/entity/reservation";
 import { ReservationDTO } from "../../adapter/dto/reservation.dto";
 
 export class ReservationMapper{
@@ -13,21 +13,21 @@ export class ReservationMapper{
         };
     }
 
-    static modelToEntity(reservationModel: ReservationModel): ReservationEntity {
+    static modelToEntity(reservationModel: ReservationModel): Reservation {
         return {
             numberNights: reservationModel.numberNights,
             reservationDate: reservationModel.reservationDate!,
             status: reservationModel.status!,
             total: reservationModel.total!,
-            customerEntity: {
+            customer: {
                 id: reservationModel.customerModel?.id,
                 identification: reservationModel.customerModel?.identification!,
                 name: reservationModel.customerModel?.name!,
-                authEntity: {
+                auth: {
                     email: reservationModel.customerModel?.authModel.email!,
                 }
             }, 
-            flightEntity: {
+            flight: {
                 airline: reservationModel.flightModel!.airline,
                 origin: reservationModel.flightModel!.origin,
                 destiny:  reservationModel.flightModel!.destiny,
@@ -35,7 +35,7 @@ export class ReservationMapper{
                 layovers: reservationModel.flightModel!.layovers,
                 price: reservationModel.flightModel!.price
             },
-            hotelEntity: {
+            hotel: {
                 name: reservationModel.hotelModel!.name,
                 country: reservationModel.hotelModel!.country,
                 city: reservationModel.hotelModel!.city,
@@ -45,34 +45,34 @@ export class ReservationMapper{
         };
     }
 
-    static entityToModel(reservationEntity: ReservationEntity): ReservationModel {
+    static entityToModel(reservation: Reservation): ReservationModel {
         return {
-            id: reservationEntity.id,
-            numberNights: reservationEntity.numberNights,
-            reservationDate: reservationEntity.reservationDate!,
-            status: reservationEntity.status!,
-            total: reservationEntity.total!,
+            id: reservation.id,
+            numberNights: reservation.numberNights,
+            reservationDate: reservation.reservationDate!,
+            status: reservation.status!,
+            total: reservation.total!,
             customerModel: {
-                identification: reservationEntity.customerEntity.identification!,
-                name: reservationEntity.customerEntity.name,
+                identification: reservation.customer.identification!,
+                name: reservation.customer.name,
                 authModel: {
-                    email: reservationEntity.customerEntity.authEntity.email,
+                    email: reservation.customer.auth.email,
                 }
             }, 
             flightModel: {
-                airline: reservationEntity.flightEntity.airline,
-                origin: reservationEntity.flightEntity.origin,
-                destiny:  reservationEntity.flightEntity.destiny,
-                departure: reservationEntity.flightEntity.departure,
-                layovers: reservationEntity.flightEntity.layovers,
-                price: reservationEntity.flightEntity.price
+                airline: reservation.flight.airline,
+                origin: reservation.flight.origin,
+                destiny:  reservation.flight.destiny,
+                departure: reservation.flight.departure,
+                layovers: reservation.flight.layovers,
+                price: reservation.flight.price
             },
             hotelModel: {
-                name: reservationEntity.hotelEntity.name,
-                country: reservationEntity.hotelEntity.country,
-                city: reservationEntity.hotelEntity.city,
-                category: reservationEntity.hotelEntity.category,
-                pricePerNight: reservationEntity.hotelEntity.pricePerNight
+                name: reservation.hotel.name,
+                country: reservation.hotel.country,
+                city: reservation.hotel.city,
+                category: reservation.hotel.category,
+                pricePerNight: reservation.hotel.pricePerNight
             }
         };
     }

@@ -8,10 +8,10 @@ import { AuthController } from './adapter/controller/auth.controller';
 import { LoginUseCase } from './application/usecase/login-usecase';
 import { RegisterUseCase } from './application/usecase/register-usecase';
 import { AuthRepository } from './infrastructure/repository/auth-repository';
-import { AuthEntity } from './infrastructure/entity/auth-entity';
+import { Auth } from './infrastructure/entity/auth';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([AuthEntity]),
+    imports: [TypeOrmModule.forFeature([Auth]),
     PassportModule.register({defaultStrategy: "jwt"}),
     JwtModule.registerAsync({
         imports: [ConfigModule],

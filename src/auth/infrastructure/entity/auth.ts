@@ -3,7 +3,7 @@ import { Role } from "../../../common/role";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("auth")
-export class AuthEntity {
+export class Auth {
   @Expose()
   @PrimaryColumn()
   email: string;

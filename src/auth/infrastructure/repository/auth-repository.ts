@@ -1,29 +1,40 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
 import { Repository } from "typeorm";
-import { AuthEntity } from "../entity/auth-entity";
+import { Auth } from "../entity/auth";
+import { AuthModel } from "src/auth/domain/model/auth-model";
+import { AuthMapper } from "../mapper/auth-mapper";
+import { Constants } from "src/common/constants";
 
 @Injectable()
 export class AuthRepository implements AuthRepositoryInterface {
 
-    private readonly logger = new Logger("AuthService");
+    private readonly logger = new Logger("AuthRepository");
 
     constructor(
-        @InjectRepository(AuthEntity)
-        private readonly authRepository: Repository<AuthEntity>,
+        @InjectRepository(Auth)
+        private readonly authRepository: Repository<Auth>,
       ) {}
 
-    async get(): Promise<AuthEntity[]>{
-        return await this.authRepository.find();
+    async get(): Promise<AuthModel[]>{
+        const auth = await this.authRepository.find();
+        return auth.map(AuthMapper.entityToModel);
     }
 
-    async getByEmail(email: string): Promise<AuthEntity | null>{
-        return await this.authRepository.findOneBy({email: email});
+    async getByEmail(email: string): Promise<AuthModel | null>{
+        const auth = await this.authRepository.findOneBy({email: email});
+        if(!auth){
+            throw new NotFoundException(Constants.authNotFound);
+        }
+        return AuthMapper.entityToModel(auth);
+
     }
 
-    async create(authEntity: AuthEntity): Promise<AuthEntity>{
-        this.authRepository.create(authEntity);
-        return await this.authRepository.save(authEntity);
+    async create(authModel: AuthModel): Promise<AuthModel>{
+        const auth = AuthMapper.modelToEntity(authModel);
+        this.authRepository.create(auth);
+        const response = await this.authRepository.save(auth);
+        return AuthMapper.entityToModel(response);
     }
 }

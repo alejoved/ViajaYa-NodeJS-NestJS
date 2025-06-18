@@ -11,8 +11,8 @@ import { ReservationDTO } from '../reservation/adapter/dto/reservation.dto';
 import { Role } from '../common/role';
 import { Reservation } from '../reservation/entity/reservation.entity';
 import { Customer } from '../customer/entity/customer.entity';
-import { Flight } from '../flight/infrastructure/entity/flight-entity';
-import { Hotel } from '../hotel/infrastructure/entity/hotel-entity';
+import { Flight } from '../flight/infrastructure/entity/flight';
+import { Hotel } from '../hotel/infrastructure/entity/hotel';
 import { ReservationResponseDTO } from '../reservation/dto/reservation-response.dto';
 import { plainToInstance } from 'class-transformer';
 

@@ -1,7 +1,7 @@
-import { AuthEntity } from "../../infrastructure/entity/auth-entity";
+import { AuthModel } from "../model/auth-model";
 
 export interface AuthRepositoryInterface {
-    get(): Promise<AuthEntity[]>;
-    getByEmail(email: string): Promise<AuthEntity | null>;
-    create(authEntity: AuthEntity): Promise<AuthEntity>
+    get(): Promise<AuthModel[]>;
+    getByEmail(email: string): Promise<AuthModel | null>;
+    create(auth: AuthModel): Promise<AuthModel>
 }

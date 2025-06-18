@@ -4,7 +4,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Constants } from "../../../common/constants";
 import { AuthRepositoryInterface } from "src/auth/domain/repository/auth-repository.interface";
 import { LoginUseCaseInterface } from "../interface/login-usecase.interface";
-import { AuthModel } from "src/auth/domain/model/auth-model";
+import { AuthModel } from "../../domain/model/auth-model";
 
 @Injectable()
 export class LoginUseCase implements LoginUseCaseInterface {

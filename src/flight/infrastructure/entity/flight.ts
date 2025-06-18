@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("flight")
-export class FlightEntity {
+export class Flight {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
     @Column()

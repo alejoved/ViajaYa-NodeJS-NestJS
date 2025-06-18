@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { FlightEntity } from './infrastructure/entity/flight-entity';
+import { Flight } from './infrastructure/entity/flight';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FlightGetUseCase } from './application/usecase/flight-get-usecase';
 import { FlightCreateUseCase } from './application/usecase/flight-create-usecase';
@@ -9,7 +9,7 @@ import { FlightRepository } from './infrastructure/repository/flight-repository'
 import { FlightController } from './adapter/controller/flight.controller';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([FlightEntity])],
+    imports: [TypeOrmModule.forFeature([Flight])],
     controllers: [FlightController],
     providers: [{provide: "FlightGetUseCaseInterface", useClass: FlightGetUseCase}, 
                 {provide: "FlightCreateUseCaseInterface", useClass: FlightCreateUseCase},

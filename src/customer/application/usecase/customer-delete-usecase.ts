@@ -6,7 +6,7 @@ import { Constants } from "../../../common/constants";
 @Injectable()
 export class CustomerDeleteUseCase implements CustomerDeleteUseCaseInterface {
 
-    private readonly logger = new Logger("AuthService");
+    private readonly logger = new Logger("CustomerDeleteUseCase");
 
     constructor(
         @Inject('CustomerRepositoryInterface')

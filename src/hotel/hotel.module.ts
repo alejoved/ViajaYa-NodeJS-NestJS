@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HotelEntity } from './infrastructure/entity/hotel-entity';
+import { Hotel } from './infrastructure/entity/hotel';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HotelController } from './adapter/controller/hotel.controller';
 import { HotelGetUseCase } from './application/usecase/hotel-get-usecase';
@@ -9,7 +9,7 @@ import { HotelDeleteUseCase } from './application/usecase/hotel-delete-usecase';
 import { HotelRepository } from './infrastructure/repository/hotel-repository';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([HotelEntity])],
+    imports: [TypeOrmModule.forFeature([Hotel])],
     controllers: [HotelController],
     providers: [{provide: "HotelGetUseCaseInterface", useClass: HotelGetUseCase}, 
                 {provide: "HotelCreateUseCaseInterface", useClass: HotelCreateUseCase},

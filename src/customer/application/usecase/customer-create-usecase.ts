@@ -9,7 +9,7 @@ import { CustomerMapper } from "../../adapter/mapper/customer-mapper";
 @Injectable()
 export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
 
-    private readonly logger = new Logger("AuthService");
+    private readonly logger = new Logger("CustomerCreateUseCase");
 
     constructor(
         @Inject('CustomerRepositoryInterface')
