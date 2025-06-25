@@ -1,111 +1,87 @@
-# 🩺 API de Reservas de paquetes de turismo
 
-Sistema backend para la gestión de citas médicas entre pacientes y doctores. Diseñado para demostrar habilidades como desarrollador backend senior, incluyendo modelado de datos, validaciones de reglas de negocio, estructura limpia, y documentación de API.
+# 🌍 ViajaYa — API de Reservas de Paquetes Turísticos (Node.js · NestJS)
+
+[![Build Status](https://github.com/alejoved/ViajaYa-NodeJS-NestJS/actions/workflows/ci.yml/badge.svg)](https://github.com/alejoved/ViajaYa-NodeJS-NestJS/actions)
+[![License](https://img.shields.io/github/license/alejoved/ViajaYa-NodeJS-NestJS)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/alejoved/ViajaYa-NodeJS-NestJS)](https://github.com/alejoved/ViajaYa-NodeJS-NestJS)
+[![Node.js Version](https://img.shields.io/badge/node-%3E=18.x-green)](https://nodejs.org/)
+[![Dockerized](https://img.shields.io/badge/docker-ready-blue)](#docker)
+
+---
+
+Backend REST para gestionar reservas de paquetes turísticos, que incluyen vuelos, hoteles, clientes y servicios adicionales. Desarrollado para mostrar competencias de un backend senior: arquitectura, reglas de negocio, testing, contenedores y documentación.  
+Basado en el repositorio oficial ➡️ `ViajaYa-NodeJS-NestJS` de alejoved
 
 ---
 
 ## 🚀 Funcionalidades
 
-1. Reserva
-id_reserva (PK)
-fecha_reserva
-estado (pendiente, confirmada, cancelada, etc.)
-number_nights
-cliente_id (FK, referencia al cliente)
-vuelo_id (FK, referencia al vuelo)
-hotel_id (FK, referencia al hotel)
-monto_total
-
-2. Vuelo
-id_vuelo (PK)
-aerolinea
-origen
-destino
-escalas
-fecha_salida
-precio
-
-3. Hotel
-id_hotel (PK)
-nombre
-address
-city
-categoria (número de estrellas)
-precio_por_noche
-
-5. Cliente (opcional, si se maneja como entidad)
-id_cliente (PK)
-identificacion
-nombre
-email
-password
-
-🔗 Relaciones
-
-Reserva - Vuelo
-Una reserva solo incluye un vuelo
-id_reserva (FK)
-id_vuelo (FK)
-
-Reserva - Hotel
-Una reserva incluye un hotel
-id_reserva (FK)
-id_hotel (FK)
-
-Reserva - Servicio Adicional
-Una reserva puede incluir cero o más servicios adicionales
-id_reserva (FK)
-id_servicio (FK)
+- **Reservas**: CRUD completo con atributos: `id_reserva`, `fecha_reserva`, `estado`, `number_nights`, `cliente_id`, `vuelo_id`, `hotel_id`, `monto_total`  
+- **Vuelos**: `id_vuelo`, `aerolinea`, `origen`, `destino`, `escalas`, `fecha_salida`, `precio`  
+- **Hoteles**: `id_hotel`, `nombre`, `address`, `city`, `categoria`, `precio_por_noche`  
+- (Opcional) **Clientes**: `id_cliente`, `identificacion`, `nombre`, `email`, `password`
 
 ---
 
-## 📋 Reglas de Negocio
+## 🧩 Reglas de Negocio
 
-- ⛔ **No se permite solapamiento de citas para el mismo doctor**
-- ⛔ **Un paciente no puede tener dos citas al mismo tiempo**
-- ✅ `startTime` debe ser anterior a `endTime`
-- ✅ Ver disponibilidad de un doctor por día o rango de fechas
-- 🧠 Validaciones personalizadas con excepciones claras
-
----
-
-## 🧪 Tecnologías utilizadas
-
-- **NestJS** - Framework backend (Node.js)
-- **TypeORM** - ORM para PostgreSQL
-- **PostgreSQL** - Base de datos relacional
-- **Swagger** - Documentación automática de la API
-- **Jest** - Testing unitario
-- **Docker** - Entorno de desarrollo reproducible
----
-
-## 🎯 Qué demuestra este proyecto
-
-| Área                    | Habilidad |
-|-------------------------|-----------|
-| Relaciones entre entidades  | Manejo de `ManyToOne`, `OneToMany` |
-| Validaciones de negocio     | Manejo de solapamientos y rangos horarios |
-| Arquitectura limpia         | Separación por módulos, uso de DTOs, servicios, controladores |
-| Testing                     | Unit tests para la lógica de validación |
-| Seguridad                   | Autenticación con JWT y control de roles |
-| DevOps                      | Docker, Docker Compose, scripts de CI/CD |
+- ✅ Cada reserva puede incluir un vuelo, un hotel y varios servicios adicionales  
+- ✅ Control de integridad: vuelo y hotel deben existir antes de crear una reserva  
+- ❌ No se permiten reservas duplicadas para el mismo cliente y fecha  
+- 🚫 Validaciones de estado: no permitir sobreescritura si la reserva está cancelada  
+- 📅 Validación de fechas: `fecha_reserva` no puede ser anterior a la fecha actual
 
 ---
 
-## 🧪 Scripts
+## ⚙️ Tecnologías y Herramientas
+
+| Área               | Herramienta                         |
+|--------------------|------------------------------------|
+| Framework          | NestJS (Node.js + TypeScript)      |
+| ORM                | TypeORM + PostgreSQL              |
+| Documentación API  | Swagger (OpenAPI)                 |
+| Testing            | Jest                              |
+| Contenedores       | Docker + Docker Compose           |
+| CI/CD              | GitHub Actions (workflow incluido)|
+| Linter/Formatter   | ESLint + Prettier                 |
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── reservations/       # Módulo principal: controladores, servicios, DTOs
+├── flights/            # Entidad Vuelo
+├── hotels/             # Entidad Hotel
+├── customers/          # Entidad Cliente (opcional)
+├── common/             # Utilidades, excepciones, guards, pipes
+├── config/             # Configuración global y por entorno
+└── main.ts             # Configuración inicial de Nest y Swagger
+test/                   # Pruebas unitarias con Jest
+k8s/                    # Manifiestos Kubernetes
+```
+
+✔️ Modularidad por dominios  
+✔️ Separación de lógica y adaptadores  
+✔️ Documentación centralizada de DTOs y errores
+
+---
+
+## 🧪 Instalación y Ejecución Local
 
 ```bash
-# instalar dependencias
+# Instalar dependencias
 npm install
 
-# correr la app
+# Levantar en modo desarrollo
 npm run start:dev
 
-# correr tests
+# Ejecutar pruebas
 npm run test
 
-# ver docs Swagger
-GET /api (una vez corriendo el servidor)
+# Acceder a Swagger
+http://localhost:3000/api
 ```
 
 ---
@@ -113,174 +89,65 @@ GET /api (una vez corriendo el servidor)
 ## 📦 Docker
 
 ```bash
-docker-compose up --build
+# Construir imagen
+docker-compose build
+
+# Levantar servicio
+docker-compose up
 ```
+
 ---
 
-## Arquitecturas populares
-
-### Arquitectura Hexagonal
-✅ ¿Por qué se usa?
-Facilita la separación de la lógica de negocio del resto de la infraestructura (como bases de datos, controladores web, mensajería).
-🧩 En un microservicio típico:
-Dominio: núcleo del sistema (modelos y reglas).
-Aplicación: casos de uso.
-Adapters: REST controllers, repositorios, clientes externos.
-Ports: interfaces para entrada (controladores) y salida (repositorios, clientes).
-
-### Arquitectura en capas
-🧩 Estructura típica:
-Presentation Layer (controladores REST, UI)
-Service Layer (lógica de negocio)
-Repository/DAO Layer (acceso a datos)
-Database (persistencia)
-✅ Pros:
-Fácil de entender y aplicar.
-Muy común en aplicaciones web tradicionales.
-Bien soportada por frameworks como Spring.
-❌ Contras:
-Alta dependencia entre capas.
-Poca separación entre infraestructura y dominio.
-Puede volverse monolítica si no se gestiona bien.
-
-### Clean Architecture
-🧩 Estructura:
-Entidades (Entities): lógica del dominio.
-Casos de uso (Use Cases): reglas específicas de la aplicación.
-Interfaces (Gateways): definiciones de comunicación.
-Frameworks/Drivers: controladores, DB, red.
-✅ Pros:
-Aislamiento total del dominio frente a tecnologías externas.
-Altamente testeable y mantenible.
-❌ Contras:
-Mayor complejidad inicial.
-Puede sentirse “overkill” para proyectos pequeños.
-
-### Arquitectura orientada a dominio
-🧩 Estructura:
-Bounded Contexts, Agregados, Entidades, Repositorios, Servicios de Dominio.
-Compatible con hexagonal, onion, clean, etc.
-✅ Pros:
-Fuerte alineación entre modelo de negocio y código.
-Útil en sistemas complejos y con lógica rica.
-❌ Contras:
-Requiere conocimiento profundo de DDD.
-Innecesario para proyectos simples o CRUD.
-
-🧠 Clean Architecture: Visión general
-Clean Architecture separa las responsabilidades en capas concéntricas, priorizando la independencia del negocio frente a frameworks, bases de datos o protocolos externos.
-
-📁 Estructura de Carpetas — Clean Architecture
-graphql
-Copiar
-Editar
-src/
-├── domain/                          # Capa de Entidades (núcleo del sistema)
-│   ├── models/                      # Entidades del dominio (objetos ricos)
-│   │   └── customer.model.ts
-│   ├── repositories/                # Interfaces (contratos) de persistencia
-│   │   └── customer.repository.ts
-│   └── exceptions/                  # Excepciones de negocio
-│       └── customer-not-found.exception.ts
-│
-├── application/                     # Casos de uso (Application Business Rules)
-│   ├── use-cases/                   # Lógica orquestadora del dominio
-│   │   └── create-customer.use-case.ts
-│   └── interfaces/                  # Interfaces que los casos de uso consumen
-│       └── services/                # (Opcional: para puertos secundarios abstractos)
-│           └── email-sender.interface.ts
-│
-├── infrastructure/                 # Implementaciones concretas (Frameworks & Drivers)
-│   ├── persistence/                # Base de datos (ORM, repositorios, migraciones)
-│   │   ├── entities/               # Entidades ORM como TypeORM o Prisma
-│   │   │   └── customer.entity.ts
-│   │   └── repositories/           # Implementaciones concretas de los repositorios
-│   │       └── customer.repository.impl.ts
-│   ├── services/                   # Adaptadores externos (email, mensajería, etc.)
-│   └── config/                     # Configuración de env, database, etc.
-│
-├── adapters/                       # Interface Adapters (REST, GraphQL, CLI, etc.)
-│   ├── controllers/                # Controladores que reciben la entrada
-│   │   └── customer.controller.ts
-│   ├── dtos/                       # Data Transfer Objects
-│   │   └── customer.dto.ts
-│   ├── mappers/                    # Mapear entre DTOs y modelos
-│   │   └── customer.mapper.ts
-│   └── middleware/                 # Interceptores, guards, etc.
-│
-├── shared/                         # Código común o utilidades
-│   ├── utils/
-│   ├── constants/
-│   └── types/
-│
-└── main.ts
-
-1. 📦 domain/ (Nivel más interno)
-Responsabilidad: Define las reglas de negocio puras. Esta capa no depende de nada externo.
-model/: Entidades del dominio con lógica de negocio. Ej: User, Order, Auth, etc.
-repository/: Interfaces para acceder a datos desde el dominio (ej: UserRepositoryInterface).
-✅ Nunca debe importar cosas de NestJS, TypeORM, Axios, etc.
-
-2. ⚙️ application/
-Responsabilidad: Casos de uso. Aquí se orquesta la lógica de negocio con inputs del mundo exterior.
-usecase/: Casos de uso como RegisterUserUseCase, LoginUseCase, CreateReservationUseCase, etc.
-command/: Objetos que representan la intención del usuario (input del caso de uso).
-port/: Interfaces de entrada (RegisterUseCaseInterface) y salida (EmailService, AuthRepositoryInterface).
-model/: (Opcional) modelos que representan salidas (puedes usarlos en vez de devolver directamente DTOs).
-✅ Puede depender de domain/, pero no de adapter/ ni infrastructure/.
-
-3. 🌐 adapter/
-Responsabilidad: Adapta la comunicación externa al sistema.
-controller/: Controladores HTTP (o GraphQL, gRPC, etc.). Aquí llega el request.
-dto/: Objetos que representan datos del request/response HTTP. Solo usados aquí.
-mapper/: Opcional, traduce entre DTO ↔ Command, o ResponseModel ↔ DTO.
-✅ Depende de application/, nunca al revés.
-
-4. 🧱 infrastructure/
-Responsabilidad: Implementación concreta de tecnologías externas.
-repository/: Implementación concreta de las interfaces del dominio usando TypeORM, Sequelize, etc.
-config/: Configuración de seguridad, JWT, guards, strategies, etc.
-También puedes tener: services/ (para enviar emails, logs, etc.)
-✅ Implementa interfaces del domain o application pero no las define.
-
-5. 🚀 main.ts y app.module.ts
-Se usa para bootstrapping y registrar dependencias.
-Aquí haces el binding: provide: 'AuthRepositoryInterface', useClass: AuthRepository.
-
-
-| Objeto       | Se mapea a...               | Capa                        |
-| ------------ | --------------------------- | --------------------------- |
-| `RequestDTO` | → `Entidad de dominio`      | `interface → domain`        |
-| `Dominio`    | → `Entidad de persistencia` | `domain → infrastructure`   |
-| `Entity`     | → `Dominio`                 | `infraestructura → dominio` |
-| `Dominio`    | → `ResponseDTO`             | `domain → interface`        |
-
-## 📦 Docker
+## ☸️ Kubernetes (Minikube)
 
 ```bash
-podman build -t doctorya-app:latest .
-podman compose up
-```
----
-
-# MINIKUBE
-Descargar Minikube para windows
-Hacer la instalacion del .exe
-Si no se tiene docker-desktop iniciar minikube con hyperv
-```bash
-minikube delete
 minikube start
 minikube addons enable metrics-server
-kubectl get nodes
-kubectl get pods
-```
-Posterior es necesario crear la imagen
-Exportar la imagen y cargar la imagen a minikube y por ultimo aplicar los manifiestos
-```bash
-podman save -o viajaya-app.tar viajaya-app:latest
-minikube image load viajaya-app.tar
+
+# Construir y guardar imagen
+docker build -t viajaya-app:latest .
+docker save viajaya-app:latest | (eval $(minikube -p minikube docker-env) && docker load)
+
+# Desplegar
 kubectl apply -f k8s/
-kubectl logs "pod"
-kubectl delete pod "pod"
-minikube service
+
+# Ver logs o acceder al servicio
+kubectl logs <pod-name>
+minikube service viajaya-service
 ```
+
+---
+
+## 🧠 Buenas Prácticas Aplicadas
+
+- ✅ Arquitectura limpia y modular (Hexagonal / Clean)  
+- ✅ Validaciones robustas: DTOs, Pipes, Exceptions  
+- ✅ Testing con Jest en lógica crítica  
+- ✅ Docker y CI para despliegue reproducible  
+- ✅ Documentación dinámica con Swagger
+
+---
+
+## 📌 Qué demuestra este proyecto
+
+| Habilidad                   | Evidencia                                      |
+|----------------------------|------------------------------------------------|
+| Diseño de entidades        | Vuelos, Hoteles, Reservas, Clientes           |
+| Relación entre módulos     | Múltiples servicios integrados en reservas     |
+| Reglas de negocio          | Validaciones de estado, integridad y fechas   |
+| Arquitectura escalable     | Módulos independientes y fáciles de mantener  |
+| Testing profesional        | Cobertura Jest de servicios y validadores     |
+| Infraestructura moderna    | Docker, Compose, Kubernetes, GitHub Actions   |
+
+---
+
+## 👤 Autor
+
+Alejandro J. (`alejoved`)  
+[GitHub](https://github.com/alejoved) • Backend Engineer
+
+---
+
+## 📄 Licencia
+
+Distribuido bajo la licencia **Apache‑2.0**.
