@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { CustomerCreateUseCaseInterface } from "../interface/customer-create-usecase.interface";
+import { CustomerCreateUseCaseInterface } from "../port/customer-create-usecase.interface";
 import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
 import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";

@@ -1,9 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { compareSync, hashSync } from "bcrypt";
+import { compareSync } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { Constants } from "../../../common/constants";
 import { AuthRepositoryInterface } from "src/auth/domain/repository/auth-repository.interface";
-import { LoginUseCaseInterface } from "../interface/login-usecase.interface";
+import { LoginUseCaseInterface } from "../port/login-usecase.interface";
 import { AuthModel } from "../../domain/model/auth-model";
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { ConflictException, Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { ReservationModel } from "../../domain/model/reservation-model";
 import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
-import { ReservationCreateUseCaseInterface } from "../interface/reservation-create-usecase.interface";
+import { ReservationCreateUseCaseInterface } from "../port/reservation-create-usecase.interface";
 import { Constants } from "../../../common/constants";
 import { CustomerRepositoryInterface } from "../../../customer/domain/repository/customer-repository.interface";
 import { FlightRepositoryInterface } from "../../../flight/domain/repository/flight-repository.interface";

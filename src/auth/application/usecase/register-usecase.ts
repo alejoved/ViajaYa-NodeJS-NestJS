@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
-import { RegisterUseCaseInterface } from "../interface/register-usecase.interface";
+import { RegisterUseCaseInterface } from "../port/register-usecase.interface";
 import { AuthModel } from "../../domain/model/auth-model";
 
 

@@ -1,8 +1,7 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { FlightCreateUseCaseInterface } from "../interface/flight-create-usecase.interface";
+import { FlightCreateUseCaseInterface } from "../port/flight-create-usecase.interface";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { FlightModel } from "../../domain/model/flight-model";
-import { FlightMapper } from "../../adapter/mapper/flight-mapper";
 
 @Injectable()
 export class FlightCreateUseCase implements FlightCreateUseCaseInterface {

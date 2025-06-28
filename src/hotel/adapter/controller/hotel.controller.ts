@@ -4,10 +4,10 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HotelResponseDTO } from '../dto/hotel-response.dto';
 import { Role } from '../../../common/role';
 import { HotelDTO } from '../dto/hotel.dto';
-import { HotelGetUseCaseInterface } from '../../application/interface/hotel-get-usecase.interface';
-import { HotelCreateUseCaseInterface } from '../../application/interface/hotel-create-usecase.interface';
-import { HotelUpdateUseCaseInterface } from '../../application/interface/hotel-update-usecase.interface';
-import { HotelDeleteUseCaseInterface } from '../../application/interface/hotel-delete-usecase.interface';
+import { HotelGetUseCaseInterface } from '../../application/port/hotel-get-usecase.interface';
+import { HotelCreateUseCaseInterface } from '../../application/port/hotel-create-usecase.interface';
+import { HotelUpdateUseCaseInterface } from '../../application/port/hotel-update-usecase.interface';
+import { HotelDeleteUseCaseInterface } from '../../application/port/hotel-delete-usecase.interface';
 import { HotelMapper } from '../mapper/hotel-mapper';
 
 @ApiTags('Hotels')

@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, Inject, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthDTO } from '../dto/auth-dto';
 import { AuthResponseDTO } from '../dto/auth-response-dto';
-import { RegisterUseCaseInterface } from '../../application/interface/register-usecase.interface';
-import { LoginUseCaseInterface } from '../../application/interface/login-usecase.interface';
+import { RegisterUseCaseInterface } from '../../application/port/register-usecase.interface';
+import { LoginUseCaseInterface } from '../../application/port/login-usecase.interface';
 import { AuthMapper } from '../mapper/auth-mapper';
 
 @ApiTags('Authentication')

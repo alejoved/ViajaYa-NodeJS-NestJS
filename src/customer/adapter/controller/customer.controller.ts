@@ -3,10 +3,10 @@ import { Role } from '../../../common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CustomerDTO } from '../dto/customer-dto';
 import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
-import { CustomerGetUseCaseInterface } from '../../application/interface/customer-get-usecase.interface';
-import { CustomerCreateUseCaseInterface } from '../../application/interface/customer-create-usecase.interface';
-import { CustomerUpdateUseCaseInterface } from '../../application/interface/customer-update-usecase.interface';
-import { CustomerDeleteUseCaseInterface } from '../../application/interface/customer-delete-usecase.interface';
+import { CustomerGetUseCaseInterface } from '../../application/port/customer-get-usecase.interface';
+import { CustomerCreateUseCaseInterface } from '../../application/port/customer-create-usecase.interface';
+import { CustomerUpdateUseCaseInterface } from '../../application/port/customer-update-usecase.interface';
+import { CustomerDeleteUseCaseInterface } from '../../application/port/customer-delete-usecase.interface';
 import { CustomerMapper } from '../mapper/customer-mapper';
 
 @ApiTags('Customers')

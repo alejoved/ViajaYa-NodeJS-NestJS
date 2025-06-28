@@ -4,10 +4,10 @@ import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorato
 import { FlightResponseDTO } from '../dto/fligth-response-dto';
 import { Role } from '../../../common/role';
 import { FlightDTO } from '../dto/fligth-dto';
-import { FlightGetUseCaseInterface } from '../../application/interface/flight-get-usecase.interface';
-import { FlightCreateUseCaseInterface } from '../../application/interface/flight-create-usecase.interface';
-import { FlightUpdateUseCaseInterface } from '../../application/interface/flight-update-usecase.interface';
-import { FlightDeleteUseCaseInterface } from '../../application/interface/flight-delete-usecase.interface';
+import { FlightGetUseCaseInterface } from '../../application/port/flight-get-usecase.interface';
+import { FlightCreateUseCaseInterface } from '../../application/port/flight-create-usecase.interface';
+import { FlightUpdateUseCaseInterface } from '../../application/port/flight-update-usecase.interface';
+import { FlightDeleteUseCaseInterface } from '../../application/port/flight-delete-usecase.interface';
 import { FlightMapper } from '../mapper/flight-mapper';
 
 @ApiTags('Flights')

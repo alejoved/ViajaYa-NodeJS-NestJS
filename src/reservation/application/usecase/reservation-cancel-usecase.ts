@@ -2,7 +2,7 @@ import { ConflictException, Inject, Injectable, Logger, NotFoundException } from
 import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
 import { Status } from "../../../common/status";
 import { Constants } from "../../../common/constants";
-import { ReservationCancelUseCaseInterface } from "../interface/reservation-cancel-usecase.interface";
+import { ReservationCancelUseCaseInterface } from "../port/reservation-cancel-usecase.interface";
 
 @Injectable()
 export class ReservationCancelUseCase implements ReservationCancelUseCaseInterface {

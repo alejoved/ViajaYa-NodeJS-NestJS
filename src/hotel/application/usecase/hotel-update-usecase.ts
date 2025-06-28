@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { HotelUpdateUseCaseInterface } from "../interface/hotel-update-usecase.interface";
+import { HotelUpdateUseCaseInterface } from "../port/hotel-update-usecase.interface";
 import { Constants } from "../../../common/constants";
 import { HotelRepositoryInterface } from "../../domain/repository/hotel-repository.interface";
 import { HotelModel } from "../../domain/model/hotel-model";

@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Inject, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ReservationResponseDTO } from '../dto/reservation-response.dto';
-import { ReservationCreateUseCaseInterface } from '../../application/interface/reservation-create-usecase.interface';
-import { ReservationDeleteUseCaseInterface } from '../../application/interface/reservation-delete-usecase.interface';
-import { ReservationGetUseCaseInterface } from '../../application/interface/reservation-get-usecase.interface';
-import { ReservationUpdateUseCaseInterface } from '../../application/interface/reservation-update-usecase.interface';
-import { ReservationConfirmUseCaseInterface } from '../../application/interface/reservation-confirm-usecase.interface';
-import { ReservationCancelUseCaseInterface } from '../../application/interface/reservation-cancel-usecase.interface';
+import { ReservationCreateUseCaseInterface } from '../../application/port/reservation-create-usecase.interface';
+import { ReservationDeleteUseCaseInterface } from '../../application/port/reservation-delete-usecase.interface';
+import { ReservationGetUseCaseInterface } from '../../application/port/reservation-get-usecase.interface';
+import { ReservationUpdateUseCaseInterface } from '../../application/port/reservation-update-usecase.interface';
+import { ReservationConfirmUseCaseInterface } from '../../application/port/reservation-confirm-usecase.interface';
+import { ReservationCancelUseCaseInterface } from '../../application/port/reservation-cancel-usecase.interface';
 import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
 import { Role } from '../../../common/role';
 import { ReservationDTO } from '../dto/reservation.dto';

@@ -1,6 +1,5 @@
-import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { Constants } from "../../../common/constants";
-import { ReservationDeleteUseCaseInterface } from "../interface/reservation-delete-usecase.interface";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { ReservationDeleteUseCaseInterface } from "../port/reservation-delete-usecase.interface";
 import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
 
 @Injectable()

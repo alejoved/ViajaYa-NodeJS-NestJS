@@ -1,7 +1,7 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { FlightModel } from "../../domain/model/flight-model";
-import { FlightGetUseCaseInterface } from "../interface/flight-get-usecase.interface";
+import { FlightGetUseCaseInterface } from "../port/flight-get-usecase.interface";
 import { Constants } from "../../../common/constants";
 
 @Injectable()

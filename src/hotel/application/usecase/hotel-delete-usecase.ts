@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { HotelDeleteUseCaseInterface } from "../interface/hotel-delete-usecase.interface";
+import { HotelDeleteUseCaseInterface } from "../port/hotel-delete-usecase.interface";
 import { HotelRepositoryInterface } from "../../domain/repository/hotel-repository.interface";
 
 @Injectable()
