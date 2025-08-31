@@ -14,7 +14,7 @@ export class Customer {
     @Column()
     name: string;
     @Expose()
-    @OneToOne(() => Auth, (auth) => auth.email, {cascade: true, onDelete: "CASCADE"})
+    @OneToOne(() => Auth, (auth) => auth.email)
     @JoinColumn({name: "auth_email"})
     auth: Auth;
 }

@@ -5,6 +5,7 @@ export class HotelMapper{
 
     static modelToEntity(hotelModel: HotelModel): Hotel {
         return {
+            id : hotelModel.id,
             name: hotelModel.name,
             country: hotelModel.country,
             city: hotelModel.city,

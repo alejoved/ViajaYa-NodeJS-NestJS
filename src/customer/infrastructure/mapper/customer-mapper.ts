@@ -5,6 +5,7 @@ export class CustomerMapper{
     
     static modelToEntity(customerModel: CustomerModel): Customer {
         return {
+            id: customerModel.id,
             identification: customerModel.identification,
             name: customerModel.name,
             auth: {

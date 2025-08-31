@@ -5,6 +5,7 @@ export class ReservationMapper{
 
     static modelToEntity(reservationModel: ReservationModel): Reservation {
         return {
+            id: reservationModel.id,
             numberNights: reservationModel.numberNights,
             reservationDate: reservationModel.reservationDate!,
             status: reservationModel.status!,

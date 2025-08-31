@@ -15,11 +15,11 @@ export class ReservationUpdateUseCase implements ReservationUpdateUseCaseInterfa
       ) {}
 
     async execute(reservationModel: ReservationModel, id: string): Promise<ReservationModel>{
-        const reservationExists = await this.reservationRepositoryInterface.getById(id);
-        if (!reservationExists){
+        const reservationExist = await this.reservationRepositoryInterface.getById(id);
+        if (!reservationExist){
             throw new NotFoundException(Constants.hotelNotFound);
         }
-        reservationModel.id = id;
+        Object.assign(reservationExist, reservationModel);
         return await this.reservationRepositoryInterface.update(reservationModel);
     }
 }

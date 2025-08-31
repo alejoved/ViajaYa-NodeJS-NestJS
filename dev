@@ -1,0 +1,60 @@
+
+> viaja-ya-node-js-nest-js@0.0.1 start
+> nest start
+
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +21ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmCoreModule dependencies initialized[39m[38;5;3m +95ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFlightModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHotelModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCustomerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mReservationModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +13ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mReservationController {/api/reservation}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/reservation, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/reservation/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/reservation, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/reservation/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/reservation/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/reservation/confirm/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/reservation/cancel/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mCustomerController {/api/customer}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/customer, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/customer/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/customer/email/:email, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/customer, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/customer/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/customer/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFlightController {/api/flight}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flight, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flight/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flight/origin/:origin/destiny/:destiny, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flight, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flight/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flight/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHotelController {/api/hotel}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/hotel, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/hotel/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/hotel/country/:country/city/:city, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/hotel, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/hotel/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/hotel/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 7120  - [39m08/31/2025, 2:43:02 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +1ms[39m

@@ -4,6 +4,7 @@ import { Flight } from "../../infrastructure/entity/flight";
 export class FlightMapper{
     static modelToEntity(flightModel: FlightModel): Flight {
         return {
+            id: flightModel.id,
             airline: flightModel.airline,
             origin: flightModel.origin,
             destiny :  flightModel.destiny,

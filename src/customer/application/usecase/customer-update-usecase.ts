@@ -19,7 +19,8 @@ export class CustomerUpdateUseCase implements CustomerUpdateUseCaseInterface {
         if(!customerExist){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        customerModel.id = id;
+        
+        Object.assign(customerExist, customerModel);
         return await this.customerRepositoryInterface.update(customerModel);
          
     }

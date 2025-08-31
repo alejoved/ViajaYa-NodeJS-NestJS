@@ -19,7 +19,7 @@ export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
         if(!flightExist){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        flightModel.id = id;
+        Object.assign(flightExist, flightModel);
         return await this.flightRepositoryInterface.update(flightModel);
     }
 }

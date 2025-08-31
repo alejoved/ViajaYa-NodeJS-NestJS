@@ -19,7 +19,7 @@ export class HotelUpdateUseCase implements HotelUpdateUseCaseInterface {
         if (!hotelExists){
             throw new NotFoundException(Constants.hotelNotFound);
         }
-        hotelModel.id = id;
-        return await this.hotelRepositoryInterface.update(hotelModel);
+        Object.assign(hotelExists, hotelModel);
+        return await this.hotelRepositoryInterface.update(hotelExists);
     }
 }
