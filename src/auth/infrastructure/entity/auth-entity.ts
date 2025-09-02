@@ -6,7 +6,7 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 export class AuthEntity {
   @Expose()
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id?: string;
   @Expose()
   @Column({ unique: true })
   email: string;

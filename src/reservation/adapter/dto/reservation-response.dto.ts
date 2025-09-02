@@ -23,16 +23,4 @@ export class ReservationResponseDTO{
     @ApiProperty({ description: "total price per the flight and hotel"})
     @Expose()
     total: number;
-    @ApiProperty({ description: "Main data about the customer" })
-    @Expose()
-    @Type(() => CustomerResponseDTO)
-    customer: CustomerResponseDTO;
-    @ApiProperty({ description: "Main data about the flight" })
-    @Expose()
-    @Type(() => FlightResponseDTO)
-    flight: FlightResponseDTO;
-    @ApiProperty({ description: "Main data about the hotel" })
-    @Expose()
-    @Type(() => HotelResponseDTO)
-    hotel: HotelResponseDTO;
 }

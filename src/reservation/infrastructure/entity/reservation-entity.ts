@@ -17,16 +17,16 @@ export class ReservationEntity {
     @Column("float")
     total: number;
 
-    @ManyToOne(() => CustomerEntity, (customerEntity) => customerEntity.id, {cascade: true, onDelete: "CASCADE"})
+    @ManyToOne(() => CustomerEntity, (customerEntity) => customerEntity.id, { cascade: true, eager: true })
     @JoinColumn({ name: 'customer_id' })
-    customerEntity: CustomerEntity;
+    customerEntity?: CustomerEntity;
 
-    @ManyToOne(() => FlightEntity, (flightEntity) => flightEntity.id, {cascade: true, onDelete: "CASCADE"})
+    @ManyToOne(() => FlightEntity, (flightEntity) => flightEntity.id, { cascade: true, eager: true })
     @JoinColumn({ name: 'flight_id' })
-    flightEntity: FlightEntity;
+    flightEntity?: FlightEntity;
 
-    @ManyToOne(() => HotelEntity, (hotelEntity) => hotelEntity.id, {cascade: true, onDelete: "CASCADE"})
+    @ManyToOne(() => HotelEntity, (hotelEntity) => hotelEntity.id, { cascade: true, eager: true })
     @JoinColumn({ name: 'hotel_id' })
-    hotelEntity: HotelEntity;
+    hotelEntity?: HotelEntity;
 
 }

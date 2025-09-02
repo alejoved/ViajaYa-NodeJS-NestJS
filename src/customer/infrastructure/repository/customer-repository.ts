@@ -13,12 +13,12 @@ export class CustomerRepository implements CustomerRepositoryInterface {
     private readonly logger = new Logger("CustomerRepository");
 
     constructor(
-        @InjectRepository(Customer)
+        @InjectRepository(CustomerEntity)
         private readonly customerRepository: Repository<CustomerEntity>,
       ) {}
 
     async get(): Promise<Customer[]>{
-        const customerEntity = await this.customerRepository.find({relations: ['auth']});
+        const customerEntity = await this.customerRepository.find({relations: ['authEntity']});
         return customerEntity.map(CustomerMapper.entityToModel);
     }
 
@@ -31,7 +31,7 @@ export class CustomerRepository implements CustomerRepositoryInterface {
     }
 
     async getByEmail(email: string): Promise<Customer>{
-        const customer = await this.customerRepository.findOne({where: { authEntity: {email: email}}, relations: ['auth']});
+        const customer = await this.customerRepository.findOne({where: { authEntity: {email: email}}, relations: ['authEntity']});
         if(!customer){
             throw new NotFoundException(Constants.customerNotFound);
         }

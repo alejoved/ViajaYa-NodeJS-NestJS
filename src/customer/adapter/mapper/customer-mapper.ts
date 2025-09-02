@@ -1,24 +1,24 @@
 import { CustomerResponseDTO } from "../../adapter/dto/customer-response-dto";
-import { CustomerModel } from "../../domain/model/customer";
+import { Customer } from "../../domain/model/customer";
 import { CustomerDTO } from "../../adapter/dto/customer-dto";
 
 export class CustomerMapper{
-    static dtoToModel(customerDTO: CustomerDTO): CustomerModel {
+    static dtoToModel(customerDTO: CustomerDTO): Customer {
             return {
                 identification: customerDTO.identification,
                 name: customerDTO.name,
-                authModel:{
+                auth:{
                     email: customerDTO.email,
                     password: customerDTO.password    
                 }
             };
         }
-    static modelToDto(customerModel: CustomerModel): CustomerResponseDTO {
+    static modelToDto(customer: Customer): CustomerResponseDTO {
         return {
-            id: customerModel.id!,
-            identification: customerModel.identification,
-            name: customerModel.name,
-            email : customerModel.authModel.email
+            id: customer.id!,
+            identification: customer.identification,
+            name: customer.name,
+            email : customer.auth.email
         };
     }
 }

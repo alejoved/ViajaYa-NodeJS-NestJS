@@ -25,7 +25,7 @@ export class ReservationCreateUseCase implements ReservationCreateUseCaseInterfa
       ) {}
 
     async execute(reservation: Reservation): Promise<Reservation>{
-        const customerExists = await this.customerRepositoryInterface.getByEmail(reservation.customerEmail!);
+        const customerExists = await this.customerRepositoryInterface.getById(reservation.customerId!);
         if(!customerExists){
             throw new NotFoundException(Constants.customerNotFound)
         }
@@ -37,7 +37,7 @@ export class ReservationCreateUseCase implements ReservationCreateUseCaseInterfa
         if(!hotelExists){
             throw new NotFoundException(Constants.hotelNotFound)
         }
-        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservation.customerEmail!, reservation.flightId!, reservation.hotelId!);
+        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservation.customerId!, reservation.flightId!, reservation.hotelId!);
         if(reservationExists.length > 0){
             throw new ConflictException(Constants.reservationExists);
         }

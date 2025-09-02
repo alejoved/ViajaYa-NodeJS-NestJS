@@ -8,8 +8,8 @@ export class Reservation {
     reservationDate?: Date;
     status?: Status;
     numberNights: number;
-    total?: number;
-    customerEmail?: string;
+    total? : number;
+    customerId?: string;
     customer?: Customer;
     flightId?: string
     flight?: Flight;

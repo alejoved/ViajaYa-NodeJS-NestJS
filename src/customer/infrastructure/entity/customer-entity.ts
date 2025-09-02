@@ -14,7 +14,7 @@ export class CustomerEntity {
     @Column()
     name: string;
     @Expose()
-    @OneToOne(() => AuthEntity, (authEntity) => authEntity.email)
-    @JoinColumn({name: "auth_email"})
+    @OneToOne(() => AuthEntity, (authEntity) => authEntity.id, { cascade: true, eager: true })
+    @JoinColumn({name: "auth_id"})
     authEntity: AuthEntity;
 }

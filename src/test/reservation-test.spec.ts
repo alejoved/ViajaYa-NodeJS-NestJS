@@ -99,9 +99,9 @@ describe('ReservationController', () => {
 
   it('/reservation (POST)', async () => {
     const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
-    reservationDTO.flightId = flightDB.id;
-    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.customerId = customerDB.id!;
+    reservationDTO.flightId = flightDB.id!;
+    reservationDTO.hotelId = hotelDB.id!;
     reservationDTO.numberNights = 10;
     const response = await request(app.getHttpServer())
         .post("/reservation")
@@ -110,16 +110,14 @@ describe('ReservationController', () => {
         .expect(201);
     reservation = plainToInstance(ReservationResponseDTO, response.body, { excludeExtraneousValues: true });
     expect(reservation.id).toBeDefined();
-    expect(reservation.flight.id).toBe(reservationDTO.flightId);
-    expect(reservation.hotel.id).toBe(reservationDTO.hotelId);
     expect(reservation.numberNights).toBe(reservationDTO.numberNights);
   }, timeout);
 
   it('/reservation (POST CUSTOMER NOT FOUND)', async () => {
     const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER0@GMAIL.COM";
-    reservationDTO.flightId = flightDB.id;
-    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.customerId = "6c1c4700-f515-4924-bfb3-02823bfd45e1";
+    reservationDTO.flightId = flightDB.id!;
+    reservationDTO.hotelId = hotelDB.id!;
     reservationDTO.numberNights = 10;
     const response = await request(app.getHttpServer())
         .post("/reservation")
@@ -130,9 +128,9 @@ describe('ReservationController', () => {
 
   it('/reservation (POST FLIGHT NOT FOUND)', async () => {
     const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
+    reservationDTO.customerId = customerDB.id!;
     reservationDTO.flightId = "6c1c4700-f515-4924-bfb3-02823bfd45e1";
-    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.hotelId = hotelDB.id!;
     reservationDTO.numberNights = 10;
     const response = await request(app.getHttpServer())
         .post("/reservation")
@@ -143,8 +141,8 @@ describe('ReservationController', () => {
 
   it('/reservation (POST HOTEL NOT FOUND)', async () => {
     const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
-    reservationDTO.flightId = flightDB.id;
+    reservationDTO.customerId = customerDB.id!;
+    reservationDTO.flightId = flightDB.id!;
     reservationDTO.hotelId = "6c1c4700-f515-4924-bfb3-02823bfd45e1";
     reservationDTO.numberNights = 10;
     const response = await request(app.getHttpServer())
@@ -226,9 +224,9 @@ describe('ReservationController', () => {
 
   it('/reservation (UPDATE)', async () => {
     const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
-    reservationDTO.flightId = flightDB.id;
-    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.customerId = customerDB.id!;
+    reservationDTO.flightId = flightDB.id!;
+    reservationDTO.hotelId = hotelDB.id!;
     reservationDTO.numberNights = 1;
     const response = await request(app.getHttpServer())
         .put("/reservation/" + reservation.id)
@@ -244,9 +242,9 @@ describe('ReservationController', () => {
 
   it('/reservation (UPDATE NOT FOUND)', async () => {
     const reservationDTO = new ReservationDTO();
-    reservationDTO.customerEmail = "CUSTOMER2@GMAIL.COM";
-    reservationDTO.flightId = flightDB.id;
-    reservationDTO.hotelId = hotelDB.id;
+    reservationDTO.customerId = customerDB.id!;
+    reservationDTO.flightId = flightDB.id!;
+    reservationDTO.hotelId = hotelDB.id!;
     reservationDTO.numberNights = 1;
     const response = await request(app.getHttpServer())
         .put("/reservation/" + "6c1c4700-f515-4924-bfb3-02823bfd45e1")

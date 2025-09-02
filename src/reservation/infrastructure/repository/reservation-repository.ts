@@ -18,7 +18,7 @@ export class ReservationRepository implements ReservationRepositoryInterface {
       ) {}
 
     async get(): Promise<Reservation[]>{
-        const reservation = await this.reservationRepository.find({relations: ["customer", "customer.auth", "flight", "hotel"]});
+        const reservation = await this.reservationRepository.find({relations: ["customerEntity", "customerEntity.authEntity", "flightEntity", "hotelEntity"]});
         return reservation.map(ReservationMapper.entityToModel);
     }
 

@@ -2,8 +2,8 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
 import { Repository } from "typeorm";
-import { Auth } from "../entity/auth-entity";
-import { AuthModel } from "../../domain/model/auth";
+import { AuthEntity } from "../entity/auth-entity";
+import { Auth } from "../../domain/model/auth";
 import { AuthMapper } from "../mapper/auth-mapper";
 import { Constants } from "../../../common/constants";
 
@@ -13,16 +13,16 @@ export class AuthRepository implements AuthRepositoryInterface {
     private readonly logger = new Logger("AuthRepository");
 
     constructor(
-        @InjectRepository(Auth)
-        private readonly authRepository: Repository<Auth>,
+        @InjectRepository(AuthEntity)
+        private readonly authRepository: Repository<AuthEntity>,
       ) {}
 
-    async get(): Promise<AuthModel[]>{
+    async get(): Promise<Auth[]>{
         const auth = await this.authRepository.find();
         return auth.map(AuthMapper.entityToModel);
     }
 
-    async getByEmail(email: string): Promise<AuthModel>{
+    async getByEmail(email: string): Promise<Auth>{
         const auth = await this.authRepository.findOneBy({email: email});
         if(!auth){
             throw new NotFoundException(Constants.authNotFound);
@@ -31,7 +31,7 @@ export class AuthRepository implements AuthRepositoryInterface {
 
     }
 
-    async create(authModel: AuthModel): Promise<AuthModel>{
+    async create(authModel: Auth): Promise<Auth>{
         const auth = AuthMapper.modelToEntity(authModel);
         this.authRepository.create(auth);
         const response = await this.authRepository.save(auth);

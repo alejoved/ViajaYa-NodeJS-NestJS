@@ -1,10 +1,10 @@
 import { HotelResponseDTO } from "../../adapter/dto/hotel-response.dto";
-import { HotelModel } from "../../domain/model/hotel";
-import { Hotel } from "../../infrastructure/entity/hotel-entity";
+import { Hotel } from "../../domain/model/hotel";
+import { HotelEntity } from "../../infrastructure/entity/hotel-entity";
 import { HotelDTO } from "../../adapter/dto/hotel.dto";
 
 export class HotelMapper{
-    static dtoToModel(hotelDTO: HotelDTO): HotelModel {
+    static dtoToModel(hotelDTO: HotelDTO): HotelEntity {
         return {
             name: hotelDTO.name,
             country: hotelDTO.country,
@@ -14,19 +14,8 @@ export class HotelMapper{
         };
     }
 
-    static modelToEntity(hotelModel: HotelModel): Hotel {
+    static modelToEntity(hotel: Hotel): HotelEntity {
         return {
-            name: hotelModel.name,
-            country: hotelModel.country,
-            city: hotelModel.city,
-            category: hotelModel.category,
-            pricePerNight: hotelModel.pricePerNight
-        };
-    }
-
-    static entityToModel(hotel: Hotel): HotelModel {
-        return {
-            id: hotel.id,
             name: hotel.name,
             country: hotel.country,
             city: hotel.city,
@@ -34,14 +23,25 @@ export class HotelMapper{
             pricePerNight: hotel.pricePerNight
         };
     }
-    static modelToDto(hotelModel: HotelModel): HotelResponseDTO {
+
+    static entityToModel(hotelEntity: HotelEntity): Hotel {
         return {
-            id: hotelModel.id!,
-            name: hotelModel.name,
-            country: hotelModel.country,
-            city: hotelModel.city,
-            category: hotelModel.category,
-            pricePerNight: hotelModel.pricePerNight
+            id: hotelEntity.id,
+            name: hotelEntity.name,
+            country: hotelEntity.country,
+            city: hotelEntity.city,
+            category: hotelEntity.category,
+            pricePerNight: hotelEntity.pricePerNight
+        };
+    }
+    static modelToDto(hotel: Hotel): HotelResponseDTO {
+        return {
+            id: hotel.id!,
+            name: hotel.name,
+            country: hotel.country,
+            city: hotel.city,
+            category: hotel.category,
+            pricePerNight: hotel.pricePerNight
         };
     }
 }
