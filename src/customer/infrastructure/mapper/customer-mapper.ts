@@ -1,30 +1,32 @@
-import { CustomerModel } from "../../domain/model/customer-model";
-import { Customer } from "../../infrastructure/entity/customer";
+import { Customer } from "../../domain/model/customer";
+import { CustomerEntity } from "../entity/customer-entity";
 
 export class CustomerMapper{
     
-    static modelToEntity(customerModel: CustomerModel): Customer {
+    static modelToEntity(customer: Customer): CustomerEntity {
         return {
-            id: customerModel.id,
-            identification: customerModel.identification,
-            name: customerModel.name,
-            auth: {
-                email: customerModel.authModel.email, 
-                password: customerModel.authModel.password,
-                role: customerModel.authModel.role!
+            id: customer.id,
+            identification: customer.identification,
+            name: customer.name,
+            authEntity: {
+                id: customer.auth.id,
+                email: customer.auth.email, 
+                password: customer.auth.password,
+                role: customer.auth.role!
             }
         };
     }
 
-    static entityToModel(customerEntity: Customer): CustomerModel {
+    static entityToModel(customerEntity: CustomerEntity): Customer {
         return {
             id: customerEntity.id!,
             identification: customerEntity.identification,
             name: customerEntity.name,
-            authModel : {
-                email: customerEntity.auth.email, 
-                password: customerEntity.auth.password, 
-                role: customerEntity.auth.role
+            auth : {
+                id: customerEntity.authEntity.id,
+                email: customerEntity.authEntity.email, 
+                password: customerEntity.authEntity.password, 
+                role: customerEntity.authEntity.role
             }
         };
     }

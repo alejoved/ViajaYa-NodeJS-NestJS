@@ -1,4 +1,4 @@
-export class FlightModel {
+export class Flight {
     id?: string;
     airline: string;
     origin: string;

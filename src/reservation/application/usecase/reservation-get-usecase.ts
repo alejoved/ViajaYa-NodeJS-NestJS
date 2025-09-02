@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { ReservationModel } from "../../domain/model/reservation-model";
+import { Reservation } from "../../domain/model/reservation";
 import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
 import { ReservationGetUseCaseInterface } from "../port/reservation-get-usecase.interface";
 import { Constants } from "../../../common/constants";
@@ -14,16 +14,16 @@ export class ReservationGetUseCase implements ReservationGetUseCaseInterface {
         private readonly reservationRepositoryInterface: ReservationRepositoryInterface
       ) {}
 
-    async execute(): Promise<ReservationModel[]> {
+    async execute(): Promise<Reservation[]> {
         const reservationModel = await this.reservationRepositoryInterface.get();
         return reservationModel;
     }
 
-    async executeById(id: string): Promise<ReservationModel> {
-        const reservationModel = await this.reservationRepositoryInterface.getById(id);
-        if(!reservationModel){
+    async executeById(id: string): Promise<Reservation> {
+        const reservation = await this.reservationRepositoryInterface.getById(id);
+        if(!reservation){
             throw new NotFoundException(Constants.reservationNotFound);            
         }
-        return reservationModel;
+        return reservation;
     }
 }

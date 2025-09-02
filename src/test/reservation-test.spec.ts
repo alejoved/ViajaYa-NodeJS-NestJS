@@ -4,30 +4,29 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RegisterDTO } from '../auth/adapter/dto/register-dto';
-import { LoginDTO } from '../auth/adapter/dto/login-dto';
-import { Auth } from '../auth/entity/auth.entity';
+import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
 import { ReservationDTO } from '../reservation/adapter/dto/reservation.dto';
 import { Role } from '../common/role';
-import { Reservation } from '../reservation/entity/reservation.entity';
-import { Customer } from '../customer/entity/customer.entity';
-import { Flight } from '../flight/infrastructure/entity/flight';
-import { Hotel } from '../hotel/infrastructure/entity/hotel';
-import { ReservationResponseDTO } from '../reservation/dto/reservation-response.dto';
+import { ReservationEntity } from '../reservation/infrastructure/entity/reservation-entity';
+import { CustomerEntity } from '../customer/infrastructure/entity/customer-entity';
+import { FlightEntity } from '../flight/infrastructure/entity/flight-entity';
+import { HotelEntity } from '../hotel/infrastructure/entity/hotel-entity';
+import { ReservationResponseDTO } from '../reservation/adapter/dto/reservation-response.dto';
 import { plainToInstance } from 'class-transformer';
+import { AuthDTO } from 'src/auth/adapter/dto/auth-dto';
 
 describe('ReservationController', () => {
   let app: INestApplication;
   const timeout = 90000;
-  let reservationRepository: Repository<Reservation>;
-  let flightRepository: Repository<Flight>;
-  let hotelRepository: Repository<Hotel>;
-  let customerRepository: Repository<Customer>;
-  let authRepository: Repository<Auth>;
+  let reservationRepository: Repository<ReservationEntity>;
+  let flightRepository: Repository<FlightEntity>;
+  let hotelRepository: Repository<HotelEntity>;
+  let customerRepository: Repository<CustomerEntity>;
+  let authRepository: Repository<AuthEntity>;
   let accessToken = null;
-  let flightDB: Flight;
-  let hotelDB: Hotel;
-  let customerDB: Customer;
+  let flightDB: FlightEntity;
+  let hotelDB: HotelEntity;
+  let customerDB: CustomerEntity;
   let reservation: ReservationResponseDTO;
 
     beforeAll(async () => {
@@ -37,31 +36,29 @@ describe('ReservationController', () => {
 
         app = moduleFixture.createNestApplication();
         await app.init();
-        reservationRepository = moduleFixture.get<Repository<Reservation>>(getRepositoryToken(Reservation));
-        flightRepository = moduleFixture.get<Repository<Flight>>(getRepositoryToken(Flight));
-        hotelRepository = moduleFixture.get<Repository<Hotel>>(getRepositoryToken(Hotel));
-        customerRepository = moduleFixture.get<Repository<Customer>>(getRepositoryToken(Customer));
-        authRepository = moduleFixture.get<Repository<Auth>>(getRepositoryToken(Auth));
+        reservationRepository = moduleFixture.get<Repository<ReservationEntity>>(getRepositoryToken(ReservationEntity));
+        flightRepository = moduleFixture.get<Repository<FlightEntity>>(getRepositoryToken(FlightEntity));
+        hotelRepository = moduleFixture.get<Repository<HotelEntity>>(getRepositoryToken(HotelEntity));
+        customerRepository = moduleFixture.get<Repository<CustomerEntity>>(getRepositoryToken(CustomerEntity));
+        authRepository = moduleFixture.get<Repository<AuthEntity>>(getRepositoryToken(AuthEntity));
 
-        const registerDTO = new RegisterDTO();
-        registerDTO.email = "ADMIN4@GMAIL.COM";
-        registerDTO.password = "12345";
+        const authDTO = new AuthDTO();
+        authDTO.email = "ADMIN4@GMAIL.COM";
+        authDTO.password = "12345";
         await request(app.getHttpServer())
             .post('/auth/register')
-            .send(registerDTO)
+            .send(authDTO)
             .expect(201)
         
-
-        const loginDTO = new LoginDTO();
-        loginDTO.email = "ADMIN4@GMAIL.COM";
-        loginDTO.password = "12345";
+        authDTO.email = "ADMIN4@GMAIL.COM";
+        authDTO.password = "12345";
         const responseLogin = await request(app.getHttpServer())
             .post('/auth/login')
-            .send(loginDTO)
+            .send(authDTO)
             .expect(200)
         accessToken = responseLogin.body.token;
 
-        flightDB = new Flight();
+        flightDB = new FlightEntity();
         flightDB.airline = "Test Airline";
         flightDB.origin = "Test Origin";
         flightDB.destiny = "Test Destiny";
@@ -69,20 +66,20 @@ describe('ReservationController', () => {
         flightDB.layovers = true;
         flightDB.price = 25000
 
-        hotelDB = new Hotel();
+        hotelDB = new HotelEntity();
         hotelDB.name = "Test Name";
         hotelDB.country = "Test Country";
         hotelDB.city = "Test City";
         hotelDB.category = "5";
         hotelDB.pricePerNight = 35000
 
-        customerDB = new Customer();
+        customerDB = new CustomerEntity();
         customerDB.identification = "1053847612";
         customerDB.name = "Test Name";
-        customerDB.auth = new Auth();
-        customerDB.auth.email = "CUSTOMER2@GMAIL.COM";
-        customerDB.auth.password = "12345";
-        customerDB.auth.role = Role.CUSTOMER;
+        customerDB.authEntity = new AuthEntity();
+        customerDB.authEntity.email = "CUSTOMER2@GMAIL.COM";
+        customerDB.authEntity.password = "12345";
+        customerDB.authEntity.role = Role.CUSTOMER;
 
         flightDB = await flightRepository.save(flightDB);
         hotelDB = await hotelRepository.save(hotelDB);

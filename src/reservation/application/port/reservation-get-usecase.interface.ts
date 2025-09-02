@@ -1,6 +1,6 @@
-import { ReservationModel } from "../../domain/model/reservation-model";
+import { Reservation } from "../../domain/model/reservation";
 
 export interface ReservationGetUseCaseInterface {
-  execute(): Promise<ReservationModel[]>;
-  executeById(id: string): Promise<ReservationModel>;
+  execute(): Promise<Reservation[]>;
+  executeById(id: string): Promise<Reservation>;
 }

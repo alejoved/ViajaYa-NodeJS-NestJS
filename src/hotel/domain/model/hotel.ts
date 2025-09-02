@@ -1,4 +1,4 @@
-export class HotelModel {
+export class Hotel {
     id?: string;
     name: string;
     country: string;

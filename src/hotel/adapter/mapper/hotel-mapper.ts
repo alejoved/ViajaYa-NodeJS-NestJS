@@ -1,6 +1,6 @@
 import { HotelResponseDTO } from "../../adapter/dto/hotel-response.dto";
-import { HotelModel } from "../../domain/model/hotel-model";
-import { Hotel } from "../../infrastructure/entity/hotel";
+import { HotelModel } from "../../domain/model/hotel";
+import { Hotel } from "../../infrastructure/entity/hotel-entity";
 import { HotelDTO } from "../../adapter/dto/hotel.dto";
 
 export class HotelMapper{

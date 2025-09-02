@@ -1,5 +1,5 @@
-import { HotelModel } from "../../domain/model/hotel-model";
+import { Hotel } from "../../domain/model/hotel";
 
 export interface HotelCreateUseCaseInterface {
-  execute(hotelModel: HotelModel): Promise<HotelModel>;
+  execute(hotelModel: Hotel): Promise<Hotel>;
 }

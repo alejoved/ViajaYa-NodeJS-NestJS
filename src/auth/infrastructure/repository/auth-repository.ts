@@ -2,8 +2,8 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
 import { Repository } from "typeorm";
-import { Auth } from "../entity/auth";
-import { AuthModel } from "../../domain/model/auth-model";
+import { Auth } from "../entity/auth-entity";
+import { AuthModel } from "../../domain/model/auth";
 import { AuthMapper } from "../mapper/auth-mapper";
 import { Constants } from "../../../common/constants";
 

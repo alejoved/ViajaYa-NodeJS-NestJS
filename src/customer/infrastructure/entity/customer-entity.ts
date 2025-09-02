@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Expose } from "class-transformer";
-import { Auth } from "../../../auth/infrastructure/entity/auth";
+import { AuthEntity } from "../../../auth/infrastructure/entity/auth-entity";
 
 @Entity("customer")
-export class Customer {
+export class CustomerEntity {
     @Expose()
     @PrimaryGeneratedColumn("uuid")
     id?: string;
@@ -14,7 +14,7 @@ export class Customer {
     @Column()
     name: string;
     @Expose()
-    @OneToOne(() => Auth, (auth) => auth.email)
+    @OneToOne(() => AuthEntity, (authEntity) => authEntity.email)
     @JoinColumn({name: "auth_email"})
-    auth: Auth;
+    authEntity: AuthEntity;
 }

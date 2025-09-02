@@ -1,10 +1,10 @@
-import { HotelModel } from "../model/hotel-model";
+import { Hotel } from "../model/hotel";
 
 export interface HotelRepositoryInterface{
-    get(): Promise<HotelModel[]>;
-    getById(id: string): Promise<HotelModel>;
-    getByCountryAndCity(country: string, city: string): Promise<HotelModel[]>;
-    create(hotel: HotelModel): Promise<HotelModel>
-    update(hotel: HotelModel): Promise<HotelModel>
+    get(): Promise<Hotel[]>;
+    getById(id: string): Promise<Hotel>;
+    getByCountryAndCity(country: string, city: string): Promise<Hotel[]>;
+    create(hotel: Hotel): Promise<Hotel>
+    update(hotel: Hotel): Promise<Hotel>
     delete(id: string): Promise<void>
 }

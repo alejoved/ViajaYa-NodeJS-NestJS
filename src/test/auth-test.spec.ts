@@ -4,21 +4,19 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RegisterDTO } from '../auth/adapter/dto/register-dto';
-import { LoginDTO } from '../auth/adapter/dto/login-dto';
-import { Auth } from '../auth/entity/auth.entity';
+import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
 import { plainToInstance } from 'class-transformer';
+import { AuthDTO } from '../auth/adapter/dto/auth-dto';
 import { AuthResponseDTO } from '../auth/adapter/dto/auth-response-dto';
-import { RegisterResponseDTO } from '../auth/adapter/dto/register-response-dto';
-import { LoginResponseDTO } from '../auth/dto/login-response.dto';
+import { TokenResponseDTO } from 'src/auth/adapter/dto/token-response-dto';
 
 describe('AuthController', () => {
   let app: INestApplication;
   const timeout = 90000;
-  let authRepository: Repository<Auth>;
+  let authRepository: Repository<AuthEntity>;
   let accessToken = null;
-  let registerResponseDTO: RegisterResponseDTO;
-  let loginResponseDTO: LoginResponseDTO;
+  let tokenResponseDTO: TokenResponseDTO;
+  let authResponseDTO: AuthResponseDTO;
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -27,7 +25,7 @@ describe('AuthController', () => {
 
         app = moduleFixture.createNestApplication();
         await app.init();
-        authRepository = moduleFixture.get<Repository<Auth>>(getRepositoryToken(Auth));
+        authRepository = moduleFixture.get<Repository<AuthEntity>>(getRepositoryToken(AuthEntity));
     }, timeout);
 
 
@@ -38,50 +36,48 @@ describe('AuthController', () => {
     }, timeout);
 
   it('/auth/register (POST)', async () => {
-    const registerDTO = new RegisterDTO();
-    registerDTO.email = "ADMIN5@GMAIL.COM";
-    registerDTO.password = "12345"
+    const authDTO = new AuthDTO();
+    authDTO.email = "ADMIN5@GMAIL.COM";
+    authDTO.password = "12345"
     const response = await request(app.getHttpServer())
         .post("/auth/register")
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(registerDTO)
+        .send(authDTO)
         .expect(201)
-    registerResponseDTO = plainToInstance(RegisterResponseDTO, response.body, { excludeExtraneousValues: true });
-    expect(registerResponseDTO.email).toBe(registerDTO.email);
+    authResponseDTO = plainToInstance(AuthResponseDTO, response.body, { excludeExtraneousValues: true });
+    expect(authResponseDTO.email).toBe(authDTO.email);
   }, timeout);
 
   it('/auth/login (POST)', async () => {
-    const loginDTO = new LoginDTO();
-    loginDTO.email = "ADMIN5@GMAIL.COM";
-    loginDTO.password = "12345"
+    const authDTO = new AuthDTO();
+    authDTO.email = "ADMIN5@GMAIL.COM";
+    authDTO.password = "12345"
     const response = await request(app.getHttpServer())
         .post("/auth/login")
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(loginDTO)
+        .send(authDTO)
         .expect(200)
-    loginResponseDTO = plainToInstance(LoginResponseDTO, response.body, { excludeExtraneousValues: true });
-    expect(registerResponseDTO.email).toBe(loginDTO.email);
   }, timeout);
 
   it('/auth/login (EMAIL NOT FOUND)', async () => {
-    const loginDTO = new LoginDTO();
-    loginDTO.email = "ADMIN0@GMAIL.COM";
-    loginDTO.password = "12345"
-    const response = await request(app.getHttpServer())
+    const authDTO = new AuthDTO();
+    authDTO.email = "ADMIN0@GMAIL.COM";
+    authDTO.password = "12345"
+    await request(app.getHttpServer())
         .post("/auth/login")
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(loginDTO)
+        .send(authDTO)
         .expect(404)
   }, timeout);
 
   it('/auth/login (PASSWORD NOT FOUND)', async () => {
-    const loginDTO = new LoginDTO();
-    loginDTO.email = "ADMIN5@GMAIL.COM";
-    loginDTO.password = "123456"
+    const authDTO = new AuthDTO();
+    authDTO.email = "ADMIN5@GMAIL.COM";
+    authDTO.password = "123456"
     const response = await request(app.getHttpServer())
         .post("/auth/login")
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(loginDTO)
+        .send(authDTO)
         .expect(401)
   }, timeout);
 });

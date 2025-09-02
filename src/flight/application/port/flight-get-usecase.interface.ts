@@ -1,7 +1,7 @@
-import { FlightModel } from "../../domain/model/flight-model";
+import { Flight } from "../../domain/model/flight";
 
 export interface FlightGetUseCaseInterface {
-  execute(): Promise<FlightModel[]>;
-  executeById(id: string): Promise<FlightModel>;
-  executeByOriginAndDestiny(origin: string, destiny: string): Promise<FlightModel[]>;
+  execute(): Promise<Flight[]>;
+  executeById(id: string): Promise<Flight>;
+  executeByOriginAndDestiny(origin: string, destiny: string): Promise<Flight[]>;
 }

@@ -1,20 +1,20 @@
-import { FlightModel } from "../../domain/model/flight-model";
-import { Flight } from "../../infrastructure/entity/flight";
+import { Flight } from "../../domain/model/flight";
+import { FlightEntity } from "../entity/flight-entity";
 
 export class FlightMapper{
-    static modelToEntity(flightModel: FlightModel): Flight {
+    static modelToEntity(flight: Flight): Flight {
         return {
-            id: flightModel.id,
-            airline: flightModel.airline,
-            origin: flightModel.origin,
-            destiny :  flightModel.destiny,
-            departure: flightModel.departure,
-            layovers: flightModel.layovers,
-            price: flightModel.price
+            id: flight.id,
+            airline: flight.airline,
+            origin: flight.origin,
+            destiny :  flight.destiny,
+            departure: flight.departure,
+            layovers: flight.layovers,
+            price: flight.price
         };
     }
 
-    static entityToModel(flightEntity: Flight): FlightModel {
+    static entityToModel(flightEntity: FlightEntity): Flight {
         return {
             id: flightEntity.id!,
             airline: flightEntity.airline,

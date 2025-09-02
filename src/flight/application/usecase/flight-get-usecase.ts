@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
-import { FlightModel } from "../../domain/model/flight-model";
+import { Flight } from "../../domain/model/flight";
 import { FlightGetUseCaseInterface } from "../port/flight-get-usecase.interface";
 import { Constants } from "../../../common/constants";
 
@@ -14,21 +14,21 @@ export class FlightGetUseCase implements FlightGetUseCaseInterface {
         private readonly flightRepositoryInterface: FlightRepositoryInterface
       ) {}
 
-    async execute(): Promise<FlightModel[]>{
-        const flightModel = await this.flightRepositoryInterface.get();
-        return flightModel;
+    async execute(): Promise<Flight[]>{
+        const flight = await this.flightRepositoryInterface.get();
+        return flight;
     }
 
-    async executeById(id: string): Promise<FlightModel>{
-        const flightModel = await this.flightRepositoryInterface.getById(id);
-        if(!flightModel){
+    async executeById(id: string): Promise<Flight>{
+        const flight = await this.flightRepositoryInterface.getById(id);
+        if(!flight){
             throw new NotFoundException(Constants.flightNotFound);
         }
-        return flightModel;
+        return flight;
     }
 
-    async executeByOriginAndDestiny(origin: string, destiny: string): Promise<FlightModel[]>{
-        const flightModel = await this.flightRepositoryInterface.getByOriginAndDestiny(origin, destiny);
-        return flightModel;
+    async executeByOriginAndDestiny(origin: string, destiny: string): Promise<Flight[]>{
+        const flight = await this.flightRepositoryInterface.getByOriginAndDestiny(origin, destiny);
+        return flight;
     }
 }

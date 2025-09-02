@@ -4,7 +4,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Constants } from "../../../common/constants";
 import { AuthRepositoryInterface } from "src/auth/domain/repository/auth-repository.interface";
 import { LoginUseCaseInterface } from "../port/login-usecase.interface";
-import { AuthModel } from "../../domain/model/auth-model";
+import { Auth } from "../../domain/model/auth";
 
 @Injectable()
 export class LoginUseCase implements LoginUseCaseInterface {
@@ -17,7 +17,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
         private readonly jwtService: JwtService
       ) {}
 
-    async execute(authModel: AuthModel): Promise<string>{
+    async execute(authModel: Auth): Promise<string>{
       const authModelExist = await this.authRepositoryInterface.getByEmail(authModel.email);
       if(!authModelExist){
         throw new NotFoundException(Constants.authNotFound);

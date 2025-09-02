@@ -1,5 +1,5 @@
-import { FlightModel } from "../../domain/model/flight-model";
+import { Flight } from "../../domain/model/flight";
 
 export interface FlightCreateUseCaseInterface {
-  execute(flightModel: FlightModel): Promise<FlightModel>;
+  execute(flight: Flight): Promise<Flight>;
 }

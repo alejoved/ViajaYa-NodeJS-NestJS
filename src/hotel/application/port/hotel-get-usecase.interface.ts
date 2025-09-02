@@ -1,7 +1,7 @@
-import { HotelModel } from "../../domain/model/hotel-model";
+import { Hotel } from "../../domain/model/hotel";
 
 export interface HotelGetUseCaseInterface {
-  execute(): Promise<HotelModel[]>;
-  executeById(id: string): Promise<HotelModel>;
-  executeByCountryAndCity(country: string, city: string): Promise<HotelModel[]>;
+  execute(): Promise<Hotel[]>;
+  executeById(id: string): Promise<Hotel>;
+  executeByCountryAndCity(country: string, city: string): Promise<Hotel[]>;
 }

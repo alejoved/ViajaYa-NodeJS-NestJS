@@ -3,7 +3,7 @@ import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
 import { RegisterUseCaseInterface } from "../port/register-usecase.interface";
-import { AuthModel } from "../../domain/model/auth-model";
+import { Auth } from "../../domain/model/auth";
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class RegisterUseCase implements RegisterUseCaseInterface{
     constructor(@Inject('AuthRepositoryInterface') private readonly authRepositoryInterface: AuthRepositoryInterface
       ) {}
 
-    async execute(authModel: AuthModel): Promise<AuthModel>{
+    async execute(authModel: Auth): Promise<Auth>{
       const password = hashSync(authModel.password!, 3);
       authModel.password = password;
       authModel.role = Role.ADMIN;

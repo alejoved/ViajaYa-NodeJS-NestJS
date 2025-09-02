@@ -1,6 +1,6 @@
 import { ReservationResponseDTO } from "../../adapter/dto/reservation-response.dto";
-import { ReservationModel } from "../../domain/model/reservation-model";
-import { Reservation} from "../../infrastructure/entity/reservation";
+import { ReservationModel } from "../../domain/model/reservation";
+import { Reservation} from "../../infrastructure/entity/reservation-entity";
 import { ReservationDTO } from "../../adapter/dto/reservation.dto";
 
 export class ReservationMapper{

@@ -1,5 +1,5 @@
 import { CustomerResponseDTO } from "../../adapter/dto/customer-response-dto";
-import { CustomerModel } from "../../domain/model/customer-model";
+import { CustomerModel } from "../../domain/model/customer";
 import { CustomerDTO } from "../../adapter/dto/customer-dto";
 
 export class CustomerMapper{

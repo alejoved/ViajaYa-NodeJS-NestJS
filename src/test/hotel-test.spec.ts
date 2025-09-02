@@ -4,19 +4,19 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Hotel } from '../hotel/infrastructure/entity/hotel';
-import { RegisterDTO } from '../auth/adapter/dto/register-dto';
-import { LoginDTO } from '../auth/adapter/dto/login-dto';
-import { Auth } from '../auth/entity/auth.entity';
+import { HotelEntity } from '../hotel/infrastructure/entity/hotel-entity';
+import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
 import { HotelDTO } from '../hotel/adapter/dto/hotel.dto';
 import { HotelResponseDTO } from '../hotel/adapter/dto/hotel-response.dto';
+import { AuthDTO } from 'src/auth/adapter/dto/auth-dto';
 import { plainToInstance } from 'class-transformer';
+
 
 describe('HotelController', () => {
   let app: INestApplication;
   let timeout = 90000;
-  let hotelRepository: Repository<Hotel>;
-  let authRepository: Repository<Auth>;
+  let hotelRepository: Repository<HotelEntity>;
+  let authRepository: Repository<AuthEntity>;
   let accessToken = null;
   let hotel: HotelResponseDTO;
 
@@ -27,24 +27,22 @@ describe('HotelController', () => {
 
       app = moduleFixture.createNestApplication();
       await app.init();
-      hotelRepository = moduleFixture.get<Repository<Hotel>>(getRepositoryToken(Hotel));
-      authRepository = moduleFixture.get<Repository<Auth>>(getRepositoryToken(Auth));
+      hotelRepository = moduleFixture.get<Repository<HotelEntity>>(getRepositoryToken(HotelEntity));
+      authRepository = moduleFixture.get<Repository<AuthEntity>>(getRepositoryToken(AuthEntity));
 
-      const registerDTO = new RegisterDTO();
-      registerDTO.email = "ADMIN3@GMAIL.COM";
-      registerDTO.password = "12345";
+      const authDTO = new AuthDTO();
+      authDTO.email = "ADMIN3@GMAIL.COM";
+      authDTO.password = "12345";
       await request(app.getHttpServer())
           .post('/auth/register')
-          .send(registerDTO)
+          .send(authDTO)
           .expect(201)
-      
 
-      const loginDTO = new LoginDTO();
-      loginDTO.email = "ADMIN3@GMAIL.COM";
-      loginDTO.password = "12345";
+      authDTO.email = "ADMIN3@GMAIL.COM";
+      authDTO.password = "12345";
       const responseLogin = await request(app.getHttpServer())
           .post('/auth/login')
-          .send(loginDTO)
+          .send(authDTO)
           .expect(200)
       accessToken = responseLogin.body.token;
   }, timeout);

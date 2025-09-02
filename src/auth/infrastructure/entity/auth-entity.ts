@@ -1,11 +1,14 @@
 import { Expose } from "class-transformer";
 import { Role } from "../../../common/role";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity("auth")
-export class Auth {
+export class AuthEntity {
   @Expose()
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+  @Expose()
+  @Column({ unique: true })
   email: string;
   @Expose()
   @Column()

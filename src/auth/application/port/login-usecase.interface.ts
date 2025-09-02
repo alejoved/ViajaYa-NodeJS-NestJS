@@ -1,5 +1,5 @@
-import { AuthModel } from "../../domain/model/auth-model";
+import { Auth } from "../../domain/model/auth";
 
 export interface LoginUseCaseInterface {
-  execute(authModel: AuthModel): Promise<string>;
+  execute(auth: Auth): Promise<string>;
 }

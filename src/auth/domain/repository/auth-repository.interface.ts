@@ -1,7 +1,7 @@
-import { AuthModel } from "../model/auth-model";
+import { Auth } from "../model/auth";
 
 export interface AuthRepositoryInterface {
-    get(): Promise<AuthModel[]>;
-    getByEmail(email: string): Promise<AuthModel>;
-    create(authModel: AuthModel): Promise<AuthModel>
+    get(): Promise<Auth[]>;
+    getByEmail(email: string): Promise<Auth>;
+    create(auth: Auth): Promise<Auth>
 }

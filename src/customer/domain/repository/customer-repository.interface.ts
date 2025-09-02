@@ -1,10 +1,10 @@
-import { CustomerModel } from "../model/customer-model";
+import { Customer } from "../model/customer";
 
 export interface CustomerRepositoryInterface{
-    get(): Promise<CustomerModel[]>;
-    getById(id: string): Promise<CustomerModel>;
-    getByEmail(email: string): Promise<CustomerModel>;
-    create(customerModel: CustomerModel): Promise<CustomerModel>
-    update(customerModel: CustomerModel): Promise<CustomerModel>
+    get(): Promise<Customer[]>;
+    getById(id: string): Promise<Customer>;
+    getByEmail(email: string): Promise<Customer>;
+    create(customerModel: Customer): Promise<Customer>
+    update(customerModel: Customer): Promise<Customer>
     delete(id: string): Promise<void>
 }

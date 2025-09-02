@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { FlightModel } from "../../domain/model/flight-model";
+import { Flight } from "../../domain/model/flight";
 import { FlightUpdateUseCaseInterface } from "../port/flight-update-usecase.interface";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { Constants } from "../../../common/constants";
@@ -14,12 +14,12 @@ export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
         private readonly flightRepositoryInterface: FlightRepositoryInterface
       ) {}
 
-    async execute(flightModel: FlightModel, id: string): Promise<FlightModel>{
+    async execute(flight: Flight, id: string): Promise<Flight>{
         const flightExist = await this.flightRepositoryInterface.getById(id);
         if(!flightExist){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        Object.assign(flightExist, flightModel);
-        return await this.flightRepositoryInterface.update(flightModel);
+        Object.assign(flightExist, flight);
+        return await this.flightRepositoryInterface.update(flight);
     }
 }

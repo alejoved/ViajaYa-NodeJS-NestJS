@@ -1,6 +1,6 @@
 
-import { HotelModel } from "../../domain/model/hotel-model";
+import { Hotel } from "../../domain/model/hotel";
 
 export interface HotelUpdateUseCaseInterface {
-  execute(hotelModel: HotelModel, id: string): Promise<HotelModel>;
+  execute(hotel: Hotel, id: string): Promise<Hotel>;
 }

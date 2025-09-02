@@ -4,19 +4,18 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Customer } from '../customer/entity/customer.entity';
-import { LoginDTO } from '../auth/adapter/dto/login-dto';
-import { Auth } from '../auth/entity/auth.entity';
 import { CustomerDTO } from '../customer/adapter/dto/customer-dto';
-import { RegisterDTO } from '../auth/adapter/dto/register-dto';
 import { plainToInstance } from 'class-transformer';
-import { CustomerResponseDTO } from '../customer/dto/customer-response.dto';
+import { CustomerEntity } from '../customer/infrastructure/entity/customer-entity';
+import { CustomerResponseDTO } from '../customer/adapter/dto/customer-response-dto';
+import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
+import { AuthDTO } from 'src/auth/adapter/dto/auth-dto';
 
 describe('CustomerController', () => {
   let app: INestApplication;
   const timeout = 90000
-  let customerRepository: Repository<Customer>;
-  let authRepository: Repository<Auth>;
+  let customerRepository: Repository<CustomerEntity>;
+  let authRepository: Repository<AuthEntity>;
   let accessToken = null;
   let customer: CustomerResponseDTO;
 
@@ -27,24 +26,22 @@ describe('CustomerController', () => {
 
       app = moduleFixture.createNestApplication();
       await app.init();
-      customerRepository = moduleFixture.get<Repository<Customer>>(getRepositoryToken(Customer));
-      authRepository = moduleFixture.get<Repository<Auth>>(getRepositoryToken(Auth));
+      customerRepository = moduleFixture.get<Repository<CustomerEntity>>(getRepositoryToken(CustomerEntity));
+      authRepository = moduleFixture.get<Repository<AuthEntity>>(getRepositoryToken(AuthEntity));
 
-      const registerDTO = new RegisterDTO();
-      registerDTO.email = "ADMIN1@GMAIL.COM";
-      registerDTO.password = "12345";
+      const authDTO = new AuthDTO();
+      authDTO.email = "ADMIN1@GMAIL.COM";
+      authDTO.password = "12345";
       await request(app.getHttpServer())
           .post('/auth/register')
-          .send(registerDTO)
+          .send(authDTO)
           .expect(201)
       
-
-      const loginDTO = new LoginDTO();
-      loginDTO.email = "ADMIN1@GMAIL.COM";
-      loginDTO.password = "12345";
+      authDTO.email = "ADMIN1@GMAIL.COM";
+      authDTO.password = "12345";
       const responseLogin = await request(app.getHttpServer())
           .post('/auth/login')
-          .send(loginDTO)
+          .send(authDTO)
           .expect(200)
       accessToken = responseLogin.body.token;
 
@@ -107,7 +104,7 @@ describe('CustomerController', () => {
 
   it('/customer/email/:email (GET)', async () => {
     const response = await request(app.getHttpServer())
-        .get('/customer/email/'+ customer.auth.email)
+        .get('/customer/email/'+ customer.email)
         .set('Authorization', `Bearer ${accessToken}`)
         .expect(200)
 

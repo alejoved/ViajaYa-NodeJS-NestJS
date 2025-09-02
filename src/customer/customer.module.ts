@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { CustomerController } from './adapter/controller/customer.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Customer } from './infrastructure/entity/customer';
-import { Auth } from '../auth/infrastructure/entity/auth';
+import { Customer } from './infrastructure/entity/customer-entity';
+import { Auth } from '../auth/infrastructure/entity/auth-entity';
 import { CustomerGetUseCase } from './application/usecase/customer-get-usecase';
 import { CustomerCreateUseCase } from './application/usecase/customer-create-usecase';
 import { CustomerUpdateUseCase } from './application/usecase/customer-update-usecase';

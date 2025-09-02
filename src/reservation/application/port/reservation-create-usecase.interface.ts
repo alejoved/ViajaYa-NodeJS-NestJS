@@ -1,5 +1,5 @@
-import { ReservationModel } from "../../domain/model/reservation-model";
+import { Reservation } from "../../domain/model/reservation";
 
 export interface ReservationCreateUseCaseInterface {
-  execute(reservationModel: ReservationModel): Promise<ReservationModel>;
+  execute(reservation: Reservation): Promise<Reservation>;
 }

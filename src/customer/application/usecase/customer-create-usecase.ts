@@ -3,7 +3,7 @@ import { CustomerCreateUseCaseInterface } from "../port/customer-create-usecase.
 import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
 import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
-import { CustomerModel } from "../../domain/model/customer-model";
+import { Customer } from "../../domain/model/customer";
 
 @Injectable()
 export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
@@ -15,10 +15,10 @@ export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
         private readonly customerRepositoryInterface: CustomerRepositoryInterface
       ) {}
 
-    async execute(customerModel: CustomerModel): Promise<CustomerModel>{
-        const password = hashSync(customerModel.authModel.password!, 3);
-        customerModel.authModel.role = Role.CUSTOMER;
-        customerModel.authModel.password = password;
+    async execute(customerModel: Customer): Promise<Customer>{
+        const password = hashSync(customerModel.auth.password!, 3);
+        customerModel.auth.role = Role.CUSTOMER;
+        customerModel.auth.password = password;
         return await this.customerRepositoryInterface.create(customerModel);
     }
 }

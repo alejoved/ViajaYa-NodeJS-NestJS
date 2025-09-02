@@ -1,5 +1,5 @@
 import { ConflictException, Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { ReservationModel } from "../../domain/model/reservation-model";
+import { Reservation } from "../../domain/model/reservation";
 import { ReservationRepositoryInterface } from "../../domain/repository/reservation-repository.interface";
 import { ReservationCreateUseCaseInterface } from "../port/reservation-create-usecase.interface";
 import { Constants } from "../../../common/constants";
@@ -24,27 +24,27 @@ export class ReservationCreateUseCase implements ReservationCreateUseCaseInterfa
         private readonly hotelRepositoryInterface: HotelRepositoryInterface
       ) {}
 
-    async execute(reservationModel: ReservationModel): Promise<ReservationModel>{
-        const customerExists = await this.customerRepositoryInterface.getByEmail(reservationModel.customerEmail!);
+    async execute(reservation: Reservation): Promise<Reservation>{
+        const customerExists = await this.customerRepositoryInterface.getByEmail(reservation.customerEmail!);
         if(!customerExists){
             throw new NotFoundException(Constants.customerNotFound)
         }
-        const flightExists = await this.flightRepositoryInterface.getById(reservationModel.flightId!);
+        const flightExists = await this.flightRepositoryInterface.getById(reservation.flightId!);
         if(!flightExists){
             throw new NotFoundException(Constants.flightNotFound);
         }
-        const hotelExists = await this.hotelRepositoryInterface.getById(reservationModel.hotelId!);
+        const hotelExists = await this.hotelRepositoryInterface.getById(reservation.hotelId!);
         if(!hotelExists){
             throw new NotFoundException(Constants.hotelNotFound)
         }
-        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservationModel.customerEmail!, reservationModel.flightId!, reservationModel.hotelId!);
+        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservation.customerEmail!, reservation.flightId!, reservation.hotelId!);
         if(reservationExists.length > 0){
             throw new ConflictException(Constants.reservationExists);
         }
-        const total = hotelExists.pricePerNight * reservationModel.numberNights + flightExists.price;
-        reservationModel.reservationDate = new Date();
-        reservationModel.status = Status.PENDING;
-        reservationModel.total = total;
-        return await this.reservationRepositoryInterface.create(reservationModel);
+        const total = hotelExists.pricePerNight * reservation.numberNights + flightExists.price;
+        reservation.reservationDate = new Date();
+        reservation.status = Status.PENDING;
+        reservation.total = total;
+        return await this.reservationRepositoryInterface.create(reservation);
     }
 }

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Flight } from '../flight/infrastructure/entity/flight';
-import { Hotel } from '../hotel/infrastructure/entity/hotel';
-import { Reservation } from './infrastructure/entity/reservation';
-import { Customer } from '../customer/infrastructure/entity/customer';
+import { FlightEntity } from '../flight/infrastructure/entity/flight-entity';
+import { HotelEntity } from '../hotel/infrastructure/entity/hotel-entity';
+import { ReservationEntity } from './infrastructure/entity/reservation-entity';
+import { CustomerEntity } from '../customer/infrastructure/entity/customer-entity';
 import { ReservationController } from './adapter/controller/reservation.controller';
 import { ReservationGetUseCase } from './application/usecase/reservation-get-usecase';
 import { ReservationCreateUseCase } from './application/usecase/reservation-create-usecase';
@@ -17,7 +17,7 @@ import { FlightRepository } from '../flight/infrastructure/repository/flight-rep
 import { HotelRepository } from '../hotel/infrastructure/repository/hotel-repository';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Reservation]), TypeOrmModule.forFeature([Customer]), TypeOrmModule.forFeature([Flight]), TypeOrmModule.forFeature([Hotel])],
+    imports: [TypeOrmModule.forFeature([ReservationEntity]), TypeOrmModule.forFeature([CustomerEntity]), TypeOrmModule.forFeature([FlightEntity]), TypeOrmModule.forFeature([HotelEntity])],
     controllers: [ReservationController],
     providers: [{provide: "ReservationGetUseCaseInterface", useClass: ReservationGetUseCase}, 
                 {provide: "ReservationCreateUseCaseInterface", useClass: ReservationCreateUseCase},

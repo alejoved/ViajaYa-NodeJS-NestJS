@@ -9,11 +9,11 @@ export class ReservationDTO{
     @ApiProperty({ description: "Flight primary ID" })
     @IsNotEmpty()
     @IsString()
-    flightId: string;
+    flightId?: string;
     @ApiProperty({ description: "Hotel primarty ID" })
     @IsNotEmpty()
     @IsString()
-    hotelId: string;
+    hotelId?: string;
     @ApiProperty({ description: "Number of nigths in the hotel" })
     @IsNotEmpty()
     @IsNumber()

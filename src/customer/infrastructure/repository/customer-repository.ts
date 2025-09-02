@@ -2,9 +2,9 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
-import { Customer } from "../entity/customer";
+import { CustomerEntity } from "../entity/customer-entity";
 import { Constants } from "../../../common/constants";
-import { CustomerModel } from "../../domain/model/customer-model";
+import { Customer } from "../../domain/model/customer";
 import { CustomerMapper } from "../mapper/customer-mapper";
 
 @Injectable()
@@ -14,48 +14,48 @@ export class CustomerRepository implements CustomerRepositoryInterface {
 
     constructor(
         @InjectRepository(Customer)
-        private readonly customerRepository: Repository<Customer>,
+        private readonly customerRepository: Repository<CustomerEntity>,
       ) {}
 
-    async get(): Promise<CustomerModel[]>{
-        const customer = await this.customerRepository.find({relations: ['auth']});
-        return customer.map(CustomerMapper.entityToModel);
+    async get(): Promise<Customer[]>{
+        const customerEntity = await this.customerRepository.find({relations: ['auth']});
+        return customerEntity.map(CustomerMapper.entityToModel);
     }
 
-    async getById(id: string): Promise<CustomerModel>{
-        const customer = await this.customerRepository.findOneBy({id: id});
+    async getById(id: string): Promise<Customer>{
+        const customerEntity = await this.customerRepository.findOneBy({id: id});
+        if(!customerEntity){
+            throw new NotFoundException(Constants.customerNotFound);
+        }
+        return CustomerMapper.entityToModel(customerEntity);
+    }
+
+    async getByEmail(email: string): Promise<Customer>{
+        const customer = await this.customerRepository.findOne({where: { authEntity: {email: email}}, relations: ['auth']});
         if(!customer){
             throw new NotFoundException(Constants.customerNotFound);
         }
         return CustomerMapper.entityToModel(customer);
     }
 
-    async getByEmail(email: string): Promise<CustomerModel>{
-        const customer = await this.customerRepository.findOne({where: { auth: {email: email}}, relations: ['auth']});
-        if(!customer){
-            throw new NotFoundException(Constants.customerNotFound);
-        }
-        return CustomerMapper.entityToModel(customer);
-    }
-
-    async create(customerModel: CustomerModel): Promise<CustomerModel>{
-        const customer = CustomerMapper.modelToEntity(customerModel);
-        this.customerRepository.create(customer);
-        const response = await this.customerRepository.save(customer);
+    async create(customer: Customer): Promise<Customer>{
+        const customerEntity = CustomerMapper.modelToEntity(customer);
+        this.customerRepository.create(customerEntity);
+        const response = await this.customerRepository.save(customerEntity);
         return CustomerMapper.entityToModel(response);
     }
 
-    async update(customerModel: CustomerModel): Promise<CustomerModel>{
-        const customer = CustomerMapper.modelToEntity(customerModel);
-        const response = await this.customerRepository.save(customer);
+    async update(customer: Customer): Promise<Customer>{
+        const customerEntity = CustomerMapper.modelToEntity(customer);
+        const response = await this.customerRepository.save(customerEntity);
         return CustomerMapper.entityToModel(response);
     }
 
     async delete(id: string): Promise<void>{
-        const customer = await this.customerRepository.findOneBy({id: id});
-        if(!customer){
+        const customerEntity = await this.customerRepository.findOneBy({id: id});
+        if(!customerEntity){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        await this.customerRepository.delete(customer);
+        await this.customerRepository.delete(customerEntity);
     }
 }
