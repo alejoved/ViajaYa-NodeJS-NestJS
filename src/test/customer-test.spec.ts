@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CustomerDTO } from '../customer/adapter/dto/customer-dto';
+import { CustomerDTO } from '../customer/adapter/dto/customer-create-dto';
 import { plainToInstance } from 'class-transformer';
 import { CustomerEntity } from '../customer/infrastructure/entity/customer-entity';
 import { CustomerResponseDTO } from '../customer/adapter/dto/customer-response-dto';

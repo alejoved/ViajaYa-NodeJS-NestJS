@@ -1,16 +1,16 @@
-import { HotelResponseDTO } from "../../adapter/dto/hotel-response.dto";
+import { HotelResponseDto } from "../dto/hotel-response.dto";
 import { Hotel } from "../../domain/model/hotel";
 import { HotelEntity } from "../../infrastructure/entity/hotel-entity";
-import { HotelDTO } from "../../adapter/dto/hotel.dto";
+import { HotelDto } from "../dto/hotel.dto";
 
-export class HotelMapper{
-    static dtoToModel(hotelDTO: HotelDTO): HotelEntity {
+export class HotelRestMapper{
+    static dtoToModel(hotelDto: HotelDto): HotelEntity {
         return {
-            name: hotelDTO.name,
-            country: hotelDTO.country,
-            city: hotelDTO.city,
-            category: hotelDTO.category,
-            pricePerNight: hotelDTO.pricePerNight
+            name: hotelDto.name,
+            country: hotelDto.country,
+            city: hotelDto.city,
+            category: hotelDto.category,
+            pricePerNight: hotelDto.pricePerNight
         };
     }
 
@@ -34,7 +34,7 @@ export class HotelMapper{
             pricePerNight: hotelEntity.pricePerNight
         };
     }
-    static modelToDto(hotel: Hotel): HotelResponseDTO {
+    static modelToDto(hotel: Hotel): HotelResponseDto {
         return {
             id: hotel.id!,
             name: hotel.name,

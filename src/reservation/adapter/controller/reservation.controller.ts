@@ -10,7 +10,7 @@ import { ReservationCancelUseCaseInterface } from '../../application/port/reserv
 import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
 import { Role } from '../../../common/role';
 import { ReservationDTO } from '../dto/reservation.dto';
-import { ReservationMapper } from 'src/reservation/adapter/mapper/reservation-mapper';
+import { ReservationRestMapper } from 'src/reservation/adapter/mapper/reservation-rest-mapper';
 
 @ApiTags('Reservations')
 @Controller('reservation')
@@ -30,7 +30,7 @@ export class ReservationController {
     @Get()
     async getAll(){
         const reservationModel = await this.reservationGetUseCaseInterface.execute();
-        const reservationResponseDTO = reservationModel.map(ReservationMapper.modelToDto);
+        const reservationResponseDTO = reservationModel.map(ReservationRestMapper.modelToDto);
         return reservationResponseDTO;
     }
 
@@ -42,7 +42,7 @@ export class ReservationController {
     @Get(":id")
     async getById(@Param("id", ParseUUIDPipe) id: string){
         const reservationModel = await this.reservationGetUseCaseInterface.executeById(id);
-        const reservationResponseDTO = ReservationMapper.modelToDto(reservationModel);
+        const reservationResponseDTO = ReservationRestMapper.modelToDto(reservationModel);
         return reservationResponseDTO;
     }
     
@@ -53,9 +53,9 @@ export class ReservationController {
     @AuthDecorator(Role.ADMIN)
     @Post()
     async create(@Body() reservationDTO: ReservationDTO){
-        const reservationModel = ReservationMapper.dtoToModel(reservationDTO);
+        const reservationModel = ReservationRestMapper.dtoToModel(reservationDTO);
         const response = await this.reservationCreateUseCaseInterface.execute(reservationModel);
-        const reservationResponseDTO = ReservationMapper.modelToDto(response);
+        const reservationResponseDTO = ReservationRestMapper.modelToDto(response);
         return reservationResponseDTO;
     }
 
@@ -66,9 +66,9 @@ export class ReservationController {
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
     async update(@Body() reservationDTO: ReservationDTO, @Param("id", ParseUUIDPipe) id: string){
-        const reservationModel = ReservationMapper.dtoToModel(reservationDTO);
+        const reservationModel = ReservationRestMapper.dtoToModel(reservationDTO);
         const response = await this.reservationUpdateUseCaseInterface.execute(reservationModel, id);
-        const reservationResponseDTO = ReservationMapper.modelToDto(response);
+        const reservationResponseDTO = ReservationRestMapper.modelToDto(response);
         return reservationResponseDTO;
     }
     

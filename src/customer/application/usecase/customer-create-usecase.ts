@@ -4,6 +4,9 @@ import { CustomerRepositoryInterface } from "../../domain/repository/customer-re
 import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
 import { Customer } from "../../domain/model/customer";
+import { CustomerResponseDto } from "src/customer/adapter/dto/customer-response-dto";
+import { CustomerCreateDto } from "src/customer/adapter/dto/customer-create-dto";
+import { CustomerRestMapper } from "src/customer/adapter/mapper/customer-rest-mapper";
 
 @Injectable()
 export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
@@ -15,10 +18,12 @@ export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {
         private readonly customerRepositoryInterface: CustomerRepositoryInterface
       ) {}
 
-    async execute(customerModel: Customer): Promise<Customer>{
-        const password = hashSync(customerModel.auth.password!, 3);
-        customerModel.auth.role = Role.CUSTOMER;
-        customerModel.auth.password = password;
-        return await this.customerRepositoryInterface.create(customerModel);
+    async execute(customerCreateDto: CustomerCreateDto): Promise<CustomerResponseDto>{
+        const customer = CustomerRestMapper.createDtoToModel(customerCreateDto);
+        const password = hashSync(customer.auth!.password!, 3);
+        customer.auth!.role = Role.CUSTOMER;
+        customer.auth!.password = password;
+        const response = await this.customerRepositoryInterface.create(customer);
+        return CustomerRestMapper.modelToDto(response);
     }
 }

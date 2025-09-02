@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class FlightResponseDTO{
+export class FlightResponseDto{
     @ApiProperty({ description: "Flight ID" })
     id: string;
     @ApiProperty({ description: "Main airline for the flight" })

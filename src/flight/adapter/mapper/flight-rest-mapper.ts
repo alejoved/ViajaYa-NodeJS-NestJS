@@ -1,9 +1,9 @@
 import { Flight } from "../../domain/model/flight";
-import { FlightDTO } from "../../adapter/dto/fligth-dto";
-import { FlightResponseDTO } from "../../adapter/dto/fligth-response-dto";
+import { FlightDto } from "../dto/fligth-dto";
+import { FlightResponseDto } from "../dto/fligth-response-dto";
 
-export class FlightMapper{
-    static dtoToModel(flightDTO: FlightDTO): Flight {
+export class FlightRestMapper{
+    static dtoToModel(flightDTO: FlightDto): Flight {
         return {
             airline: flightDTO.airline,
             origin: flightDTO.origin,
@@ -13,7 +13,7 @@ export class FlightMapper{
             price: flightDTO.price
         };
     }
-    static modelToDto(flightModel: Flight): FlightResponseDTO {
+    static modelToDto(flightModel: Flight): FlightResponseDto {
         return {
             id: flightModel.id!,
             airline: flightModel.airline,

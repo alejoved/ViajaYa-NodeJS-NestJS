@@ -1,7 +1,7 @@
-import { Customer } from "../../domain/model/customer";
+import { CustomerResponseDto } from "src/customer/adapter/dto/customer-response-dto";
 
 export interface CustomerGetUseCaseInterface {
-  execute(): Promise<Customer[]>;
-  executeById(id: string): Promise<Customer>;
-  executeByEmail(email: string): Promise<Customer>;
+  execute(): Promise<CustomerResponseDto[]>;
+  executeById(id: string): Promise<CustomerResponseDto>;
+  executeByEmail(email: string): Promise<CustomerResponseDto>;
 }

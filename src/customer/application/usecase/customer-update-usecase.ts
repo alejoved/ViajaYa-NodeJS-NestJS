@@ -2,7 +2,9 @@ import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
 import { Customer } from "../../domain/model/customer";
 import { CustomerUpdateUseCaseInterface } from "../port/customer-update-usecase.interface";
-import { Constants } from "../../../common/constants";
+import { CustomerUpdateDto } from "../../adapter/dto/customer-update-dto";
+import { CustomerResponseDto } from "src/customer/adapter/dto/customer-response-dto";
+import { CustomerRestMapper } from "src/customer/adapter/mapper/customer-rest-mapper";
 
 @Injectable()
 export class CustomerUpdateUseCase implements CustomerUpdateUseCaseInterface {
@@ -14,13 +16,8 @@ export class CustomerUpdateUseCase implements CustomerUpdateUseCaseInterface {
         private readonly customerRepositoryInterface: CustomerRepositoryInterface
       ) {}
 
-    async execute(customer: Customer, id: string): Promise<Customer>{
-        const customerExist = await this.customerRepositoryInterface.getById(id);
-        if(!customerExist){
-            throw new NotFoundException(Constants.customerNotFound);
-        }
-        Object.assign(customerExist, customer);
-        return await this.customerRepositoryInterface.update(customer);
-         
+    async execute(customerUpdateDto: CustomerUpdateDto, id: string): Promise<CustomerResponseDto>{
+        const customer = CustomerRestMapper.updateDtoToModel(customerUpdateDto, id);
+        return await this.customerRepositoryInterface.update(customer, id);
     }
 }

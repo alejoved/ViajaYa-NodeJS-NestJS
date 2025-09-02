@@ -1,5 +1,6 @@
-import { Customer } from "../../domain/model/customer";
+import { CustomerResponseDto } from "src/customer/adapter/dto/customer-response-dto";
+import { CustomerUpdateDto } from "../../adapter/dto/customer-update-dto";
 
 export interface CustomerUpdateUseCaseInterface {
-  execute(customerUpdate: Customer, id: string): Promise<Customer>;
+  execute(customerUpdateDto: CustomerUpdateDto, id: string): Promise<CustomerResponseDto>;
 }

@@ -15,22 +15,22 @@ export class CustomerGetUseCase implements CustomerGetUseCaseInterface {
       ) {}
 
     async execute(): Promise<Customer[]>{
-        const customerModel = await this.customerRepositoryInterface.get();
-        return customerModel;
+        const customer = await this.customerRepositoryInterface.get();
+        return customer;
     }
 
     async executeById(id: string): Promise<Customer>{
-        const customerModel = await this.customerRepositoryInterface.getById(id);
-        if(!customerModel){
+        const customer = await this.customerRepositoryInterface.getById(id);
+        if(!customer){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        return customerModel;
+        return customer;
     }
     async executeByEmail(email: string): Promise<Customer>{
-        const customerModel = await this.customerRepositoryInterface.getByEmail(email);
-        if(!customerModel){
+        const customer = await this.customerRepositoryInterface.getByEmail(email);
+        if(!customer){
             throw new NotFoundException(Constants.customerNotFound);
         }
-        return customerModel;
+        return customer;
     }
 }

@@ -1,3 +1,4 @@
+import { AuthMapper } from "../../../auth/infrastructure/mapper/auth-mapper";
 import { Customer } from "../../domain/model/customer";
 import { CustomerEntity } from "../entity/customer-entity";
 
@@ -8,12 +9,7 @@ export class CustomerMapper{
             id: customer.id,
             identification: customer.identification,
             name: customer.name,
-            authEntity: {
-                id: customer.auth.id,
-                email: customer.auth.email, 
-                password: customer.auth.password,
-                role: customer.auth.role!
-            }
+            authEntity: AuthMapper.modelToEntity(customer.auth!)
         };
     }
 
@@ -22,12 +18,7 @@ export class CustomerMapper{
             id: customerEntity.id!,
             identification: customerEntity.identification,
             name: customerEntity.name,
-            auth : {
-                id: customerEntity.authEntity.id,
-                email: customerEntity.authEntity.email, 
-                password: customerEntity.authEntity.password, 
-                role: customerEntity.authEntity.role
-            }
+            auth : AuthMapper.entityToModel(customerEntity.authEntity)
         };
     }
 }
