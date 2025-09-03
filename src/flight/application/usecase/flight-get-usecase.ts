@@ -1,8 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
-import { Flight } from "../../domain/model/flight";
 import { FlightGetUseCaseInterface } from "../port/flight-get-usecase.interface";
 import { Constants } from "../../../common/constants";
+import { FlightResponseDto } from "../dto/fligth-response-dto";
+import { FlightRestMapper } from "../mapper/flight-rest-mapper";
 
 @Injectable()
 export class FlightGetUseCase implements FlightGetUseCaseInterface {
@@ -14,21 +15,24 @@ export class FlightGetUseCase implements FlightGetUseCaseInterface {
         private readonly flightRepositoryInterface: FlightRepositoryInterface
       ) {}
 
-    async execute(): Promise<Flight[]>{
-        const flight = await this.flightRepositoryInterface.get();
-        return flight;
+    async execute(): Promise<FlightResponseDto[]>{
+        const flights = await this.flightRepositoryInterface.get();
+        const flightResponseDto = flights.map(FlightRestMapper.modelToDto);
+        return flightResponseDto;
     }
 
-    async executeById(id: string): Promise<Flight>{
+    async executeById(id: string): Promise<FlightResponseDto>{
         const flight = await this.flightRepositoryInterface.getById(id);
         if(!flight){
             throw new NotFoundException(Constants.flightNotFound);
         }
-        return flight;
+        const flightResponseDto = FlightRestMapper.modelToDto(flight);
+        return flightResponseDto;
     }
 
-    async executeByOriginAndDestiny(origin: string, destiny: string): Promise<Flight[]>{
-        const flight = await this.flightRepositoryInterface.getByOriginAndDestiny(origin, destiny);
-        return flight;
+    async executeByOriginAndDestiny(origin: string, destiny: string): Promise<FlightResponseDto[]>{
+        const flights = await this.flightRepositoryInterface.getByOriginAndDestiny(origin, destiny);
+        const flightResponseDto = flights.map(FlightRestMapper.modelToDto);
+        return flightResponseDto;
     }
 }

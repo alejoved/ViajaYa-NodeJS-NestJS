@@ -3,10 +3,9 @@ import { CustomerCreateUseCaseInterface } from "../port/customer-create-usecase.
 import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
 import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
-import { Customer } from "../../domain/model/customer";
-import { CustomerResponseDto } from "src/customer/adapter/dto/customer-response-dto";
-import { CustomerCreateDto } from "src/customer/adapter/dto/customer-create-dto";
-import { CustomerRestMapper } from "src/customer/adapter/mapper/customer-rest-mapper";
+import { CustomerResponseDto } from "src/customer/application/dto/customer-response-dto";
+import { CustomerCreateDto } from "src/customer/application/dto/customer-create-dto";
+import { CustomerRestMapper } from "../mapper/customer-rest-mapper";
 
 @Injectable()
 export class CustomerCreateUseCase implements CustomerCreateUseCaseInterface {

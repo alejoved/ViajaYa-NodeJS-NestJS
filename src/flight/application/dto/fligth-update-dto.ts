@@ -3,7 +3,7 @@ import { Transform } from "class-transformer";
 import { IsBoolean, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { format } from "date-fns";
 
-export class FlightDto{
+export class FlightUpdateDto{
     @ApiProperty({ description: "Main airline for the flight" })
     @IsNotEmpty()
     @IsString()

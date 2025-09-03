@@ -1,5 +1,6 @@
-import { Flight } from "../../domain/model/flight";
+import { FlightCreateDto } from "src/flight/application/dto/fligth-create-dto";
+import { FlightResponseDto } from "src/flight/application/dto/fligth-response-dto";
 
 export interface FlightCreateUseCaseInterface {
-  execute(flight: Flight): Promise<Flight>;
+  execute(flightCreateDto: FlightCreateDto): Promise<FlightResponseDto>;
 }

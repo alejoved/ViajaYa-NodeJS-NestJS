@@ -1,6 +1,6 @@
-
-import { Hotel } from "../../domain/model/hotel";
+import { HotelResponseDto } from "../dto/hotel-response-dto";
+import { HotelUpdateDto } from "../dto/hotel-update-dto";
 
 export interface HotelUpdateUseCaseInterface {
-  execute(hotel: Hotel, id: string): Promise<Hotel>;
+  execute(hotelUpdate: HotelUpdateDto, id: string): Promise<HotelResponseDto>;
 }

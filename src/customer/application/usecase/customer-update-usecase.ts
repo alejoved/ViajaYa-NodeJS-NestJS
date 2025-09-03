@@ -2,8 +2,8 @@ import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { CustomerRepositoryInterface } from "../../domain/repository/customer-repository.interface";
 import { Customer } from "../../domain/model/customer";
 import { CustomerUpdateUseCaseInterface } from "../port/customer-update-usecase.interface";
-import { CustomerUpdateDto } from "../../adapter/dto/customer-update-dto";
-import { CustomerResponseDto } from "src/customer/adapter/dto/customer-response-dto";
+import { CustomerUpdateDto } from "../dto/customer-update-dto";
+import { CustomerResponseDto } from "src/customer/application/dto/customer-response-dto";
 import { CustomerRestMapper } from "src/customer/adapter/mapper/customer-rest-mapper";
 
 @Injectable()

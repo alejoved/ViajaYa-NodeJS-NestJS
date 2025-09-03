@@ -1,14 +1,13 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, Inject } from '@nestjs/common';
 import { Role } from '../../../common/role';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CustomerCreateDto } from '../dto/customer-create-dto';
-import { CustomerUpdateDto } from '../dto/customer-update-dto';
+import { CustomerCreateDto } from '../../application/dto/customer-create-dto';
+import { CustomerUpdateDto } from '../../application/dto/customer-update-dto';
 import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
 import { CustomerGetUseCaseInterface } from '../../application/port/customer-get-usecase.interface';
 import { CustomerCreateUseCaseInterface } from '../../application/port/customer-create-usecase.interface';
 import { CustomerUpdateUseCaseInterface } from '../../application/port/customer-update-usecase.interface';
 import { CustomerDeleteUseCaseInterface } from '../../application/port/customer-delete-usecase.interface';
-import { CustomerRestMapper } from '../mapper/customer-rest-mapper';
 
 @ApiTags('Customers')
 @Controller('customer')
@@ -25,9 +24,8 @@ export class CustomerController {
     @AuthDecorator()
     @Get()
     async getAll(){
-        const customer = await this.customerGetUseCaseInterface.execute();
-        const customerResponseDTO = customer.map(CustomerRestMapper.modelToDto);
-        return customerResponseDTO;
+        const customerResponseDto = await this.customerGetUseCaseInterface.execute();
+        return customerResponseDto;
     }
 
     @ApiOperation({ summary : "Get an customers existing by uuid" })
@@ -37,9 +35,8 @@ export class CustomerController {
     @AuthDecorator(Role.ADMIN)
     @Get(":id")
     async getById(@Param("id", ParseUUIDPipe) id: string){
-        const customer = await this.customerGetUseCaseInterface.executeById(id);
-        const customerResponseDTO = CustomerRestMapper.modelToDto(customer);
-        return customerResponseDTO;
+        const customerResponseDto = await this.customerGetUseCaseInterface.executeById(id);
+        return customerResponseDto;
     }
 
     @ApiOperation({ summary : "Get an customer existing by uuid" })
@@ -49,9 +46,8 @@ export class CustomerController {
     @AuthDecorator()
     @Get("/email/:email")
     async getByIdentification(@Param("email") email: string){
-        const customer = await this.customerGetUseCaseInterface.executeByEmail(email);
-        const customerResponseDTO = CustomerRestMapper.modelToDto(customer);
-        return customerResponseDTO;
+        const customerResponseDto = await this.customerGetUseCaseInterface.executeByEmail(email);
+        return customerResponseDto;
     }
     
     @ApiOperation({ summary : "Create a new customer associated with a email" })
@@ -72,9 +68,8 @@ export class CustomerController {
     @AuthDecorator()
     @Put(":id")
     async update(@Body() customerUpdateDto: CustomerUpdateDto, @Param("id", ParseUUIDPipe) id: string){
-        const response = await this.customerUpdateUseCaseInterface.execute(customerUpdateDto, id);
-        const customerResponseDTO = CustomerRestMapper.modelToDto(response);
-        return customerResponseDTO;
+        const customerResponseDto = await this.customerUpdateUseCaseInterface.execute(customerUpdateDto, id);
+        return customerResponseDto;
     }
 
     @ApiOperation({ summary : "Delete an customer by uuid" })

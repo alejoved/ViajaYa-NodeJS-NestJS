@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Inject, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ReservationResponseDTO } from '../dto/reservation-response.dto';
+import { ReservationResponseDto } from '../dto/reservation-response-dto';
 import { ReservationCreateUseCaseInterface } from '../../application/port/reservation-create-usecase.interface';
 import { ReservationDeleteUseCaseInterface } from '../../application/port/reservation-delete-usecase.interface';
 import { ReservationGetUseCaseInterface } from '../../application/port/reservation-get-usecase.interface';
@@ -9,8 +9,8 @@ import { ReservationConfirmUseCaseInterface } from '../../application/port/reser
 import { ReservationCancelUseCaseInterface } from '../../application/port/reservation-cancel-usecase.interface';
 import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
 import { Role } from '../../../common/role';
-import { ReservationDTO } from '../dto/reservation.dto';
-import { ReservationRestMapper } from 'src/reservation/adapter/mapper/reservation-rest-mapper';
+import { ReservationCreateDto } from '../dto/reservation-create-dto';
+import { ReservationUpdateDto } from '../dto/reservation-update-dto';
 
 @ApiTags('Reservations')
 @Controller('reservation')
@@ -24,52 +24,46 @@ export class ReservationController {
                 @Inject("ReservationCancelUseCaseInterface") private readonly reservationCancelUseCaseInterface: ReservationCancelUseCaseInterface){}
 
     @ApiOperation({ summary : "Get all reservations currently" })
-    @ApiResponse({status : 200, description : "Get all reservations successfully", type: [ReservationResponseDTO]})
+    @ApiResponse({status : 200, description : "Get all reservations successfully", type: [ReservationResponseDto]})
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get()
     async getAll(){
-        const reservationModel = await this.reservationGetUseCaseInterface.execute();
-        const reservationResponseDTO = reservationModel.map(ReservationRestMapper.modelToDto);
-        return reservationResponseDTO;
+        const reservationResponseDto = await this.reservationGetUseCaseInterface.execute();
+        return reservationResponseDto;
     }
 
     @ApiOperation({ summary : "Get an reservation existing by uuid" })
-    @ApiResponse({status : 200, description : "Get an reservation successfully", type: ReservationResponseDTO})
+    @ApiResponse({status : 200, description : "Get an reservation successfully", type: ReservationResponseDto})
     @ApiResponse({status : 404, description : "Reservation not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator()
     @Get(":id")
     async getById(@Param("id", ParseUUIDPipe) id: string){
-        const reservationModel = await this.reservationGetUseCaseInterface.executeById(id);
-        const reservationResponseDTO = ReservationRestMapper.modelToDto(reservationModel);
-        return reservationResponseDTO;
+        const reservationResponseDto = await this.reservationGetUseCaseInterface.executeById(id);
+        return reservationResponseDto;
     }
     
     @ApiOperation({ summary : "Create a new reservation associated with a flight and hotel" })
-    @ApiResponse({status : 201, description : "Reservation created successfully", type: ReservationResponseDTO})
+    @ApiResponse({status : 201, description : "Reservation created successfully", type: ReservationResponseDto})
     @ApiResponse({status : 404, description : "Flight or hotel not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Post()
-    async create(@Body() reservationDTO: ReservationDTO){
-        const reservationModel = ReservationRestMapper.dtoToModel(reservationDTO);
-        const response = await this.reservationCreateUseCaseInterface.execute(reservationModel);
-        const reservationResponseDTO = ReservationRestMapper.modelToDto(response);
+    async create(@Body() reservationCreateDto: ReservationCreateDto){
+        const reservationResponseDTO = await this.reservationCreateUseCaseInterface.execute(reservationCreateDto);
         return reservationResponseDTO;
     }
 
     @ApiOperation({ summary : "Update data about an reservation by uuid" })
-    @ApiResponse({status : 200, description : "Reservation updated successfully", type: ReservationResponseDTO})
+    @ApiResponse({status : 200, description : "Reservation updated successfully", type: ReservationResponseDto})
     @ApiResponse({status : 404, description : "Appointment not found"})
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
-    async update(@Body() reservationDTO: ReservationDTO, @Param("id", ParseUUIDPipe) id: string){
-        const reservationModel = ReservationRestMapper.dtoToModel(reservationDTO);
-        const response = await this.reservationUpdateUseCaseInterface.execute(reservationModel, id);
-        const reservationResponseDTO = ReservationRestMapper.modelToDto(response);
-        return reservationResponseDTO;
+    async update(@Body() reservationUpdateDto: ReservationUpdateDto, @Param("id", ParseUUIDPipe) id: string){
+        const reservationResponseDto = await this.reservationUpdateUseCaseInterface.execute(reservationUpdateDto, id);
+        return reservationResponseDto;
     }
     
     @ApiOperation({ summary : "Delete a reservation by uuid" })

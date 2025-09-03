@@ -5,5 +5,5 @@ export class AuthResponseDTO{
     @ApiProperty({ description: "Email user" })
     email: string;
     @ApiProperty({ description: "Role user" })
-    role?: Role;
+    role: Role;
 }

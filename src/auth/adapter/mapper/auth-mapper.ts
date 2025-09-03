@@ -14,7 +14,7 @@ export class AuthMapper{
     static modelToAuthResponseDTO(auth: Auth): AuthResponseDTO {
         return {
             email: auth.email,
-            role : auth.role
+            role : auth.role!
         };
     }
 

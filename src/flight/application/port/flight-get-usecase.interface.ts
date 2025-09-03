@@ -1,7 +1,8 @@
+import { FlightResponseDto } from "src/flight/application/dto/fligth-response-dto";
 import { Flight } from "../../domain/model/flight";
 
 export interface FlightGetUseCaseInterface {
-  execute(): Promise<Flight[]>;
-  executeById(id: string): Promise<Flight>;
-  executeByOriginAndDestiny(origin: string, destiny: string): Promise<Flight[]>;
+  execute(): Promise<FlightResponseDto[]>;
+  executeById(id: string): Promise<FlightResponseDto>;
+  executeByOriginAndDestiny(origin: string, destiny: string): Promise<FlightResponseDto[]>;
 }

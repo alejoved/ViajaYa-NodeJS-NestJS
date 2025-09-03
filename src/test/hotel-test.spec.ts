@@ -6,8 +6,8 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HotelEntity } from '../hotel/infrastructure/entity/hotel-entity';
 import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
-import { HotelDTO } from '../hotel/adapter/dto/hotel.dto';
-import { HotelResponseDTO } from '../hotel/adapter/dto/hotel-response.dto';
+import { HotelDTO } from '../hotel/application/dto/hotel-create-dto';
+import { HotelResponseDTO } from '../hotel/application/dto/hotel-response-dto';
 import { AuthDTO } from 'src/auth/adapter/dto/auth-dto';
 import { plainToInstance } from 'class-transformer';
 

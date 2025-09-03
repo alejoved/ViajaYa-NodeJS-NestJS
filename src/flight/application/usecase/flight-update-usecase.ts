@@ -1,8 +1,10 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { Flight } from "../../domain/model/flight";
 import { FlightUpdateUseCaseInterface } from "../port/flight-update-usecase.interface";
 import { FlightRepositoryInterface } from "../../domain/repository/flight-repository.interface";
 import { Constants } from "../../../common/constants";
+import { FlightUpdateDto } from "../dto/fligth-update-dto";
+import { FlightResponseDto } from "../dto/fligth-response-dto";
+import { FlightRestMapper } from "../mapper/flight-rest-mapper";
 
 @Injectable()
 export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
@@ -14,12 +16,15 @@ export class FlightUpdateUseCase implements FlightUpdateUseCaseInterface {
         private readonly flightRepositoryInterface: FlightRepositoryInterface
       ) {}
 
-    async execute(flight: Flight, id: string): Promise<Flight>{
+    async execute(flightUpdateDto: FlightUpdateDto, id: string): Promise<FlightResponseDto>{
         const flightExist = await this.flightRepositoryInterface.getById(id);
         if(!flightExist){
             throw new NotFoundException(Constants.customerNotFound);
         }
+        const flight = FlightRestMapper.updateDtoToModel(flightUpdateDto);
         Object.assign(flightExist, flight);
-        return await this.flightRepositoryInterface.update(flight);
+        const response = await this.flightRepositoryInterface.update(flightExist);
+        const flightResponseDto = FlightRestMapper.modelToDto(response);
+        return flightResponseDto;
     }
 }

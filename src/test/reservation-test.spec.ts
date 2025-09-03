@@ -5,13 +5,13 @@ import { AppModule } from '../app.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
-import { ReservationDTO } from '../reservation/adapter/dto/reservation.dto';
+import { ReservationDTO } from '../reservation/adapter/dto/reservation-create-dto';
 import { Role } from '../common/role';
 import { ReservationEntity } from '../reservation/infrastructure/entity/reservation-entity';
 import { CustomerEntity } from '../customer/infrastructure/entity/customer-entity';
 import { FlightEntity } from '../flight/infrastructure/entity/flight-entity';
 import { HotelEntity } from '../hotel/infrastructure/entity/hotel-entity';
-import { ReservationResponseDTO } from '../reservation/adapter/dto/reservation-response.dto';
+import { ReservationResponseDTO } from '../reservation/adapter/dto/reservation-response-dto';
 import { plainToInstance } from 'class-transformer';
 import { AuthDTO } from 'src/auth/adapter/dto/auth-dto';
 

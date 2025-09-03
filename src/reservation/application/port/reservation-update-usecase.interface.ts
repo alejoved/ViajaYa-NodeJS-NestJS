@@ -1,5 +1,6 @@
-import { Reservation } from "../../domain/model/reservation";
+import { ReservationResponseDto } from "../../adapter/dto/reservation-response-dto";
+import { ReservationUpdateDto } from "../../adapter/dto/reservation-update-dto";
 
 export interface ReservationUpdateUseCaseInterface {
-  execute(reservationModel: Reservation, id: string): Promise<Reservation>;
+  execute(reservationUpdateDto: ReservationUpdateDto, id: string): Promise<ReservationResponseDto>;
 }

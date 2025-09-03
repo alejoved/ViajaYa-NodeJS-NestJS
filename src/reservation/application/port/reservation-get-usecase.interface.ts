@@ -1,6 +1,6 @@
-import { Reservation } from "../../domain/model/reservation";
+import { ReservationResponseDto } from "../../adapter/dto/reservation-response-dto";
 
 export interface ReservationGetUseCaseInterface {
-  execute(): Promise<Reservation[]>;
-  executeById(id: string): Promise<Reservation>;
+  execute(): Promise<ReservationResponseDto[]>;
+  executeById(id: string): Promise<ReservationResponseDto>;
 }

@@ -2,7 +2,9 @@ import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { HotelUpdateUseCaseInterface } from "../port/hotel-update-usecase.interface";
 import { Constants } from "../../../common/constants";
 import { HotelRepositoryInterface } from "../../domain/repository/hotel-repository.interface";
-import { Hotel } from "../../domain/model/hotel";
+import { HotelUpdateDto } from "../dto/hotel-update-dto";
+import { HotelResponseDto } from "../dto/hotel-response-dto";
+import { HotelRestMapper } from "../mapper/hotel-rest-mapper";
 
 @Injectable()
 export class HotelUpdateUseCase implements HotelUpdateUseCaseInterface {
@@ -14,12 +16,15 @@ export class HotelUpdateUseCase implements HotelUpdateUseCaseInterface {
         private readonly hotelRepositoryInterface: HotelRepositoryInterface
       ) {}
 
-    async execute(hotel: Hotel, id: string): Promise<Hotel>{
+    async execute(hotelUpdateDto: HotelUpdateDto, id: string): Promise<HotelResponseDto>{
         const hotelExists = await this.hotelRepositoryInterface.getById(id);
         if (!hotelExists){
             throw new NotFoundException(Constants.hotelNotFound);
         }
+        const hotel = HotelRestMapper.updateDtoToModel(hotelUpdateDto);
         Object.assign(hotelExists, hotel);
-        return await this.hotelRepositoryInterface.update(hotelExists);
+        const response = await this.hotelRepositoryInterface.update(hotelExists);
+        const hotelResponseDto = HotelRestMapper.modelToDto(response);
+        return hotelResponseDto;
     }
 }

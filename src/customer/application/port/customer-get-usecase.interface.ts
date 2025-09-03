@@ -1,4 +1,4 @@
-import { CustomerResponseDto } from "src/customer/adapter/dto/customer-response-dto";
+import { CustomerResponseDto } from "src/customer/application/dto/customer-response-dto";
 
 export interface CustomerGetUseCaseInterface {
   execute(): Promise<CustomerResponseDto[]>;

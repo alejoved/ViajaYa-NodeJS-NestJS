@@ -1,7 +1,7 @@
-import { CustomerResponseDto } from "../dto/customer-response-dto";
+import { CustomerResponseDto } from "../../application/dto/customer-response-dto";
 import { Customer } from "../../domain/model/customer";
-import { CustomerCreateDto } from "../dto/customer-create-dto";
-import { CustomerUpdateDto } from "../dto/customer-update-dto";
+import { CustomerCreateDto } from "../../application/dto/customer-create-dto";
+import { CustomerUpdateDto } from "../../application/dto/customer-update-dto";
 
 export class CustomerRestMapper{
     static createDtoToModel(customerCreateDTO: CustomerCreateDto): Customer {

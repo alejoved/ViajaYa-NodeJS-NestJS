@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseUUIDPipe, Inject } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthDecorator } from '../../../auth/infrastructure/config/auth.decorator';
-import { FlightResponseDto } from '../dto/fligth-response-dto';
+import { FlightResponseDto } from '../../application/dto/fligth-response-dto';
 import { Role } from '../../../common/role';
-import { FlightDto } from '../dto/fligth-dto';
+import { FlightCreateDto } from '../../application/dto/fligth-create-dto';
+import { FlightUpdateDto } from '../../application/dto/fligth-update-dto';
 import { FlightGetUseCaseInterface } from '../../application/port/flight-get-usecase.interface';
 import { FlightCreateUseCaseInterface } from '../../application/port/flight-create-usecase.interface';
 import { FlightUpdateUseCaseInterface } from '../../application/port/flight-update-usecase.interface';
 import { FlightDeleteUseCaseInterface } from '../../application/port/flight-delete-usecase.interface';
-import { FlightRestMapper } from '../mapper/flight-rest-mapper';
 
 @ApiTags('Flights')
 @Controller('flight')
@@ -24,9 +24,8 @@ export class FlightController {
     @AuthDecorator()
     @Get()
     async getAll(){
-        const flightModel = this.flightGetUseCaseInterface.execute();
-        const flightResponseDTO = (await flightModel).map(FlightRestMapper.modelToDto);
-        return flightResponseDTO;
+        const flightResponseDto = this.flightGetUseCaseInterface.execute();
+        return flightResponseDto;
     }
 
     @ApiOperation({ summary : "Get an flight existing by uuid" })
@@ -36,9 +35,8 @@ export class FlightController {
     @AuthDecorator()
     @Get(":id")
     async getById(@Param("id", ParseUUIDPipe) id: string){
-        const flightModel = await this.flightGetUseCaseInterface.executeById(id);
-        const flightResponseDTO = FlightRestMapper.modelToDto(flightModel);
-        return flightResponseDTO;
+        const flightResponseDto = await this.flightGetUseCaseInterface.executeById(id);
+        return flightResponseDto;
     }
 
     @ApiOperation({ summary : "Get an flight by origin and destiny" })
@@ -48,9 +46,8 @@ export class FlightController {
     @AuthDecorator()
     @Get("/origin/:origin/destiny/:destiny")
     async getByOriginAndDestiny(@Param("origin") origin: string, @Param("destiny") destiny: string ){
-        const flightModel = await this.flightGetUseCaseInterface.executeByOriginAndDestiny(origin, destiny);
-        const flightResponseDTO = flightModel.map(FlightRestMapper.modelToDto);
-        return flightResponseDTO;
+        const flightResponseDto = await this.flightGetUseCaseInterface.executeByOriginAndDestiny(origin, destiny);
+        return flightResponseDto;
     }
     
     @ApiOperation({ summary : "Create a new flight associated with a origin and destiny" })
@@ -59,11 +56,9 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Post()
-    async create(@Body() flightDTO: FlightDto){
-        const flightModel = FlightRestMapper.dtoToModel(flightDTO);
-        const response = await this.flightCreateUseCaseInterface.execute(flightModel);
-        const flightResponseDTO = FlightRestMapper.modelToDto(response);
-        return flightResponseDTO;
+    async create(@Body() flightCreateDto: FlightCreateDto){
+        const flightResponseDto = await this.flightCreateUseCaseInterface.execute(flightCreateDto);
+        return flightResponseDto;
     }
 
     @ApiOperation({ summary : "Update data about a flight by uuid" })
@@ -72,11 +67,9 @@ export class FlightController {
     @ApiResponse({status : 500, description : "Internal server error"})
     @AuthDecorator(Role.ADMIN)
     @Put(":id")
-    async update(@Body() flightDTO: FlightDto, @Param("id", ParseUUIDPipe) id: string){
-        const flightModel = FlightRestMapper.dtoToModel(flightDTO);
-        const response = await this.flightUpdateUseCaseInterface.execute(flightModel, id);
-        const flightResponseDTO = FlightRestMapper.modelToDto(response);
-        return flightResponseDTO;
+    async update(@Body() flightUpdateDto: FlightUpdateDto, @Param("id", ParseUUIDPipe) id: string){
+        const flightResponseDto = await this.flightUpdateUseCaseInterface.execute(flightUpdateDto, id);
+        return flightResponseDto;
     }
     
     @ApiOperation({ summary : "Delete an flight by uuid" })
