@@ -16,5 +16,5 @@ export class CustomerEntity {
     @Expose()
     @OneToOne(() => AuthEntity, (authEntity) => authEntity.id, { cascade: true, eager: true })
     @JoinColumn({name: "auth_id"})
-    authEntity: AuthEntity;
+    authEntity?: AuthEntity;
 }

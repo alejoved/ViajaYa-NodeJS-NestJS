@@ -6,9 +6,9 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
 import { plainToInstance } from 'class-transformer';
-import { AuthDTO } from '../auth/adapter/dto/auth-dto';
-import { AuthResponseDTO } from '../auth/adapter/dto/auth-response-dto';
-import { TokenResponseDTO } from 'src/auth/adapter/dto/token-response-dto';
+import { AuthDTO } from '../auth/application/dto/auth-dto';
+import { AuthResponseDTO } from '../auth/application/dto/auth-response-dto';
+import { TokenResponseDTO } from 'src/auth/application/dto/token-response-dto';
 
 describe('AuthController', () => {
   let app: INestApplication;

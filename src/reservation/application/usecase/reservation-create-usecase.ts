@@ -49,6 +49,7 @@ export class ReservationCreateUseCase implements ReservationCreateUseCaseInterfa
         reservation.status = Status.PENDING;
         reservation.total = total;
         const response = await this.reservationRepositoryInterface.create(reservation);
-        const reservationResponseDto = ReservationRestMapper.modelToDto();
+        const reservationResponseDto = ReservationRestMapper.modelToDto(response);
+        return reservationResponseDto;
     }
 }

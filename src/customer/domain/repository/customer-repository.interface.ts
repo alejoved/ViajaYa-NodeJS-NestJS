@@ -5,6 +5,6 @@ export interface CustomerRepositoryInterface{
     getById(id: string): Promise<Customer>;
     getByEmail(email: string): Promise<Customer>;
     create(customer: Customer): Promise<Customer>
-    update(customer: Customer, id: string): Promise<Customer>
+    update(customer: Customer): Promise<Customer>
     delete(id: string): Promise<void>
 }

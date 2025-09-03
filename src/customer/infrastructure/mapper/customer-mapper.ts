@@ -18,7 +18,7 @@ export class CustomerMapper{
             id: customerEntity.id!,
             identification: customerEntity.identification,
             name: customerEntity.name,
-            auth : AuthMapper.entityToModel(customerEntity.authEntity)
+            auth : AuthMapper.entityToModel(customerEntity.authEntity!)
         };
     }
 }

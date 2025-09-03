@@ -1,8 +1,5 @@
 import { Auth } from "../../domain/model/auth";
 import { AuthEntity } from "../entity/auth-entity";
-import { AuthDTO } from "../../adapter/dto/auth-dto";
-import { AuthResponseDTO } from "../../adapter/dto/auth-response-dto";
-import { TokenResponseDTO } from "../../adapter/dto/token-response-dto";
 
 export class AuthMapper{
     static modelToEntity(auth: Auth): AuthEntity {

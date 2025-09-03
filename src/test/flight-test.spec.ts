@@ -8,7 +8,7 @@ import { FlightEntity } from '../flight/infrastructure/entity/flight-entity';
 import { AuthEntity } from '../auth/infrastructure/entity/auth-entity';
 import { FlightDTO } from '../flight/application/dto/fligth-create-dto';
 import { FlightResponseDTO } from '../flight/application/dto/fligth-response-dto';
-import { AuthDTO } from '../auth/adapter/dto/auth-dto';
+import { AuthDTO } from '../auth/application/dto/auth-dto';
 import { plainToInstance } from 'class-transformer';
 
 

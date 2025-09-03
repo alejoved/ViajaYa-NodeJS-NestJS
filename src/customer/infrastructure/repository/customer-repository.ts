@@ -45,16 +45,9 @@ export class CustomerRepository implements CustomerRepositoryInterface {
         return CustomerMapper.entityToModel(response);
     }
 
-    async update(customer: Customer, id: string): Promise<Customer>{
+    async update(customer: Customer): Promise<Customer>{
         const customerEntity = CustomerMapper.modelToEntity(customer);
-        const preload = await this.customerRepository.preload({
-            id, // importante, preload necesita el id
-            ...customerEntity, // solo los campos enviados se mergean
-        });
-        if (!preload) {
-            throw new NotFoundException(Constants.customerNotFound);
-        }
-        const response = await this.customerRepository.save(preload);
+        const response = await this.customerRepository.save(customerEntity);
         return CustomerMapper.entityToModel(response);
     }
 

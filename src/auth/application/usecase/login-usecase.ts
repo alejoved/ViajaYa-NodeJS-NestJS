@@ -5,6 +5,8 @@ import { Constants } from "../../../common/constants";
 import { AuthRepositoryInterface } from "src/auth/domain/repository/auth-repository.interface";
 import { LoginUseCaseInterface } from "../port/login-usecase.interface";
 import { Auth } from "../../domain/model/auth";
+import { TokenResponseDto } from "../dto/token-response-dto";
+import { AuthRestMapper } from "../mapper/auth-rest-mapper";
 
 @Injectable()
 export class LoginUseCase implements LoginUseCaseInterface {
@@ -17,7 +19,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
         private readonly jwtService: JwtService
       ) {}
 
-    async execute(authModel: Auth): Promise<string>{
+    async execute(authModel: Auth): Promise<TokenResponseDto>{
       const authModelExist = await this.authRepositoryInterface.getByEmail(authModel.email);
       if(!authModelExist){
         throw new NotFoundException(Constants.authNotFound);
@@ -26,6 +28,7 @@ export class LoginUseCase implements LoginUseCaseInterface {
         throw new UnauthorizedException(Constants.credentialsNotValid);
       }
       const token = this.jwtService.sign({email: authModel.email});
-      return token;
+      const tokenResponseDto = AuthRestMapper.modelToTokenResponseDTO(token);
+      return tokenResponseDto;
     }
 }

@@ -13,7 +13,7 @@ import { FlightEntity } from '../flight/infrastructure/entity/flight-entity';
 import { HotelEntity } from '../hotel/infrastructure/entity/hotel-entity';
 import { ReservationResponseDTO } from '../reservation/adapter/dto/reservation-response-dto';
 import { plainToInstance } from 'class-transformer';
-import { AuthDTO } from 'src/auth/adapter/dto/auth-dto';
+import { AuthDTO } from 'src/auth/application/dto/auth-dto';
 
 describe('ReservationController', () => {
   let app: INestApplication;

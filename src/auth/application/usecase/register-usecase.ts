@@ -3,7 +3,9 @@ import { hashSync } from "bcrypt";
 import { Role } from "../../../common/role";
 import { AuthRepositoryInterface } from "../../domain/repository/auth-repository.interface";
 import { RegisterUseCaseInterface } from "../port/register-usecase.interface";
-import { Auth } from "../../domain/model/auth";
+import { AuthResponseDto } from "../dto/auth-response-dto";
+import { AuthDto } from "../dto/auth-dto";
+import { AuthRestMapper } from "../mapper/auth-rest-mapper";
 
 
 @Injectable()
@@ -14,10 +16,13 @@ export class RegisterUseCase implements RegisterUseCaseInterface{
     constructor(@Inject('AuthRepositoryInterface') private readonly authRepositoryInterface: AuthRepositoryInterface
       ) {}
 
-    async execute(authModel: Auth): Promise<Auth>{
-      const password = hashSync(authModel.password!, 3);
-      authModel.password = password;
-      authModel.role = Role.ADMIN;
-      return await this.authRepositoryInterface.create(authModel);
+    async execute(authDto: AuthDto): Promise<AuthResponseDto>{
+      const auth = AuthRestMapper.dtoToModel(authDto);
+      const password = hashSync(auth.password!, 3);
+      auth.password = password;
+      auth.role = Role.ADMIN;
+      const response = await this.authRepositoryInterface.create(auth);
+      const authResponseDto = AuthRestMapper.modelToAuthResponseDto(response);
+      return authResponseDto;
     }
 }

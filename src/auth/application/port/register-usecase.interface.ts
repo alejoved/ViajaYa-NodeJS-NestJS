@@ -1,5 +1,6 @@
-import { Auth } from "../../domain/model/auth";
+import { AuthDto } from "../dto/auth-dto";
+import { AuthResponseDto } from "../dto/auth-response-dto";
 
 export interface RegisterUseCaseInterface {
-  execute(auth: Auth): Promise<Auth>;
+  execute(authDto: AuthDto): Promise<AuthResponseDto>;
 }
