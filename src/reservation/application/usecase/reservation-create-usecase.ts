@@ -9,11 +9,12 @@ import { Status } from "../../../common/status";
 import { ReservationCreateDto } from "../../adapter/dto/reservation-create-dto";
 import { ReservationResponseDto } from "../../adapter/dto/reservation-response-dto";
 import { ReservationRestMapper } from "../../adapter/mapper/reservation-rest-mapper";
+import { Hotel } from "src/hotel/domain/model/hotel";
 
 @Injectable()
 export class ReservationCreateUseCase implements ReservationCreateUseCaseInterface {
 
-    private readonly logger = new Logger("HotelCreateUseCase");
+    private readonly logger = new Logger("ReservationCreateUseCase");
 
     constructor(
         @Inject('ReservationRepositoryInterface')
@@ -26,25 +27,28 @@ export class ReservationCreateUseCase implements ReservationCreateUseCaseInterfa
         private readonly hotelRepositoryInterface: HotelRepositoryInterface
       ) {}
 
-    async execute(reservationCreateDto: ReservationCreateDto): Promise<ReservationResponseDto>{
-        const reservation = ReservationRestMapper.createDtoToModel(reservationCreateDto);
-        const customerExists = await this.customerRepositoryInterface.getById(reservation.customerId!);
-        if(!customerExists){
+    async execute(reservationCreateDto: ReservationCreateDto): Promise<ReservationResponseDto>{ 
+        const customerExist = await this.customerRepositoryInterface.getById(reservationCreateDto.customerId);
+        if(!customerExist){
             throw new NotFoundException(Constants.customerNotFound)
         }
-        const flightExists = await this.flightRepositoryInterface.getById(reservation.flightId!);
-        if(!flightExists){
+        const flightExist = await this.flightRepositoryInterface.getById(reservationCreateDto.flightId);
+        if(!flightExist){
             throw new NotFoundException(Constants.flightNotFound);
         }
-        const hotelExists = await this.hotelRepositoryInterface.getById(reservation.hotelId!);
-        if(!hotelExists){
+        const hotelExist = await this.hotelRepositoryInterface.getById(reservationCreateDto.hotelId);
+        if(!hotelExist){
             throw new NotFoundException(Constants.hotelNotFound)
         }
-        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservation.customerId!, reservation.flightId!, reservation.hotelId!);
+        const reservation = ReservationRestMapper.createDtoToModel(reservationCreateDto);
+        reservation.customer = customerExist;
+        reservation.flight = flightExist
+        reservation.hotel = hotelExist;
+        const reservationExists = await this.reservationRepositoryInterface.getByIdAndCustomerAndFlightAndHotel(reservation.customer.id!, reservation.flight.id!, reservation.hotel.id!);
         if(reservationExists.length > 0){
             throw new ConflictException(Constants.reservationExists);
         }
-        const total = hotelExists.pricePerNight * reservation.numberNights + flightExists.price;
+        const total = hotelExist.pricePerNight * reservation.numberNights + flightExist.price;
         reservation.reservationDate = new Date();
         reservation.status = Status.PENDING;
         reservation.total = total;

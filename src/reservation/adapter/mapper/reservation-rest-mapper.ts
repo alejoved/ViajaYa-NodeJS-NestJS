@@ -6,19 +6,14 @@ import { ReservationUpdateDto } from "../dto/reservation-update-dto";
 export class ReservationRestMapper{
     static createDtoToModel(reservationCreateDto: ReservationCreateDto): Reservation {
         return {
-            numberNights: reservationCreateDto.numberNights,
-            customerId: reservationCreateDto.customerId,
-            flightId: reservationCreateDto.flightId,
-            hotelId: reservationCreateDto.hotelId
+            numberNights: reservationCreateDto.numberNights
         };
     }
 
-    static updateDtoToModel(reservationUpdateDto: ReservationUpdateDto): Reservation {
+    static updateDtoToModel(reservationUpdateDto: ReservationUpdateDto, id: string): Reservation {
         return {
-            numberNights: reservationUpdateDto.numberNights,
-            customerId: reservationUpdateDto.customerId,
-            flightId: reservationUpdateDto.flightId,
-            hotelId: reservationUpdateDto.hotelId
+            id: id,
+            numberNights: reservationUpdateDto.numberNights
         };
     }
 

@@ -9,10 +9,7 @@ export class Reservation {
     status?: Status;
     numberNights: number;
     total? : number;
-    customerId?: string;
     customer?: Customer;
-    flightId?: string
     flight?: Flight;
-    hotelId?: string;
     hotel?: Hotel;
 }
