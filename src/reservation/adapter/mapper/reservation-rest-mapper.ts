@@ -2,6 +2,9 @@ import { ReservationResponseDto } from "../dto/reservation-response-dto";
 import { Reservation } from "../../domain/model/reservation";
 import { ReservationCreateDto } from "../dto/reservation-create-dto";
 import { ReservationUpdateDto } from "../dto/reservation-update-dto";
+import { CustomerRestMapper } from "../../../customer/application/mapper/customer-rest-mapper";
+import { FlightRestMapper } from "../../../flight/application/mapper/flight-rest-mapper";
+import { HotelRestMapper } from "../../../hotel/application/mapper/hotel-rest-mapper";
 
 export class ReservationRestMapper{
     static createDtoToModel(reservationCreateDto: ReservationCreateDto): Reservation {
@@ -17,13 +20,16 @@ export class ReservationRestMapper{
         };
     }
 
-    static modelToDto(reservationModel: Reservation): ReservationResponseDto {
+    static modelToDto(reservation: Reservation): ReservationResponseDto {
         return {
-            id: reservationModel.id!,
-            numberNights: reservationModel.numberNights,
-            reservationDate: reservationModel.reservationDate!,
-            status: reservationModel.status!,
-            total: reservationModel.total!
+            id: reservation.id!,
+            numberNights: reservation.numberNights,
+            reservationDate: reservation.reservationDate!,
+            status: reservation.status!,
+            total: reservation.total!,
+            customer : CustomerRestMapper.modelToDto(reservation.customer!),
+            flight : FlightRestMapper.modelToDto(reservation.flight!),
+            hotel : HotelRestMapper.modelToDto(reservation.hotel!)
         };
     }
 }

@@ -8,7 +8,7 @@ export class CustomerEntity {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
     @Expose()
-    @Column()
+    @Column({unique: true})
     identification: string;
     @Expose()
     @Column()

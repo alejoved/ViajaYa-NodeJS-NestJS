@@ -2,8 +2,11 @@ import { Expose, Transform, Type } from "class-transformer";
 import { format } from 'date-fns';
 import { ApiProperty } from "@nestjs/swagger";
 import { Status } from "src/common/status";
+import { CustomerResponseDto } from "../../../customer/application/dto/customer-response-dto";
+import { FlightResponseDto } from "src/flight/application/dto/fligth-response-dto";
+import { HotelResponseDto } from "src/hotel/application/dto/hotel-response-dto";
 
-export class ReservationResponseDto{
+export class ReservationResponseDto {
     @ApiProperty({ description: "Reservation ID" })
     @Expose()
     id: string;
@@ -20,4 +23,14 @@ export class ReservationResponseDto{
     @ApiProperty({ description: "total price per the flight and hotel"})
     @Expose()
     total: number;
+    @ApiProperty({ description: "Object description about customer"})
+    @Expose()
+    customer: CustomerResponseDto;
+    @ApiProperty({ description: "Object description about flight"})
+    @Expose()
+    flight: FlightResponseDto;
+    @ApiProperty({ description: "Object description about hotel"})
+    @Expose()
+    hotel: HotelResponseDto;
+
 }

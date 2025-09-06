@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class HotelEntity {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
-    @Column()
+    @Column({unique : true})
     name: string;
     @Column()
     country: string;
